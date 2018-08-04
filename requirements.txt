@@ -30,6 +30,7 @@ phonenumberslite==8.9.4
 Pillow==5.1.0
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
+python-memcached
 purl==1.4
 pycountry==17.9.23
 pysolr==3.7.0
