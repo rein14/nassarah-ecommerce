@@ -2,7 +2,6 @@
 import os
 from decimal import Decimal as D
 from oscar.defaults import * 
-from oscar_support.defaults import * 
  
  
 # import oscar
