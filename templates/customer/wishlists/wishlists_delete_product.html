@@ -1,0 +1,48 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+
+{% block bread %}
+Wishlist Delete
+{% endblock bread %}
+{% block breadcrumbs %}
+<div class="page-title">
+        <div class="container">
+          
+          <div class="column">
+            <ul class="breadcrumbs">
+                    <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+              <li>
+                <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
+            </li>
+            <li class="separator">&nbsp;</li>
+            <li>
+                    <a href="{% url 'customer:wishlists-list' %}">{% trans 'Wish Lists' %}</a>
+                </li>
+                <li class="separator">&nbsp;</li>
+                <li class="active">
+                    {% if wishlist %}
+                        {{ wishlist.name }}
+                    {% else %}
+                        {% trans "Create" %}
+                    {% endif %}
+                </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+{% block tabcontent %}
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            {% blocktrans with product_name=object.get_title wishlist_name=wishlist.name %}
+                Are you sure you want to delete {{ product_name }} from wish list {{ wishlist_name }}?
+            {% endblocktrans %}
+        </p>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-sm btn-danger" data-toast data-toast-position="center" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{%static 'oscar/css/img/loadi.gif'%}'> {% trans 'Removing...' %}Please Wait" >{% trans 'Remove' %}</button> {% trans 'or' %} <a href="{{ wishlist.get_absolute_url }}">{% trans 'cancel' %}</a>
+        </div>
+    </form>
+{% endblock tabcontent %}

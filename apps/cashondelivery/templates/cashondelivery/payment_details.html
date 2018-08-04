@@ -1,0 +1,112 @@
+{% extends "checkout/checkout.html" %}
+{% load i18n %}
+{% load static%}
+{% block bread %}
+{% trans "Payment Method 3 Of 3" %}</a>
+
+{% endblock bread %}
+
+{% block title %}
+    {% trans "Payment details" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=3 %}
+{% endblock %}
+
+{% block checkout_title %}{% trans "What address should the invoice be issued to?" %}{% endblock %}
+
+{% block order_contents %}{% endblock %}
+{% block shipping_address %}{% endblock %}
+{% block shipping_method %}{% endblock %}
+
+{% block payment_method %}
+    
+
+<div class="col-xl-9 col-lg-8 container">        
+    <h6 class="container hidden-md-down"><b> Choose Payment Method</b></h6>
+    <p></p>
+    <p></p>
+    <p class="text-center"><strong style="color:#007bff;">Disclaimer: </strong> 
+        Currently we support cash on delivery. Other payment methods are currently being worked on. Mobile money, bank card transactions and other payment methods 
+       will be available very soon.
+       </p>
+   
+    <hr class="padding-bottom-1x">
+    <div class="accordion" id="accordion" role="tablist">
+      <div class="card" style="border: 1px solid rgb(161, 225, 255);">
+        <div class="card-header" role="tab">
+          <h6><a href="#card" data-toggle="collapse" data-parent="#accordion"><i class="icon-columns"></i><b>Cash On delivery(COD)</b></a></h6>
+        </div>
+        <div class="collapse show" id="card" role="tabpanel">
+          <div class="card-body">
+                <p class="cnntainer-fluid">{% trans "Agree to pay cash on delivery." %}</p>
+                <form action="{% url 'checkout:preview' %}" class="payment-details form-horizontal" method="post">
+            
+                        {% csrf_token %}
+                        {{ billing_address_form.non_field_errors }}
+        
+                            <p style="display:none">
+                               <label for="{{ billing_address_form.same_as_shipping.0.id_for_label }}" class="radio">
+                                    {{ billing_address_form.same_as_shipping.0.tag }}
+                                    {{ billing_address_form.same_as_shipping.0.choice_label }}
+                                </label>
+                            </p>
+                            </div>
+                   
+                            <div class="col-sm-6">
+                                    <button class="btn btn-primary btn-block margin-top-none text-center" type="submit" {% include "toast.html" %}><b>Submit</b></button>
+                                  </div>
+            </form>
+        
+          </div>
+          </div>
+          <p></p>
+         
+      </div>
+      <div class="accordion" id="accordion" role="tablist">
+        <div class="card" style="border: 1px solid rgb(161, 225, 255);">
+          <div class="card-header" role="tab">
+            <h6><a href="#card2" data-toggle="collapse" data-parent="#accordion"><i class="icon-columns"></i><b>Mobile Money</b></a></h6>
+          </div>
+          <div class="collapse" id="card2" role="tabpanel">
+            <div class="card-body">
+                  <p class="cnntainer-fluid">{% trans "Agree to pay cash on delivery." %}</p>
+                  <form action="{% url 'checkout:preview' %}" class="payment-details form-horizontal" method="post">
+              
+                          {% csrf_token %}
+                          {{ billing_address_form.non_field_errors }}
+          
+                              <p style="display:none">
+                                 <label for="{{ billing_address_form.same_as_shipping.0.id_for_label }}" class="radio">
+                                      {{ billing_address_form.same_as_shipping.0.tag }}
+                                      {{ billing_address_form.same_as_shipping.0.choice_label }}
+                                  </label>
+                              </p>
+                              </div>
+                     
+                              <div class="col-sm-6">
+                                      <button class="btn btn-primary btn-block margin-top-none text-center" type="submit" {% include "toast.html" %}><b>Submit</b></button>
+                                    </div>
+              </form>
+          
+            </div>
+            </div>
+            <p></p>
+           
+        </div>
+  
+</div>
+{% include "checkout/sidebar.html" %}
+{% endblock payment_method %}
+
+
+{% block onbodyload %}
+    {# Toggle visibility of the billing address form #}
+    if ($("input[name='same_as_shipping']")[1].checked){
+        $("#billing_address_form").show();
+    } 
+    $("input[name='same_as_shipping']").change(function()
+        $("#billing_address_form").toggle();
+    });
+{% endblock %}

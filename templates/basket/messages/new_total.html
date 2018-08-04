@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load static%}
+ <p class=" text-center">
+    {% if basket.is_empty %}
+        {% trans "Your basket is now empty" %}
+    {% else %}
+        {% if basket.is_tax_known %}
+            {% blocktrans with total=basket.total_incl_tax|currency:basket.currency %}
+            Your basket total is now <strong>{{ total }}</strong>
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans with total=basket.total_excl_tax|currency:basket.currency %}
+            Your basket total is now <strong>{{ total }}</strong>
+            {% endblocktrans %}
+        {% endif %}
+    </p>
+
+    {% if include_buttons %}
+    <p class="text-center text-sm">
+         <a  href="{% url 'checkout:index' %}" class="btn btn-outline-primary btn-sms"  style="color:white;border-radius:5px"  {% include "toast.html" %}>{% trans "Buy Now" %}</a>
+    </p>
+{% endif %}
+
+{% endif %}

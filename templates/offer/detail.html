@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+
+{% load i18n %}
+{% load product_tags %}
+
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+        {{ offer.name }} ( {{paginator.count}} )
+{% endblock bread %}</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+{% block show_account %}
+<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+
+{% endblock show_account %}
+
+{% block canvax %}
+<div class=" hidden-md-down">
+{% block breadcrumbs %}
+<div class="page-title">
+        <div class="container">
+          <div class="column">
+            <h1>{{ offer.name }}</h1>
+          </div>
+          
+          
+          </div>
+        </div>
+      </div>
+
+ {% endblock %}
+</div>
+{% endblock canvax %}
+
+{% block content %}
+ 
+    {% if not offer.is_available %}
+        <div class="alert alert-danger">{% trans " This offer is no longer available." %}</div>
+    {% endif %}
+
+    {% if upsell_message %}
+    <div class="alert alert-image-bg fade show text-center" style="background-image: url('/static/oscar/img/components/rsa.jpg');"> 
+        <div class="text-medium text-white padding-top-1x padding-bottom-1x"><div class="row">
+                <div class="col-sm-12">   
+            {% if offer.description %}
+            <h5 class="text-white"><p class="text-center text-medium bg-inverse">{{ offer.description }}</p>
+                {% endif %}
+                     </div>
+                </div>
+            </div>
+      </div>
+    
+    {% endif %}
+
+    {% if products %}
+
+<p></p>
+<p></p>
+    <div class="isotope-grid cols-4 mb-2">
+                <div class="gutter-sizer"></div>
+                <div class="grid-sizer"></div>                    
+                {% for product in products %}
+                <div class="grid-item"><b class="text-primary">{{offer.description|truncatewords:1}}</b>
+                    {% render_product product %}
+                    </div>
+                    {% endfor %}
+            </div>
+    
+            {% include "partials/pagination.html" %}
+
+            {% else %}
+
+    <p class="nonefound">{% trans "No products found." %}</p>
+    {% endif %}
+ {% endblock content %}

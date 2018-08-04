@@ -1,0 +1,50 @@
+[
+    {
+        "pk": 1,
+        "model": "order.shippingeventtype",
+        "fields": {
+            "code": "shipped",
+            "name": "Shipped"
+         }
+    },
+    {
+        "pk": 2,
+        "model": "order.shippingeventtype",
+        "fields": {
+            "code": "cancelled",
+            "name": "Cancelled"
+         }
+    },
+    {
+        "pk": 3,
+        "model": "order.shippingeventtype",
+        "fields": {
+            "code": "returned",
+            "name": "Returned"
+         }
+    },
+    {
+        "pk": 1,
+        "model": "order.paymenteventtype",
+        "fields": {
+            "code": "pre-authorised",
+            "name": "Pre-authorised"
+         }
+    },
+    {
+        "pk": 2,
+        "model": "order.paymenteventtype",
+        "fields": {
+            "code": "settled",
+            "name": "Settled"
+         }
+    },
+    {
+        "pk": 3,
+        "model": "order.paymenteventtype",
+        "fields": {
+            "code": "refunded",
+            "name": "Refunded"
+         }
+    }
+]

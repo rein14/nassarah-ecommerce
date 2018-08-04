@@ -1,0 +1,140 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-06 09:02+0000\n"
+"PO-Revision-Date: 2015-09-06 09:12+0000\n"
+"Last-Translator:   <root@admin.cz>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Translated-Using: django-rosetta 0.7.6\n"
+
+#: dashboard/config.py:8
+msgid "Cash On Delivery dashboard"
+msgstr "Na dobírku Dashboard"
+
+#: forms.py:20
+msgid "Same as the shipping address"
+msgstr "Stejné jako dodací adresa"
+
+#: forms.py:21 forms.py:41
+msgid "Enter a new address"
+msgstr "Zadejte novou adresu"
+
+#: models.py:28 templates/cashondelivery/preview.html:28
+#: templates/dashboard/cashondelivery/transaction_detail.html:16
+#: templates/dashboard/cashondelivery/transaction_list.html:16
+msgid "Cash on Delivery"
+msgstr "Na dobírku"
+
+#: templates/cashondelivery/payment_details.html:5
+#: templates/cashondelivery/preview.html:10
+msgid "Payment details"
+msgstr "Platební údaje"
+
+#: templates/cashondelivery/payment_details.html:12
+msgid "What address should the invoice be issued to?"
+msgstr "Jakou adresu chcete označit jako fakturační ?"
+
+#: templates/cashondelivery/payment_details.html:20
+msgid "You've chosen to pay cash on delivery."
+msgstr "Vybrali jste platbu na dobírku."
+
+#: templates/cashondelivery/payment_details.html:57
+msgid "Continue"
+msgstr "Pokračovat"
+
+#: templates/cashondelivery/preview.html:12
+msgid "Billing address"
+msgstr "Fakturační adresa"
+
+#: templates/cashondelivery/preview.html:21
+msgid "Change payment details"
+msgstr "Změnit platební údaje"
+
+#: templates/cashondelivery/preview.html:27
+msgid "Payment method"
+msgstr "Způsob platby"
+
+#: templates/cashondelivery/preview.html:30
+msgid "Change payment method"
+msgstr "Změnit způsob platby"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:7
+msgid "Cash on Delivery transaction"
+msgstr "Transakce: Dobírka"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:13
+#: templates/dashboard/cashondelivery/transaction_list.html:13
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:19
+#: templates/dashboard/cashondelivery/transaction_detail.html:25
+#, python-format
+msgid "Transaction %(reference)s"
+msgstr ""
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:31
+msgid "Reference"
+msgstr "Reference"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:32
+#: templates/dashboard/cashondelivery/transaction_list.html:38
+msgid "Date"
+msgstr "Datum"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:33
+#: templates/dashboard/cashondelivery/transaction_list.html:33
+msgid "Method"
+msgstr "Metoda"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:34
+#: templates/dashboard/cashondelivery/transaction_list.html:35
+msgid "Amount"
+msgstr "Částka"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:35
+msgid "Currency"
+msgstr "Měna"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:36
+#: templates/dashboard/cashondelivery/transaction_list.html:36
+msgid "Confirmed"
+msgstr "Potvrzeno"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:37
+#: templates/dashboard/cashondelivery/transaction_list.html:37
+msgid "Date confirmed"
+msgstr "Datum potvrzení"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:7
+#: templates/dashboard/cashondelivery/transaction_list.html:23
+msgid "Cash on Delivery transactions"
+msgstr "transakce: Na dobírku"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:18
+msgid "Transactions"
+msgstr "Transakce"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:32
+msgid "Reference hash"
+msgstr "Referenční hash"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:34
+msgid "Order number"
+msgstr "Číslo objednávky"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:57
+msgid "No transactions have been made yet."
+msgstr "Žádné transakce nebyly provedeny."

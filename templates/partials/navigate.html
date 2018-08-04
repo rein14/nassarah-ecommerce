@@ -1,0 +1,387 @@
+   
+{% category_tree as tree_categories %}
+{% if tree_categories %}
+<div class="offcanvas-container" id="shop-categories">
+    <div class="offcanvas-header">
+      <h3 class="offcanvas-title">Shop Categories</h3>
+    </div>
+    <nav class="offcanvas-menu">
+      
+    </nav>
+  </div>
+  {% endif %}
+
+
+<!-- Off-Canvas Mobile Menu different templates-->
+<div class="offcanvas-container" id="mobile-menu">
+  {% if user.is_authenticated %}
+  <a class="account-link" href="{% url 'customer:summary' %}">
+    <div class="user-ava"><img src="{% static "oscar/img/account/default_profile.png" %}" alt="Profile Name">
+    </div>
+    <div class="user-info">
+     <h6 class="user-name"> {% trans "Welcome" %}  </h6><span class="text-sm text-white "><em>{{ user.get_full_name|default:request.user.email }}</em></span>
+    </div></a>
+    {% else %}
+    <nav class="offcanvas-menu">
+        <ul class="menu">
+          <li class="has-children active"><span><a style="color:azure" href="{% url 'customer:login' %}"><i class="icon-unlock"></i> {% trans "Login or register" %}</a></span>
+     </li>
+     </ul>
+     </nav>
+   {% endif %}
+
+  <nav class="offcanvas-menu">
+    <ul class="menu">
+     
+     
+      <li class="has-children"><span><a href="#">Categories</a><span class="sub-menu-toggle"></span></span>
+        <ul class="offcanvas-submenu">
+          <li class="has-children"><span><a href="#">Electronics</a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+              <li><a href="#">Sneakers</a></li>
+              <li><a href="#">Loafers</a></li>
+              <li><a href="#">Boat Shoes</a></li>
+              <li><a href="#">Sandals</a></li>
+              <li><a href="#">View All</a></li>
+            </ul>
+          </li>
+          <li class="has-children"><span><a href="#">Home & Decor</a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+              <li><a href="#">Sandals</a></li>
+              <li><a href="#">Flats</a></li>
+              <li><a href="#">Sneakers</a></li>
+              <li><a href="#">Heels</a></li>
+              <li><a href="#">View All</a></li>
+            </ul>
+          </li>
+          <li class="has-children"><span><a href="#">Men</a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+              <li><a href="#">Shirts &amp; Tops</a></li>
+              <li><a href="#">Pants</a></li>
+              <li><a href="#">Jackets</a></li>
+              <li><a href="#">View All</a></li>
+            </ul>
+          </li>
+          <li class="has-children"><span><a href="#">Women</a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+              <li><a href="#">Dresses</a></li>
+              <li><a href="#">Shirts &amp; Tops</a></li>
+              <li><a href="#">Shorts</a></li>
+              <li><a href="#">Swimwear</a></li>
+              <li><a href="#">View All</a></li>
+            </ul>
+          </li>
+          <li class="has-children"><span><a href="#">Kids</a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+              <li><a href="#">Handbags</a></li>
+              <li><a href="#">Backpacks</a></li>
+              <li><a href="#">Luggage</a></li>
+              <li><a href="#">Wallets</a></li>
+              <li><a href="#">View All</a></li>
+            </ul>
+          </li>
+          <li class="has-children"><span><a href="#">Appliances</a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+              <li><a href="#">Sunglasses</a></li>
+              <li><a href="#">Hats</a></li>
+              <li><a href="#">Watches</a></li>
+              <li><a href="#">Jewelry</a></li>
+              <li><a href="#">Belts</a></li>
+              <li><a href="#">View All</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li class="has-children"><span><a href="{% url 'customer:profile-view' %}"><span>Account</span></a><span class="sub-menu-toggle"></span></span>
+        <ul class="offcanvas-submenu">
+            <li><a href="{% url 'customer:change-password' %}">Change Password</a></li>
+            <li><a href="{% url 'customer:order-list' %}">Orders List</a></li>
+            <li><a href="{% url 'customer:wishlists-list' %}">Wishlist</a></li>
+            <li><a href="{% url 'customer:notifications-inbox' %}">Notifications</a></li>
+            <li><a href="{% url 'customer:address-list' %}">Contact / Shipping Address</a></li>
+            <li><a href="{% url 'customer:email-list' %}">My Mails</a></li>
+        </ul>
+      </li>
+      <li class="has-children"><span><a href="blog-rs.html"><span>Blog</span></a><span class="sub-menu-toggle"></span></span>
+        <ul class="offcanvas-submenu">
+          <li class="has-children"><span><a href="blog-rs.html"><span>Blog Layout</span></a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+                <li><a href="blog-rs.html">Blog Right Sidebar</a></li>
+                <li><a href="blog-ls.html">Blog Left Sidebar</a></li>
+                <li><a href="blog-ns.html">Blog No Sidebar</a></li>
+            </ul>
+          </li>
+         
+        </ul>
+      </li>
+     
+      <li class="has-children"><span><a href="/faqs"><span>Help/About</span></a><span class="sub-menu-toggle"></span></span>
+        <ul class="offcanvas-submenu">
+            <li><a href="/faqs">Faqs</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+      </li>
+      <li><a href="{% url 'customer:change-password' %}">Terms & Conditions</a></li>
+      <li><a href="{% url 'customer:change-password' %}">Privacy Policy</a></li>
+      <li><a href="tel:0242383165"><i class="fa fa-phone"></i> {% trans " Call Nasarah" %}</a></li>
+
+       {% if user.is_authenticated%}
+      
+          <li><a href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i> My Wishlists</a></li>
+
+          <li><a href="{% url 'customer:logout' %}"><i class="icon-unlock "></i> {% trans " Logout" %}</a></li>
+      
+      {% endif%}
+
+    </ul>
+  </nav>
+</div>
+<!-- Topbar-->
+<div class="topbar">
+  <div class="topbar-column hidden-md-down"><a href="mailto:support@unishop.com"><i class="icon-mail"></i>&nbsp; support@noname.com</a><a class="hidden-md-down" href="tel:0242383165"><i class="fa fa-phone"></i>&nbsp; 233 24238 3165</a><a class="social-button sb-facebook shape-none sb-dark" href="#" target="_blank"><i class="socicon-facebook"></i></a><a class="social-button sb-twitter shape-none sb-dark" href="#" target="_blank"><i class="socicon-twitter"></i></a><a class="social-button sb-instagram shape-none sb-dark" href="#" target="_blank"><i class="socicon-instagram"></i></a><a class="social-button sb-pinterest shape-none sb-dark" href="#" target="_blank"><i class="socicon-pinterest"></i></a>
+  </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Navbar-->
+<!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
+<header class="navbar navbar-sticky">
+  <!-- Search-->
+  <form class="site-search" action="{% url 'search:search' %}"  method="get">
+    {{ search_form.q }}
+    <div class="search-tools"><span class="clear-search">Clear</span><span class="close-search"><i class="icon-cross"></i></span></div>
+    
+  </form>
+  <div class="site-branding">
+    <div class="inner">
+      <!-- Off-Canvas Toggle (#shop-categories)--><a class="offcanvas-toggle cats-toggle" href="#shop-categories" data-toggle="offcanvas"></a>
+      <!-- Off-Canvas Toggle (#mobile-menu)--><a class="offcanvas-toggle menu-toggle" href="#mobile-menu" data-toggle="offcanvas"></a>
+      <!-- Site Logo--><a class="site-logo" href={{ homepage_url }}><img src="{% static "oscar/img/logo/logo.png"%}" alt="Unishop"></a>
+    </div>
+  </div>
+  <!-- Main Navigation-->
+  <nav class="site-menu">
+    <ul>
+      <li class="has-megamenu active"><a href="/"><span>Home</span></a>
+      </li>
+     
+      <li class="has-megamenu"><a href="#"><span>Specials</span></a>
+        <ul class="mega-menu">
+          <li><span class="mega-menu-title">Top Categories</span>
+            <ul class="sub-menu">
+              <li><a href="#">Men's Shoes</a></li>
+              <li><a href="#">Women's Shoes</a></li>
+              <li><a href="#">Shirts and Tops</a></li>
+              <li><a href="#">Swimwear</a></li>
+              <li><a href="#">Shorts and Pants</a></li>
+              <li><a href="#">Accessories</a></li>
+            </ul>
+          </li>
+          <li><span class="mega-menu-title">Specialty Shops</span>
+            <ul class="sub-menu">
+              <li><a href="#">Junior's Shop</a></li>
+              <li><a href="#">Swim Shop</a></li>
+              <li><a href="#">Athletic Shop</a></li>
+              <li><a href="#">Outdoor Shop</a></li>
+              <li><a href="#">Luxury Shop</a></li>
+              <li><a href="#">Accessories Shop</a></li>
+            </ul>
+          </li>
+          <li>
+            <section class="promo-box" style="background-image: url('static/oscar/img/banners/02.jpg');"><span class="overlay-dark" style="opacity: .4;"></span>
+              <div class="promo-box-content text-center padding-top-2x padding-bottom-2x">
+                <h4 class="text-light text-thin text-shadow">New Collection of</h4>
+                <h3 class="text-bold text-light text-shadow">Sunglasses</h3><a class="btn btn-sm btn-primary" href="#">Shop Now</a>
+              </div>
+            </section>
+          </li>
+          <li>
+            <section class="promo-box" style="background-image: url('static/oscar/img/banners/03.jpg');">
+              <!-- Choose between .overlay-dark (#000) or .overlay-light (#fff) with default opacity of 50%. You can overrride default color and opacity values via 'style' attribute.--><span class="overlay-dark" style="opacity: .45;"></span>
+              <div class="promo-box-content text-center padding-top-2x padding-bottom-2x">
+                <h3 class="text-bold text-light text-shadow">Limited Offer</h3>
+                <h4 class="text-light text-thin text-shadow">save up to 50%!</h4><a class="btn btn-sm btn-primary" href="#">Learn More</a>
+              </div>
+            </section>
+          </li>
+        </ul>
+      </li>
+      <li><a href="/about"><span>About Us</span></a>
+        
+      </li>
+      <li><a href="blog-rs.html"><span>Blog</span></a>
+        <ul class="sub-menu">
+          <li class="has-children"><a href="blog-rs.html"><span>Blog Layout</span></a>
+            <ul class="sub-menu">
+                <li><a href="blog-rs.html">Blog Right Sidebar</a></li>
+                <li><a href="blog-ls.html">Blog Left Sidebar</a></li>
+                <li><a href="blog-ns.html">Blog No Sidebar</a></li>
+            </ul>
+          </li>
+          <li class="has-children"><a href="blog-single-rs.html"><span>Single Post Layout</span></a>
+            <ul class="sub-menu">
+                <li><a href="blog-single-rs.html">Post Right Sidebar</a></li>
+                <li><a href="blog-single-ls.html">Post Left Sidebar</a></li>
+                <li><a href="blog-single-ns.html">Post No Sidebar</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#"><span>Help / FAQ</span></a>
+        <ul class="sub-menu">
+            <li><a href="/faqs">Help / FAQ</a></li>
+            <li><a href="contacts.html">Contacts</a></li>
+            
+        </ul>
+      </li>
+      <li class="has-megamenu"><a href="components/accordion.html"><span>Categories</span></a>
+        
+        <ul class="mega-menu">
+            {% for tree_category, info in tree_categories %}
+
+          <li><span class="sub-menu-title"><a href="{{ tree_category.get_absolute_url }}">
+              {% if tree_category.pk == category.pk %}
+                  <h6>{{ tree_category.name|safe }}</h6>
+                  <p></p>
+              {% else %}
+                 <h6>{{ tree_category.name|safe }}</h6> 
+                  <p></p>
+              {% endif %}
+          </a></span>
+          
+          {% if info.has_children %} <ul class="sub-menu"></li>{% endif %}
+            {% for n in info.num_to_close %}
+                </ul></li>
+            {% endfor %}
+          {% endfor %}
+
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <!-- Toolbar-->
+  <div class="toolbar">
+    <div class="inner">
+      <div class="tools">
+
+        <div class="search"><i class="icon-search"></i></div>
+
+        <!--account-->
+        {% block show_account %}
+        
+        <div class="account"><a href="/accounts"></a><i class="icon-head"></i>
+          <ul class="toolbar-dropdown">
+              {% if user.is_authenticated %}
+            <li class="sub-menu-user">
+                
+          
+              <div class="user-info">
+                <h6 class="user-name">{{ user.get_full_name|default:request.user.email }}</h6><span class="text-xs text-muted">290 Reward points</span>
+              </div>
+            </li>
+            <li>
+                {% if num_unread_notifications > 0 %}
+                    {# If user has new notifications - we change account link to go to inbox #}
+                    <a href="{% url 'customer:notifications-inbox' %}">
+                      
+                        {% trans "Account" %}
+                        <span class="label label-important">{{ num_unread_notifications }}</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'customer:summary' %}"></i><i class="icon-head"></i> {% trans "Account" %}</a>
+                {% endif %}
+            </li>
+              <li><a href="{% url 'customer:wishlists-list' %}"><i class="icon-heart"></i>Wishlist</a></li>
+            <li class="sub-menu-separator"></li>
+
+            <li>
+                {% if num_unread_notifications > 0 %}
+                    {# If user has new notifications - we change account link to go to inbox #}
+                    <a href="{% url 'customer:notifications-inbox' %}">
+                        <i class="icon-user"></i>
+                        {% trans "Account" %}
+                        <span class="label label-important">{{ num_unread_notifications }}</span>
+                    </a>
+               {% endif %}
+            </li>
+
+            {% if user.is_staff or perms.partner.dashboard_access %}
+              <li><a href="{% url 'dashboard:index' %}"><i class="icon-bar-graph-2"></i> {% trans "Dashboard" %}</a></li>
+            {% endif %}
+
+            <li><a href="{% url 'customer:logout' %}"><i class="icon-unlock"></i> {% trans "Logout" %}</a></li>
+            {% else %}
+                <li><a href="{% url 'customer:login' %}"><i class="icon-unlock"></i> {% trans "Login or register" %}</a></li>
+             
+            {% endif %}
+
+          </ul>
+        </div>
+        {% endblock show_account %}
+
+        <div class="cart"><a href="{% url 'basket:summary' %}"></a><i class="icon-bag"></i><span class="count" style="color:red "><strong> {{request.basket.all_lines.count}}</strong></span><span class="subtotal">
+         
+            {% if not request.basket.is_empty %}
+                {% if request.basket.is_tax_known %}
+                       <strong>  {{request.basket.total_incl_tax|currency:request.basket.currency }}</strong>
+                {% else %}
+              <strong>{% blocktrans with total=request.basket.total_excl_tax|currency:request.basket.currency %}</strong>
+                        {{ total }}
+                    {% endblocktrans %}
+                {% endif %}
+            {% endif %}
+        </span>
+        <div class="toolbar-dropdown">
+            <div class="toolbar-dropdown">
+                
+                
+                <div class="toolbar-dropdown-group">
+                  <div class="column"><a class="btn btn-sm btn-block btn-secondary" href="cart.html">View Cart</a></div>
+                  <div class="column"><a class="btn btn-sm btn-block btn-success" href="checkout-address.html">Checkout</a></div>
+                </div>
+              </div>
+            {% if request.basket.num_lines %}
+            {% for line in request.basket.all_lines %}
+          <div class="dropdown-product-item"><span class="dropdown-product-remove"><i class="icon-cross"></i></span>
+             {% with image=line.product.primary_image %}
+              {% thumbnail image.original "50x50" upscale=False as thumb %}
+              <a class="dropdown-product-thumb" href="{{ line.product.get_absolute_url }}"><img class="thumbnail" src="{{ thumb.url }}" alt=""></a>
+              {% endthumbnail %}
+               </a>{% endwith %}</a>
+            <div class="dropdown-product-info"><a class="dropdown-product-title" href="{{ line.product.get_absolute_url }}">{{ line.product.get_title }}</a><span class="dropdown-product-details">{{ line.quantity }} * {{ line.unit_price_excl_tax|currency:request.basket.currency }}</span></div>
+          </div>
+          {% endfor %}
+
+            <div class="toolbar-dropdown-group">
+                {% trans "Basket" %}
+                {% if not request.basket.is_empty %}
+                    {% if request.basket.is_tax_known %}
+                        {% blocktrans with total=request.basket.total_incl_tax|currency:request.basket.currency %}
+             
+              <div class="column text-right"><span class="text-lg text-medium">{{ total }}&nbsp;</span></div>
+              {% endblocktrans %}
+              {% else %}
+                  {% blocktrans with total=request.basket.total_incl_tax|currency:request.basket.currency %}
+                     <div class="column text-right"><span class="text-lg text-medium">{{ total }}&nbsp;</span></div>
+                  {% endblocktrans %}
+
+                  {% endif %}
+              {% endif %}
+            </div>
+            <div class="toolbar-dropdown-group">
+              <div class="column"><a class="btn btn-sm btn-block btn-outline-primary" href="{% url 'basket:summary' %}">View Cart</a></div>
+              <div class="column"><a class="btn btn-sm btn-block btn-outline-success" href="{% url 'checkout:index' %}">Checkout</a></div>
+            </div>
+            {% else %}
+              <li><p>{% trans "Your basket is empty." %}</p></li>
+            {% endif %}
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

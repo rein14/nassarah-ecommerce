@@ -1,0 +1,222 @@
+{% extends "dashboard/layout.html" %}
+{% load currency_filters %}
+{% load ticket_tags %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} support home{% endblock %}
+
+{% block title %}
+{% trans "Support tickets" %} | {{ block.super }}
+{% endblock %}
+
+{% block headertext %}
+{% trans "Support tickets" %}
+{% endblock %}
+
+{% block extrastyles %}
+{{ block.super }}
+<style>
+    .fixed-actions .form-group {
+        margin-bottom: 0.938rem;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<ul class="breadcrumb">
+    <li>
+        <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+    </li>
+    <li class="active">
+        <a href="{% url 'support-dashboard:ticket-list' %}">{% trans "Support tickets" %}</a>
+    </li>
+    <li class="active">{{ title }}</li>
+</ul>
+{% endblock %}
+
+{% block dashboard_content %}
+<form id="ticket-update-form" data-ticket-id="{{ selected_ticket.uuid }}" enctype="multipart/form-data"
+      method="post" action="."
+      class="form-stacked wysiwyg fixed-actions">
+    {% csrf_token %}
+
+    <div class='container-fluid'>
+
+        {% block tab_nav %}
+        <aside class="col-md-3">
+            <div class="table-header">
+                <h3><i class="icon-comments icon-large"></i>{% trans "Tickets" %}</h3>
+            </div>
+
+            <ul class="nav nav-tabs" role="tablist">
+                {% block tabs %}
+                <li>
+                    <a href="{% url 'support-dashboard:ticket-create' %}">
+                        <i class="icon-plus"></i> {% trans "New" %}
+                    </a>
+                </li>
+                <li class="active" data-toggle='tab'>
+                    <a href="#recent-tickets">
+                        <i class="icon-time"></i> {% trans "Recent" %}
+                    </a>
+                </li>
+                {% endblock tabs %}
+            </ul>
+
+            <div class="tab-content">
+                <div id="recent-tickets" class="tab-pane active">
+                    {% for ticket in ticket_list %}
+                    <div class="panel panel-{% if ticket.uuid == selected_ticket.uuid %}info{% else %}default{% endif %}">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                {% blocktrans with number=ticket.printable_number subject=ticket.subject|truncatechars:30 %}
+                                <strong>Ticket #{{ number }}:</strong> {{ subject }}<br/>
+                                {% endblocktrans %}
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <a href="{% url 'support-dashboard:ticket-update' ticket.uuid %}"
+                               class="btn {% if ticket.uuid == selected_ticket.uuid %}btn-primary{% else %}btn-default{% endif %} pull-right">
+                                {% trans "Select" %}
+                            </a>
+                            <p>
+                                <span class="label label-default">{{ ticket.status.name }}</span>
+                                <span class="label label-default">{{ ticket.type.name }}</span><br/>
+                                <strong>{% trans "Last modified:" %}</strong> {{ ticket.date_updated|date:"jS M Y H:i" }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </aside>
+
+        {% endblock tab_nav %}
+
+        <div class="col-md-9">
+            <div class="table-header">
+                <h3>
+                    <i class="icon-edit icon-large"></i>{% trans "View and Edit Tickets" %}
+                </h3>
+            </div>
+            <div class="content-block">
+                {% if selected_ticket %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>
+                            <span class="label label-default">{{ selected_ticket.status.name }}</span>
+                            <strong>
+                                {% trans "Ticket #" %}{{ selected_ticket.printable_number }}: {{selected_ticket.subject|truncatechars:30 }}
+                            </strong>
+                        </h3>
+                    </div>
+                    <div class="container-fluid panel-body">
+                        <div class="col-md-7">
+                            <p>
+                                {# TODO: Review add "type" label or change the styles for make it more visible #}
+                                <span class="label label-default">{{ selected_ticket.type.name }}</span>
+                                <strong>{% trans "Last updated:" %}</strong> {{ selected_ticket.date_updated|date:"jS M Y H:i" }}
+                            </p>
+
+                            {% with requester=selected_ticket.requester %}
+                            <h3>
+                                <strong>{% trans "From:" %}</strong>
+                                <a href="{% url 'dashboard:user-detail' pk=requester.id %}">
+                                {{ requester.get_full_name|default:requester.email }}
+                                </a>
+                            </h3>
+                            {% endwith %}
+                        </div>
+                        <div class="col-md-5">
+                            {% for field in form.get_property_fields %}
+                            {% include "oscar/dashboard/partials/form_field.html" %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <hr/>
+                {% include "oscar_support/dashboard/partials/attachments.html" with ticket=selected_ticket %}
+
+                <hr/>
+                {% include "oscar_support/dashboard/partials/related_orders.html" with ticket=selected_ticket %}
+
+                <hr/>
+                {% include "oscar_support/dashboard/partials/related_lines.html" with ticket=selected_ticket %}
+
+                <hr/>
+                {% include "oscar_support/dashboard/partials/related_products.html" with ticket=selected_ticket %}
+                <hr/>
+
+                <div class="ticket-message">
+                    {% for field in form.get_message_fields %}
+                    {% if field.is_hidden %}
+                    {{ field }}
+                    {% else %}
+                    <div class="form-group {% if field.errors %}has-error{% endif %}">
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <span id="helpBlock" class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="ticket-list ticket-messages">
+                    {% get_messages selected_ticket as selected_ticket_messages %}
+                    {% for msg in selected_ticket_messages %}
+                    <div class="panel panel-{% if msg.is_internal %}info{% else %}default{% endif %}">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <strong>
+                                    {% if msg.is_internal %}
+                                    {% trans "Internal note from:" %}
+                                    {% else %}
+                                    {% trans "From:" %}
+                                    {% endif %}
+                                </strong>
+                            </h3>
+                            {{ msg.user.get_fullname|default:msg.user.email }},
+                            <strong>Updated:</strong> {{ msg.date_created|date:"jS M Y H:i" }}
+                        </div>
+                        <div class="panel-body">
+                            <p>{{ msg.text|safe }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <strong>{% trans "From:" %}</strong>
+                            </h3>
+                            {{ selected_ticket.requester.get_fullname|default:selected_ticket.requester.email }}, {{ selected_ticket.date_created|date:"jS M Y H:i" }}
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                {{ selected_ticket.body|safe }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="fixed-actions-group">
+                    <div class="form-actions">
+                        <a href="{% url 'support-dashboard:ticket-list' %}" class="btn">{% trans "cancel" %}</a>
+                        <div class="pull-right">
+                            {% include "oscar_support/dashboard/partials/save_with_status.html" with ticket=selected_ticket %}
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="well">
+                    <p>{% trans 'Click on an individual ticket on the left to view or edit it. If you want to update or merge multiple tickets, select more than one.' %}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</form>
+{% endblock %}

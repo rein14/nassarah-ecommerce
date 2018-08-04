@@ -1,0 +1,25 @@
+<div class="gallery-wrapper owl-carousel hidden-lg-up  " data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:2},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:3}} }">
+                          <div class="gallery-item text-center" ><a href="" data-size="1000x667">  <img src="static/oscar/img/components/xx.jpg" alt="Image"></a><span class="caption">Never War Bag</span></div>
+</div>
+                        <p class="padding-bottom-1x"></p>
+
+<div class="gallery-wrapper owl-carousel hidden-lg-up  " data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:3}} }">
+                          <div class="gallery-item text-center" ><a href="" data-size="1000x667">  <img src="static/oscar/img/components/x3.jpg" alt="Image"></a><span class="caption">Never War Bag</span></div>
+                          <div class="gallery-item text-center" ><a  href="" data-size="1000x667"> <img src="static/oscar/img/components/x5.jpg" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+                          <div class="gallery-item text-center" ><a  href="" data-size="1000x667"> <img src="static/oscar/img/components/x1.jpg" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+
+                        </div>
+                        <p class="padding-bottom-1x"></p>
+
+                        <div class="gallery-wrapper owl-carousel hidden-lg-up  " data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:3}} }">
+                           <div class="gallery-item text-center" ><a href="" data-size="1000x667">  <img src="static/oscar/img/components/x3.jpg" alt="Image"></a><span class="caption">Never War Bag</span></div>
+                          <div class="gallery-item text-center" ><a  href="" data-size="1000x667"> <img src="static/oscar/img/components/x5.jpg" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+                          <div class="gallery-item text-center" ><a  href="" data-size="1000x667"> <img src="static/oscar/img/components/x1.jpg" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+
+                        </div>
+                        <p class="padding-bottom-1x"></p>
+
+
+<div class="gallery-wrapper owl-carousel hidden-lg-up  " data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:2},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:3}} }">
+                          <div class="gallery-item text-center" ><a href="" data-size="1000x667">  <img src="static/oscar/img/components/w7.jpg" alt="Image"></a><span class="caption">Never War Bag</span></div>
+</div>

@@ -1,0 +1,29 @@
+<div class="deals-row">
+                          <div class="focus-grid" style="width:50%;"> 
+                            <div class="gallery-item text-center" {% include "toast.html" %}><a href="/catalogue" data-size="1000x667"><img src="{% static "oscar/img/components/c6.png" %}" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+
+                          </div>
+                          <div class="focus-grid" style="width:50%"> 
+                            <div class="gallery-item text-center" {% include "toast.html" %}><a href="{% static "oscar/img/gallery/03.jpg"%}" data-size="1000x667"><img src="{% static "oscar/img/components/c2.png" %}" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+
+                          </div> 
+                          <div class="focus-grid" style="width:50%"> 
+                            <div class="gallery-item text-center" {% include "toast.html" %}><a href="{% static "oscar/img/gallery/03.jpg"%}" data-size="1000x667"><img src="{% static "oscar/img/components/c8.png" %}" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+
+                          </div> 
+                          <div class="focus-grid" style="width:50%"> 
+                            <div class="gallery-item text-center" {% include "toast.html" %}><a href="{% static "oscar/img/gallery/03.jpg"%}" data-size="1000x667"><img src="{% static "oscar/img/components/c3.png" %}" alt="Image"></a><span class="caption">Never War Bag</span></div>
+
+                          </div> 
+                          <div class="focus-grid" style="width:50%"> 
+                            <div class="gallery-item text-center" {% include "toast.html" %}><a href="{% static "oscar/img/gallery/03.jpg"%}" data-size="1000x667"><img src="{% static "oscar/img/components/c4.png" %}" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+
+                          </div>
+                          <div class="focus-grid" style="width:50%"> 
+                            <div class="gallery-item text-center" {% include "toast.html" %}><a href="{% static "oscar/img/gallery/03.jpg"%}" data-size="1000x667"><img src="{% static "oscar/img/components/c5.png" %}" alt="Image"></a><span class="caption">BRXTN Cap</span></div>
+
+                          </div>
+                          
+                      
+                          <div class="clearfix"> </div>
+                      </div>

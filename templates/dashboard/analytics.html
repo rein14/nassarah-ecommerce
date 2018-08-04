@@ -1,0 +1,17 @@
+{% extends 'dashboard/layout.html' %}
+{% load currency_filters %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} orders home{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <meta http-equiv="refresh" content="300">
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block headertext %}
+<b><i class="icon-signal icon-large" ></i>{% trans "  AMBEZ STATISCAL DASHBOARD" %}</b>
+{% endblock %}

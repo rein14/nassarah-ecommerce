@@ -1,0 +1,58 @@
+{% load i18n %}
+{% load currency_filters %}
+
+<div class="table-header">
+    <h3>
+        {% trans "Related orders:" %}
+        <button type="button" class="btn btn-default pull-right" data-toggle="collapse"
+                data-target="#related-orders">{% trans "Show/Hide" %} {{ ticket.relatedorders.all|length }}
+        </button>
+    </h3>
+</div>
+{% block ticket_order %}
+    <div id="related-orders" class="collapse in">
+        {% block ticket_order_content %}
+            {{ related_order_formset.management_form }}
+            {{ related_order_formset.non_form_errors }}
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>{% trans "Order number" %}</th>
+                    <th>{% trans "Customer" %}</th>
+                    <th>{% trans "Items" %}</th>
+                    <th>{% trans "Total inc tax" %}</th>
+                    <th>{% trans "Date purchased" %}</th>
+                    <th>{% trans "Delete?" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for related_order_form in related_order_formset %}
+                    {% if related_order_form.non_field_errors %}
+                        <tr>
+                            <td>
+                                {% for error in related_order_form.non_field_errors %}
+                                    <span class="error-block errorlist"><i
+                                            class="icon-exclamation-sign"></i> {{ error }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>{% include "dashboard/partials/form_field.html" with field=related_order_form.order nolabel=True %}</td>
+                        <td>{{ related_order_form.instance.order.user.get_full_name }}<br/>
+                            {{ related_order_form.instance.order.email }}
+                        </td>
+                        <td>{{ related_order_form.instance.order.lines.count }}</td>
+                        <td>{{ related_order_form.instance.order.total_incl_tax|currency }}</td>
+                        <td>{{ related_order_form.instance.order.date_placed|date:"jS M Y H:i" }}</td>
+                        <td>
+                            {% include "dashboard/partials/form_field.html" with field=related_order_form.uuid nolabel=True %}
+                            {% include "dashboard/partials/form_field.html" with field=related_order_form.DELETE nolabel=True %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endblock ticket_order_content %}
+    </div>
+{% endblock ticket_order %}

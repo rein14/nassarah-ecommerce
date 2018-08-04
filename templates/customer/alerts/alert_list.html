@@ -1,0 +1,46 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block bread %}
+Product Alerts
+{% endblock bread %}
+
+{% block tabcontent %}
+    {% if not alerts %}
+        <p>{% trans "You do not have any active alerts for out-of-stock products." %}</p>
+    {% else %}
+        <form action="." method="post" id="alerts_form">
+            {% csrf_token %}
+            <table class="table table-responsive text-xs">
+                <tr>
+                    <th>{% trans "Product" %}</th>
+                    <th>{% trans "Status" %}</th>
+                    <th class="text-center">{% trans "Date created" %}</th>
+                    <th class="text-center">{% trans "Remove" %}</th>
+
+                    <th></th>
+                </tr>
+
+                {% for alert in alerts %}
+                    <tr>
+                        <td>
+                            {% with product=alert.product %}
+                                <a href="{{ product.get_absolute_url }}" {% include "toast.html" %}>{{ product.get_title }}</a>
+                            {% endwith %}
+                        </td>
+                        <td>{{ alert.status }}</td>
+                        <td class="text-center">{{ alert.date_created}}</td>
+                        <td class="text-center">
+                            {% if alert.can_be_cancelled %}
+                                <a href="{% url 'customer:alerts-cancel-by-pk' pk=alert.pk %}?next={% url 'customer:alerts-list' %}"  style=" border-color:white" class="btn btn-outline-danger" data-toast data-toast-position="center" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{%static 'oscar/css/img/loadi.gif'%}'> Cancelling... Please Wait"><i style="padding-top:10px" class="icon-cross"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% include "partials/pagination.html" %}
+        </form>
+    {% endif %}
+
+{% endblock tabcontent %}

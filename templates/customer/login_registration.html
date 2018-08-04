@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Login or register' %} | {{ block.super }}
+{% endblock %}
+
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp; {% trans 'Login/Register' %}</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+{% block show_account %}
+<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+
+{% endblock show_account %}
+
+{% block show_search %}
+
+
+
+
+{% endblock show_search %}
+
+
+{% block canvax %}
+{% block breadcrumbs %}
+<div class=" hidden-md-down">
+<div class="page-title">
+        <div class="container">
+          
+          <div class="column">
+            <ul class="breadcrumbs">
+                    <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+              <li>
+                <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
+            </li>
+            <li class="separator">&nbsp;</li>
+              <li class="active">{% trans 'Login/Register' %}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+</div>
+{% endblock canvax %}
+
+ 
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-6 login_form">
+            <form id="login_form" action="{{ request.get_full_path }}" method="post" class="well" >
+                <h6 class='text-center' style="color:#606975"><b>{% trans 'Log In' %}</b></h6>
+                {% csrf_token %}
+                {% include "partials/form_fields.html" with form=login_form %}
+                <p><a href="{% url 'password-reset' %}">{% trans "I've forgotten my password" %}</a></p>
+                <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-outline-primary btn-sm btn-block" {% include "toast.html" %}><b>{% trans 'Log In' %}</b></button>
+            </form>
+            <hr> 
+<p class=" padding-bottom-1x"> </p>
+        </div>
+        <div class="col-sm-6 register_form">
+                <h6 class="margin-bottom-1x hidden-md-down">No Account?</h6>
+                <p>No accout? Registration takes less than a minute. Get full control over your orders</p>
+            <form id="register_form" action="{{ request.get_full_path }}" method="post" class="well">
+                
+                    <h6 class='text-center'><b style="color:#606975">{% trans 'Register' %}</b></h6>
+                    {% csrf_token %}
+                {% include "partials/form_fields.html" with form=registration_form %}
+                <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" {% include "toast.html" %}><b>{% trans 'Register' %}</b></button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}

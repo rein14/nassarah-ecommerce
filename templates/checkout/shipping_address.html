@@ -1,0 +1,97 @@
+{% extends "checkout/checkout.html" %}
+{% load i18n %}
+{% load static%}
+
+{% block title %}
+    {% trans "Shipping address" %} | {{ block.super }}
+{% endblock %}
+
+
+
+{% block bread %}
+{% trans "Shipping address 1 Of 3" %}</a>
+
+{% endblock bread %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=1 %}
+{% endblock %}
+
+{% block checkout_title %}{% trans "Shipping address" %}{% endblock %}
+
+{% block order_contents %}{% endblock %}
+
+{% block shipping_address %}
+<div class="col-xl-9 col-lg-8">
+    <h4 class="hidden-md-down">Shipping Address</h4>
+    <hr class="hidden-md-down padding-bottom-2x" >
+    <p></p>
+    {% if user.is_authenticated %}
+        {% if addresses %}
+            <div class="choose-block">
+                <div class="row">
+                    {% for address in addresses %}
+                        {% block select_address_form %}
+                        <div class="col-sm-6">
+                            <div class="container">
+                            
+                                <address>
+                                    {% block select_address_fields %}
+                                        {% for field in address.active_address_fields %}
+                                            <span>{{ field }}</span>{% if not forloop.first %}<br/>{% endif %}
+                                        {% endfor %}
+                                    {% endblock %}
+                                </address>
+                                <form action="{% url 'checkout:shipping-address' %}" method="post" id="select_shipping_address_{{ address.id }}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="ship_to" />
+                                    <input type="hidden" name="address_id" value="{{ address.id }}" />
+                                    {% if address.is_default_for_shipping %}
+                                        <button  type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address" {% include "toast.html" %}><b>{% trans "Ship to default address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
+                                    {% else %}
+                                        <button style="margin-right:20px" type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address" {% include "toast.html" %}><b>{% trans "Ship to this address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
+                                    {% endif %}
+
+                                    <div class="btn-group address-controls">
+                                        <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm" ><b class=" text-sm">{% trans "Edit address" %}</b></a>
+                                        <button class="btn-secondary btn-sms dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button>
+                                        <div class="dropdown-menu"><a class="dropdown-item text-xs" href="{% url 'checkout:user-address-delete' pk=address.id %}"><b><b>{% trans "Delete" %}</b></b></a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                            {% if forloop.counter|divisibleby:2 %}
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+                    {% endfor %}
+                </div>
+            </div>
+            <p></p>
+            <h6 class="padding-left-1x container-fluid"><b>{% trans "Or a new address?"%}</b></h6>
+            <hr class="padding-bottom-2x"> 
+        {% endif %}
+    {% endif %}
+
+    {% block new_address_form %}
+    <div class="col-xl-9">
+        <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
+                {% csrf_token %}
+                {% include "partials/form_fields.html" with form=form  %}
+                <div class="form-group">
+                    <div class="">
+                        <button type="submit" class="btn btn-outline-primary btn-sm btn-block" {% include "toast.html" %} ><b>{% trans "Continue" %}&nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i> </b></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endblock %} 
+</div>
+
+{% include "checkout/sidebar.html" %}
+
+{% endblock shipping_address %}
+
+{% block shipping_method %}{% endblock %}
+{% block payment_method %}{% endblock %}

@@ -1,0 +1,28 @@
+<div class="sub-header">
+                              <h6 class="text-black"><b  ">Top Categories</b></h6>
+                          </div>
+                          <div class="owl-carousel hidden-md-down" style="background-color:whitesmoke" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;: 25, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:4},&quot;576&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:4}} }">
+    
+                              <div class="gallery-item text-center text-xs" ><a href="/catalogue/?q=&sort_by=title-asc&selected_facets=product_class_exact%3ABook" ><img src="static/oscar/img/top/d.png" %" alt="Image"></a><span class="caption">Hoodie</span>Women</div>
+                              <div class="gallery-item text-center text-xs"><a href="/catalogue/?q=&sort_by=title-asc&selected_facets=product_class_exact%3ABook" ><img src="static/oscar/img/top/Da.png" x alt="Image"></a><span class="caption">Men</span>Men</div>
+      
+                              <div class="gallery-item text-center text-xs"><a href="/catalogue" ><img style=""  src="static/oscar/img/top/s3.png" alt="Image"></a><span class="caption">phones</span>Phones</div>
+                              <div class="gallery-item text-center text-xs"><a href="/catalogue" ><img style="" src="static/oscar/img/top/xxc.png" %}" alt="Image"></a><span class="caption">Kids</span>Electronics</div>
+      
+                            </div>
+
+
+
+<div class="hidden-md-up padding-top-0x">
+
+                          <div class="owl-carousel" style="background-color:whitesmoke" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;: 10, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:4},&quot;576&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:4}} }">
+    
+                              <div class="gallery-item text-center text-xc" ><a href="#home2" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/top/d.png" alt="Image"></a><span class="caption">Hoodie</span>Women</div>
+                              <div class="gallery-item text-center text-xc"><a href="/catalogue/?q=&sort_by=title-asc&selected_facets=product_class_exact%3ABook" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/top/Da.png" alt="Image"></a><span class="caption">Men</span>Men</div>
+      
+                              <div class="gallery-item text-center text-xc"><a href="/catalogue" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/top/s3.png" alt="Image"></a><span class="caption">phones</span>Phones</div>
+                              <div class="gallery-item text-center text-xc"><a href="/catalogue/category/books_1/" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/top/xxc.png" alt="Image"></a><span class="caption">Kids</span>Electronics</div>
+      
+                            </div>
+<p></p>
+                               <div class="gallery-item text-center text-xc"><a href="/secondhand" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/components/showroom.png" alt="Image"></a><span class="caption">Kids</span></div>

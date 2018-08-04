@@ -1,0 +1,65 @@
+{% load reviews_tags %}
+{% load i18n %}
+<div class="comment">
+        <div class="comment-body">
+                <div class="comment-header d-flex flex-wrap justify-content-between">
+    <header>
+        <h3 class="star-rating {{ review.score|as_stars }}">
+            <span>
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+                <i class="icon-star"></i>
+            </span>
+            <a href="{{ review.get_absolute_url }}" {% include "toast.html" %}><h4 class="comment-title">{{ review.title }}</h4></a>
+        </h3>
+    </header>
+</div>
+
+    <div class="comment-text">{{ review.body|striptags }}</div>
+    <div class="comment-footer"><span class="comment-meta">
+    <p>
+             {% if review.user == user %}
+                {% blocktrans with review_date=review.date_created %}
+                Reviewed by you on {{ review_date }}
+                {% endblocktrans %}
+            {% else %}
+                {% blocktrans with name=review.reviewer_name review_date=review.date_created %}
+                    Reviewed by <strong>{{ name }}</strong> on {{ review_date }}
+                {% endblocktrans %}
+            {% endif %}
+            | <a href="{% url 'catalogue:reviews-detail' product_slug=product.slug product_pk=product.pk pk=review.pk %}">{% trans 'Permalink' %}</a>
+     </p>
+    </span></div>
+
+    {% if review|may_vote:user %}
+        <small>{% trans "Is this review helpful?" %}</small>
+        <form action="{% url 'catalogue:reviews-vote' product_slug=product.slug product_pk=product.pk pk=review.pk %}" method="post" class="vote_agree" >
+            {% csrf_token %}
+            <input type="hidden" name="delta" value="1"/>
+            <button type="submit" class="btn btn-success btn-xs" {% include "toast.html" %}>{% trans "Yes" %}</button>
+        </form>
+        <form  action="{% url 'catalogue:reviews-vote' product_slug=product.slug product_pk=product.pk pk=review.pk %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="delta" value="-1"/>
+            <button type="submit" class="btn btn-danger btn-xs" {% include "toast.html" %}>{% trans "No" %}</button>
+        </form>
+    {% endif %}
+             
+    <p>   
+        <small>
+        {% if review.has_votes %}
+            {% blocktrans with num_up_votes=review.num_up_votes count num_votes=review.total_votes %}
+            <strong>{{ num_up_votes }}</strong> of {{ num_votes }} customer found this useful
+            {% plural %}
+            <strong>{{ num_up_votes }}</strong> of {{ num_votes }} customers found this useful
+            {% endblocktrans %}
+        {% else %}
+            {% trans "This review has no votes." %}
+        {% endif %}
+        </small>
+    </p>
+</div>
+</div>
+ 

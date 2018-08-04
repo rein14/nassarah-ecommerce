@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {{ flatpage.title}} | {{ block.super }}
+{% endblock %}
+
+
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+    {{ flatpage.title|safe }}{% endblock bread %}</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+  {% block sidebar %}
+  
+  {% endblock sidebar %}
+  {% block show_account %}
+  
+  {% endblock show_account %}
+  {% block show_search %}
+
+{% endblock show_search %}
+{% block canvax %}
+<div class="hidden-md-down">
+{% block breadcrumbs %}
+   
+    <div class="page-title hidden-md-down">
+            <div class="container">
+              
+              <div class="column">
+                <ul class="breadcrumbs">
+                <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+                  <li class="separator">&nbsp;</li>
+                  
+                </ul>
+              </div>
+            </div>
+          </div>
+ {% endblock %}
+</div>
+{% endblock canvax %}
+{% block content %}
+
+{% if user.is_staff %}
+<a class="pull-right hidden-xs" href="{% url 'dashboard:page-update' pk=flatpage.id %}"><small><i class="icon-edit"></i> {% trans "Edit this page" %}</small></a>
+{% endif %}
+
+<div class=" cols-md-6">
+    <article>{{ flatpage.content|safe }}</article>
+  </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% load thumbnail %}
+{% load staticfiles %}
+<div class="product-gallery text-center"><span class="hidden-md-down product-badge text-danger"></span>                 
+    <div class="product-carousel owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:1}">
+            <div class="active">
+            {% with image=product.primary_image %}
+                {% thumbnail image.original "400x250" upscale=False as thumb %}
+                    <a href="{{ product.get_absolute_url }}"><img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail"></a>
+                {% endthumbnail %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+<h4 class=" text-medium text-center"><a href="{{ product.get_absolute_url }}">{{ product.get_title }}</a></h4>
+       <div class="text-center"> {% include "catalogue/partials/stock_record.html" %}</div>
+     </div>
+</div>
+
+<hr>

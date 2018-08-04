@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load currency_filters %}
+<div class="table-header">
+    <h3>
+        {% trans "Attachment:" %}
+        <button type="button" class="btn btn-default pull-right" data-toggle="collapse"
+                data-target="#attachments">{% trans "Show/Hide" %} {{ ticket.attachments.all|length }}
+        </button>
+    </h3>
+</div>
+
+{% block ticket_attachment %}
+    <div id="attachments" class="collapse in">
+        {% block ticket_attachment_content %}
+            {{ attachment_formset.management_form }}
+            {{ attachment_formset.non_form_errors }}
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>{% trans "File" %}</th>
+                    <th>{% trans "Delete?" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for attachment_form in attachment_formset %}
+                    {% if attachment_form.non_field_errors %}
+                        <tr>
+                            <td>
+                                {% for error in attachment_form.non_field_errors %}
+                                    <span class="error-block errorlist"><i
+                                            class="icon-exclamation-sign"></i> {{ error }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>
+                            {% include "dashboard/partials/form_field.html" with field=attachment_form.file nolabel=True %}
+                        </td>
+                        <td>
+                            {% include "dashboard/partials/form_field.html" with field=attachment_form.uuid nolabel=True %}
+                            {% include "dashboard/partials/form_field.html" with field=attachment_form.DELETE nolabel=True %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endblock ticket_attachment_content %}
+    </div>
+{% endblock ticket_attachment %}

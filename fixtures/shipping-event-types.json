@@ -1,0 +1,26 @@
+[
+    {
+        "pk": 0, 
+        "model": "order.shippingeventtype", 
+        "fields": {
+            "code": "shipped", 
+            "name": "Shipped"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "order.shippingeventtype", 
+        "fields": {
+            "code": "returned", 
+            "name": "Returned"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "order.shippingeventtype", 
+        "fields": {
+            "code": "cancelled", 
+            "name": "Cancelled"
+        }
+    }
+]

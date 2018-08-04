@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+{% load product_tags %}
+
+
+
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+    Offers
+{% endblock bread %}</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+{% block show_account %}
+<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+
+{% endblock show_account %}
+
+{% block canvax %}
+<div class=" hidden-md-down">
+{% block breadcrumbs %}
+   
+
+    <div class="page-title">
+            <div class="container">
+              
+              <div class="column">
+                <ul class="breadcrumbs">
+                        <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+                  <li class="separator">&nbsp;</li>
+                  <li>
+                        <a href="{% url 'offer:list' %}">{% trans "Offers" %}</a>
+                    </li>
+                    <li class="active">{{ offer.name }}</li>
+                    </ul>
+                 </ul>
+              </div>
+            </div>
+          </div>
+ {% endblock %}
+</div>
+{% endblock canvax %}
+
+{% block content %}
+<p></p>
+    {% if not offers %}
+        <p>{% trans "There are no site offers at the moment." %}</p>
+    {% else %}
+        {% for offer in offers %}
+        <h2 class=" text-lg text-center">{{ offer.name }}</h2>
+        {% if offer.description %}
+            <p class=" text-sm text-center">{{ offer.description|safe }}</p>
+        {% endif %}
+        {% if offer.has_products %}
+       
+            <div class="row">
+                    <section class="container  padding-bottom-30x">
+                        <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;margin&quot;: 2, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
+                              <!-- Product-->
+                {% for product in offer.products|slice:":12" %}
+                <div class="grid-item"><b class=" text-primary"> {{offer.benefit.value}} </b>{% render_product product %}</div>
+                {% endfor %}
+            </div>
+        </section>
+            </div>
+            <p class=" text-center">
+                <a class="btn btn-default text-primary" href="{% url 'offer:detail' slug=offer.slug %}">{% trans "Browse products in offer" %}</a>
+            </p>
+
+        {% endif %}
+        <hr/>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

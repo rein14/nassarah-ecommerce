@@ -1,0 +1,55 @@
+{% extends "customer/baseaccountpage.html" %}
+
+{% load i18n %}
+{% load static%}
+{% load staticfiles%}
+
+
+{% block tabcontent %}
+<p class="padding-bottom-1x hidden-md-up"></p>
+
+<aside class="user-info-wrapper">
+    <div class="user-cover" style="background-image: url('/static/oscar/css/img/user.png');">
+      <div class="info-label" data-toggle="tooltip" title="You will be notified soon "><i class="icon-medal"></i></div>
+    </div>
+    <div class="user-info">
+      <div class="user-avatar"><a href="#"></a><img src="{% static "oscar/img/account/default_profile.png"%}" alt="User"></div>
+      <div class="user-data">
+        <h4><b>{{ user.get_full_name|default:'-' }}</h4><span>{{ user.date_joined }}</b></span>
+      </div>
+    </div>
+  </aside>
+    <table class="table text-xs ">
+        <tbody>
+            
+            <tr>
+                <th>{% trans 'Email address' %}</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            {% block profile_fields %}
+                {% for field in profile_fields %}
+                    <tr>
+                        <th>{{ field.name }}</th>
+                        <td>{{ field.value|default:"-" }}</td>
+                    </tr>
+                {% endfor %}
+            {% endblock %}
+            
+        </tbody>
+    </table>
+<span class=" hidden-md-up ">
+        <a href="{% url 'customer:profile-update' %}" class="btn btn-sm btn-outline-primary btn-block" {% include "toast.html" %}>{% trans 'Edit profile' %}</a>
+        <a href="{% url 'customer:change-password' %}" class="btn btn-sm btn-outline-primary btn-block" {% include "toast.html" %}>{% trans 'Reset password' %}</a>
+        <a id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-sm btn-danger btn-block" {% include "toast.html" %}> {% trans 'Delete profile' %}</a>
+</span>
+
+<span class=" text-center hidden-md-down">
+     <a href="{% url 'customer:profile-update' %}" class="btn btn-sm btn-primary">{% trans 'Edit profile' %}</a>
+    <a href="{% url 'customer:change-password' %}" class="btn btn-sm btn-primary">{% trans 'Reset password' %}</a>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-sm btn-danger">{% trans 'Delete profile' %}</a>
+
+</span>
+   
+
+{% endblock %}

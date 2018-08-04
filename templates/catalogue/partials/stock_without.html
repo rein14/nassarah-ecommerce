@@ -1,0 +1,18 @@
+{% load currency_filters %}
+{% load i18n %}
+{% load purchase_info_tags %}
+{% load reviews_tags %}
+
+{% purchase_info_for_product request product as session %}
+
+{% if session.price.exists %}
+{% if session.price.excl_tax == 0 %}
+<div class="product-price">{% trans "Free" %}</div>
+{% elif session.price.is_tax_known %}
+<div class="product-price text-xs text-bold"><b>{{ session.price.incl_tax|currency:session.price.currency }}</b></div>
+{% else %}
+<div class="product-price text-xs text-bold" ><b>{{ session.price.excl_tax|currency:session.price.currency }}</b></div>
+{% endif %}
+{% else %}
+    <div class="price_color">&nbsp;</div>
+{% endif %}

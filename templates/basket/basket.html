@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block show_account %}
+<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+
+{% endblock show_account %}
+
+{% block logo %}
+&nbsp;&nbsp;<i class=" categorylist icon-arrow-left padding-top-1x"></i>
+{% endblock logo %}
+
+{% block mobile %}
+{% block sitelogo %}
+<p></p>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp; {% trans 'Basket'%}</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+{% block show_basket %}
+
+{% endblock show_basket %}
+{% block canvax %}
+
+{% block breadcrumbs %}
+<div class="page-title hidden-md-down">
+        <div class="container">
+          
+
+          <div class="column">
+            <ul class="breadcrumbs">
+                    <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+              <li class="active">{% trans "Basket" %}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% endblock canvax %}
+    
+{% block title %}
+    {% trans "Basket" %} | {{ block.super }}
+{% endblock %}
+
+{# Hide mini-basket so we don't have two baskets to keep in sync #}
+{% block mini_basket %}{% endblock %}
+
+{% block content %}
+<div class="container padding-bottom-3x mb-1">
+    {% block basket_alert %}
+    
+    {% endblock basket_alert %}
+    {# Use a partial template so that AJAX can be used to re-render basket #}
+    {% include 'basket/partials/basket_content.html' %}
+    </div>
+{% endblock content %}
+
+{% block ad %}
+
+{% endblock ad %}
+{% block onbodyload %}
+    {{ block.super }}
+    {# We pass in the URL to send AJAX requests to #}
+    var options = {
+        'basketURL': '{% url 'basket:summary' %}'
+    };
+    oscar.basket.init(options);
+{% endblock %}

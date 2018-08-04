@@ -1,0 +1,75 @@
+{% load thumbnail %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% with all_images=product.images.all %}
+    {# use length rather then count as the images get queried anyways #}
+    <div class="hidden-sm-down ">
+            <div class="info-label" data-toggle="tooltip" title="You will be notified soon "><i class="icon-medal"></i></div>
+
+    {% if all_images|length > 1 %}
+    <div class="product-gallery">
+        <div class="product-carousel owl-carousel "data-owl-carousel="{ &quot;nav&quot;: true, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;margin&quot;: 3, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:1},&quot;991&quot;:{&quot;items&quot;:1},&quot;1200&quot;:{&quot;items&quot;:1}} }">
+      
+            {% for image in all_images %}
+            <div class="{% if forloop.first %}active{% endif %}">
+                {% thumbnail image.original "400x250" upscale=False as thumb %}
+                <img src="{{ thumb.url }}" alt="{{ product.get_title }}" />
+                {% endthumbnail %}
+            </div>
+        {% endfor %}
+        </div>
+      </div>
+
+    {% else %}
+
+        {# Only one image to show #}
+<div class="product-gallery" style="border: 1px solid #e1e7ec; ">
+    <span class="product-badge text-danger">30% Off</span>
+            <div class="product-carousel owl-carousel">
+                    <div class="active">
+                            {% with image=product.primary_image %}
+                                {% thumbnail image.original "400x250" upscale=False as thumb %}
+                                    <img src="{{ thumb.url }}" alt="{{ product.get_title }}" />
+                                {% endthumbnail %}
+                            {% endwith %}
+                            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<div class="hidden-md-up ">
+        {% if all_images|length > 1 %}
+            <div class="product-carousel owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:1}">
+                {% for image in all_images %}
+                <div class="{% if forloop.first %}active{% endif %}">
+                    {% thumbnail image.original "400x250" upscale=False as thumb %}
+                    <img src="{{ thumb.url }}" alt="{{ product.get_title }}" />
+                    {% endthumbnail %}
+                </div>
+            {% endfor %}
+            </div>
+          </div>
+    
+        {% else %}
+          
+            {# Only one image to show #}
+            <div class="product-gallery" ><span class="hidden-md-down product-badge text- danger">30% Off</span>                 
+                <div class="product-carousel owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:1}">
+                        <div class="active">
+                                <div class="loadbig">
+
+                                {% with image=product.primary_image %}
+                                    {% thumbnail image.original "400x250" upscale=False as thumb %}
+                                        <img src="{{ thumb.url }}" alt="{{ product.get_title }}" />
+                                    {% endthumbnail %}
+                                {% endwith %}
+                                </div>
+                        </div>
+                </div>
+            </div>
+        
+        {% endif %}
+    </div>
+{% endwith %}

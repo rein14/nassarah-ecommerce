@@ -1,0 +1,46 @@
+{% extends "catalogue/browse.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {{ category.name }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+    {{ category.description|default:""|striptags }}
+{% endblock %}
+
+
+{% block bread %}
+{{category.name}}
+{% endblock bread %}
+
+{% block canvax %}
+{% block breadcrumb %}
+<div class=" hidden-md-down">
+
+<div class="page-title">
+        <div class="container">
+          <div class="column text-medium">
+            
+        {{ category.name }}
+          </div>
+        </div>
+</div>
+{% endblock breadcrumb %}
+</div>
+{% endblock canvax %}
+
+
+{% block content %}
+    {% if category.description %}
+        <div class="row">
+            <div class="col-sm-9"><p>{{ category.description|safe }}</p></div>
+            
+        </div>
+    {% endif %}
+    {% if category.image %}
+                <div class="col-sm-3"><img src="{{ category.image.url }}" alt="{{ category.name }}" class="img-responsive" /></div>
+            {% endif %}
+    {{ block.super }}
+{% endblock %}

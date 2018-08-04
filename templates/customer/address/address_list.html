@@ -1,0 +1,72 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load static%}
+{% block bread %}
+Address Book
+{% endblock bread %}
+
+{% block tabcontent %}
+
+    {% if addresses %}
+        <table class="table text-xs">
+            <tbody>
+                <tr>
+                    <th>{% trans 'Address' %}</th>
+                    <th></th>
+                </tr>
+                {% for address in addresses %}
+                    <tr>
+                        <td>
+                            {% if address.is_default_for_shipping %}
+                                <span class="label label-success">{% trans 'Default shipping address' %}</span>
+                            {% endif %}
+                            {% if address.is_default_for_billing %}
+                                <span class="label label-info">{% trans 'Default billing address' %}</span>
+                            {% endif %}
+                            <address>
+                                {% for field in address.active_address_fields %}
+                                    {{ field }}</br>
+                                {% endfor %}
+                            </address>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-default btn-sm" style="color:#0da9ef" href="{% url 'customer:address-detail' pk=address.id %}" {% include "toast.html" %}>{% trans 'Edit' %}</a>
+                                        <button class="btn-secondary btn-sms dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button>                                        
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="text-xs" href="{% url 'customer:address-delete' pk=address.id %}" {% include "toast.html" %}>
+                                          <b>  {% trans 'Delete' %}</b>
+                                        </a>
+                                    </li>
+                                    <hr>
+                                    {% if address.country.is_shipping_country and not address.is_default_for_shipping %}
+                                        <li>
+                                            <a class="text-xs" href="{% url 'customer:address-change-status' pk=address.id action='default_for_shipping' %}" {% include "toast.html" %}>
+                                                <b>{% trans 'Set as default shipping address' %}</b>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if not address.is_default_for_billing %}
+                                        <li>
+                                            <a class="text-xs" href="{% url 'customer:address-change-status' pk=address.id action='default_for_billing' %}" {% include "toast.html" %}>
+                                               <b>{% trans 'Set as default billing address' %}</b>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include "partials/pagination.html" %}
+    {% else %}
+        <p>{% trans 'There are no addresses in your address book.' %}</p>
+    {% endif %}
+    <p>
+        <a href="{% url 'customer:address-create' %}" class="btn btn-sm btn-outline-primary text-xs" {% include "toast.html" %}>{% trans 'Add a new address' %}</a>
+    </p>
+{% endblock tabcontent %}
+

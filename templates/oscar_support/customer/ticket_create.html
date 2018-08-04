@@ -1,0 +1,40 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+
+{% block extra_breadcrumbs %}
+    <li>
+        <a href="{% url 'support:customer-ticket-list' %}">{% trans 'Support' %}</a>
+    </li>
+{% endblock %}
+
+{% block tabcontent %}
+    <form id="create-ticket-form" enctype="multipart/form-data" action="." method="post" class="form">
+        {% csrf_token %}
+
+        {% include "partials/form_fields.html" %}
+
+        {% block ticket_attachment %}
+            <div class="tab-pane" id="ticket_attachment">
+                {% block ticket_attachment_content %}
+                    <table class="table table-striped table-bordered form-inline">
+                        {{ attachment_formset.management_form }}
+                        {{ attachment_formset.non_form_errors }}
+                        {% for attachment_form in attachment_formset %}
+                            <tr>
+                                <td>
+                                    {% include "dashboard/partials/form_fields_inline.html" with form=attachment_form %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endblock ticket_attachment_content %}
+            </div>
+        {% endblock ticket_attachment %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{% trans "Create ticket" %}</button>
+            {% trans "or" %}
+            <a href="{% url 'support:customer-ticket-list' %}">{% trans "cancel" %}</a>
+        </div>
+    </form>
+{% endblock tabcontent %}

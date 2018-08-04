@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load product_tags %}
+
+{% with products_sliced=products|slice:":6" %}
+    {% if products_sliced %}
+        <div class="sub-header">
+            <h6>{% trans 'Recent View' %}</h6>
+        </div>
+
+  
+     <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;margin&quot;: 30, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:3},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:4}} }">
+            {% for product in products_sliced %}
+            <div class="entry">
+                <div class="entry-thumb">{% block product_image %}
+                    <a class="product-thumb" href="{{ product.get_absolute_url }}" {% include "toast.html" %}>
+                       {% with image=product.primary_image %}
+                          {% thumbnail image.original "100x50" upscale=False as thumb %}
+                          <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail">
+                          {% endthumbnail %}
+                          
+                        {% endwith %}
+                      </a>
+                      {% endblock %}
+                </div>
+                <div class="entry-content">
+                  <h4 class="entry-title"><a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}" {% include "toast.html" %}></a>{{ product.get_title|truncatewords:2 }}</h4>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+     {% endif %}
+{% endwith %}
+
+
+<div class="entry">
+    <div class="entry-thumb"><a href="shop-single.html"><img src="img/shop/widget/01.jpg" alt="Product"></a></div>
+    <div class="entry-content">
+      <h4 class="entry-title"><a href="shop-single.html">Adidas</a></h4>
+    </div>
+  </div>

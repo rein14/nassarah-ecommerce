@@ -1,0 +1,11 @@
+{% load basket_tags %}
+{% load display_tags %}
+{% load i18n %}
+{% load purchase_info_tags %}
+
+    {% iffeature "wishlists" %}
+    {% include "catalogue/partials/add_to_wishlist.html" %}
+{% endiffeature %}
+ 
+
+

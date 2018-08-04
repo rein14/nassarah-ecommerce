@@ -1,0 +1,8 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% block bread %}
+Edit profile
+{% endblock bread %}
+{% block tabcontent %}
+    {% include 'partials/form.html' with form_id="profile_form" action="." %}
+{% endblock tabcontent %}

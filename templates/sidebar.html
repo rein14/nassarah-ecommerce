@@ -1,0 +1,218 @@
+{% load i18n %}
+{% load currency_filters %}
+{% load shipping_tags %}
+{% load staticfiles %}
+{% load static %}
+
+
+<div class="col-xl-3 col-lg-2 hidden-lg-down">
+          <div class="padding-top-2x hidden-lg-up"></div>
+          <!-- Order Summary Widget-->
+          <section class="widget widget-order-summary hidden-md-down">
+            <h3 class="widget-title"><b> Order Summary</b></h3>
+            <table class="table text-xs">
+                {% with offer_discounts=basket.offer_discounts voucher_discounts=basket.grouped_voucher_discounts %}
+        
+                {% block basket_total %}
+                {% if offer_discounts or voucher_discounts %}
+                    <tr>
+                        <td class="total text-xs">{% trans "Basket total (after discounts)" %}</td>
+                        <td class="total align-right text-xs">
+                            {% if not show_tax_separately and basket.is_tax_known %}
+                                {{ basket.total_incl_tax|currency:basket.currency }}
+                            {% else %}
+                                {{ basket.total_excl_tax|currency:basket.currency }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    {# No discounts to basket #}
+                    <tr>
+                        <td>{% trans "Basket total" %}</td>
+                        <td class="text-medium text-xs">
+                            {% if not show_tax_separately and basket.is_tax_known %}
+                                {{ basket.total_incl_tax|currency:basket.currency }}
+                            {% else %}
+                                {{ basket.total_excl_tax|currency:basket.currency }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endblock %}
+        {% endwith %}
+              {% block shipping_totals %}
+              <tr>
+              
+              <tr>
+                {% if not shipping_method.is_discounted %}
+                <td>{{ shipping_method.name }}</td>
+                <td class="text-medium">
+                    {% if not show_tax_separately and shipping_charge.is_tax_known %}
+                    {{ shipping_charge.incl_tax|currency:basket.currency }}
+                {% else %}
+                    {{ shipping_charge.excl_tax|currency:basket.currency }}
+                {% endif %}
+                </td>
+        
+              </tr>
+            </tr>
+              {% else %}
+              {% shipping_charge_discount shipping_method basket as shipping_discount %}
+              {% shipping_charge_excl_discount shipping_method basket as shipping_charge_excl_discount %}
+              {# As shipping is discounted, we break it down into its original charge and a discount #}
+              
+              <tr>
+                <td>
+                     <td class="total">{% trans "Shipping method" %}</td>
+        
+                    <td class="text-medium">{{ shipping_method.name }}</td>
+        
+                </td>
+              </tr>
+              <tr>
+                  <td>{% trans "Shipping total (before discounts)" %}</td>
+                  <td class="text-medium">
+                      {% if not show_tax_separately and shipping_charge_excl_discount.is_tax_known %}
+                          {{ shipping_charge_excl_discount.incl_tax|currency:basket.currency }}
+                      {% else %}
+                          {{ shipping_charge_excl_discount.excl_tax|currency:basket.currency }}
+                      {% endif %}
+                  </td>
+              </tr>
+              <tr>
+                  <td><span class="label label-success">{% trans "Discount" %}</span> {{ shipping_method.discount_name }}</td>
+                  <td class="text-medium">-{{ shipping_discount|currency:basket.currency }}</td>
+              </tr>
+              <tr>
+                  <td>
+                      {% trans "Shipping total (after discounts)" %}
+                  </td>
+                  <td class="text-medium">
+                      {% if not show_tax_separately and shipping_charge.is_tax_known %}
+                          {{ shipping_charge.incl_tax|currency:basket.currency }}
+                      {% else %}
+                          {{ shipping_charge.excl_tax|currency:basket.currency }}
+                      {% endif %}
+                  </td>
+              </tr>
+              {% endif %}
+              {% endblock shipping_totals %}
+        
+              {% block tax_totals %}
+              {% if show_tax_separately %}
+                  
+                  <tr>
+                      <th>
+                          <h3>{% trans "Tax" %}</h3>
+                      </th>
+                  </tr>
+                  <tr>
+                      <td>{% trans "Basket" %}</td>
+                      <td class="text-medium">
+                          {{ basket.total_tax|currency:basket.currency }}
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>{% trans "Shipping" %}</td>
+                      <td class="text-medium">
+                          {{ shipping_charge.tax|currency:basket.currency }}
+                      </td>
+                  </tr>
+              {% endif %}
+          {% endblock %}
+        
+              {% block order_total %}
+              <tr>
+                <td></td>
+                {% if order_total.is_tax_known %}
+                <td class="text-lg text-medium"> {{ order_total.incl_tax|currency:basket.currency }}</td>
+                {% else %}
+                <td class="text-lg text-medium"> {{ order_total.incl_tax|currency:basket.currency }}</td>
+                {% endif %}
+              </tr>
+              {% endblock %}
+            </table>
+          </section>
+    
+         
+          <!-- Featured Products Widget-->
+               
+          <!-- Promo Banner-->
+          <section class="widget widget-categories padding-bottom-1x ">
+
+                <h3 class="widget-title"> Shop Categories </h3>
+                {% include "catalogue/catalogue_categories.html" %}
+                
+        </section>
+          <section class="widget widget-featured-products padding-bottom-1x hidden-md-down">
+               
+            <h3 class="widget-title">Top Categories</h3>
+                <!-- Entry-->
+                <div class="entry">
+                  <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/06.jpg" %}" alt="Product"></a></div>
+                  <div class="entry-content">
+                    <h4 class="entry-title"><a href="shop-single.html">Mobile Phones</a></h4>
+                  </div>
+                </div>
+                <!-- Entry-->
+                <div class="entry">
+                  <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/05.jpg" %}"alt="Product"></a></div>
+                  <div class="entry-content">
+                    <h4 class="entry-title"><a href="shop-single.html">Electronics</a></h4>
+                  </div>
+                </div>
+                <!-- Entry-->
+                <div class="entry">
+                  <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/04.jpg" %}"alt="Product"></a></div>
+                  <div class="entry-content">
+                    <h4 class="entry-title"><a href="shop-single.html">Fashion</a></h4>                  </div>
+                </div>
+                <!-- Entry-->
+                <div class="entry">
+                  <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/02.jpg" %}" alt="Product"></a></div>
+                  <div class="entry-content">
+                    <h4 class="entry-title"><a href="shop-single.html">Kids</a></h4>
+                  </div>
+                </div>
+                <p></p>
+              </section>
+              <section class="widget widget-featured-products hidden-md-down">
+                    <h3 class="widget-title">Shop by brand</h3>
+                    <!-- Entry-->
+                    <div class="entry">
+                      <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/02.jpg" %}" alt="Product"></a></div>
+                      <div class="entry-content">
+                        <h4 class="entry-title"><a href="shop-single.html">Adidas</a></h4>
+                      </div>
+                    </div>
+                    <!-- Entry-->
+                    <div class="entry">
+                      <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/02.jpg" %}" alt="Product"></a></div>
+                      <div class="entry-content">
+                        <h4 class="entry-title"><a href="shop-single.html">Apple</a></h4><span class="entry-meta">$90.00</span>
+                      </div>
+                    </div>
+                    <!-- Entry-->
+                    <div class="entry">
+                      <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/02.jpg" %}" alt="Product"></a></div>
+                      <div class="entry-content">
+                        <h4 class="entry-title"><a href="shop-single.html">Samsung</a></h4><span class="entry-meta">$49.50</span>
+                      </div>
+                    </div>
+                    <!-- Entry-->
+                    <div class="entry">
+                      <div class="entry-thumb"><a href="shop-single.html"><img src="{% static "oscar/img/gallery/02.jpg" %}" alt="Product"></a></div>
+                      <div class="entry-content">
+                        <h4 class="entry-title"><a href="shop-single.html">Kids</a></h4><span class="entry-meta">$29.99</span>
+                      </div>
+                    </div>
+                  </section>
+          <p></p>
+          <section class="promo-box hidden-md-down" style="background-image: url('static/oscar/img/banners/02.jpg');"><span class="overlay-dark" style="opacity: .4;"></span>
+            <div class="promo-box-content text-center padding-top-2x padding-bottom-2x">
+              <h4 class="text-light text-thin text-shadow">New Collection of</h4>
+              <h3 class="text-bold text-light text-shadow">Electronics</h3><a class="btn btn-outline-white btn-sm" href="shop-grid-ls.html">Shop Now</a>
+            </div>
+          </section>
+      </div>
+    </span>

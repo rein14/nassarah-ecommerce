@@ -1,0 +1,203 @@
+{% extends "layout_2_col.html" %}
+
+{% load basket_tags %}
+{% load promotion_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load i18n %}
+{% load static%}
+{% load staticfiles%}
+
+
+{% block title %}
+    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
+{% endblock %}
+
+
+{% block mobile %}
+{% block sitelogo %}
+<p></p>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% blocktrans with q=query %}
+        {{ q }} 
+    {% endblocktrans %} ( {{paginator.count}} )</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+{% block show_account %}
+
+{% endblock show_account %}
+{% block shopfilter %}
+
+{% category_tree as tree_categories %}
+{% if tree_categories %}
+    <h4>{% trans "Show results for" %}</h4>
+    <div class="col-xl-3 col-lg-4 order-lg-1">
+            <section class="widget widget-categories">
+
+            <ul class="text-medium">
+            {% for tree_category, info in tree_categories %}
+                <li>
+                    <a href="{{ tree_category.get_absolute_url }}">
+                        {% if tree_category.pk == category.pk %}
+                            <strong>{{ tree_category.name }}</strong>
+                        {% else %}
+                            {{ tree_category.name }}
+                        {% endif %}
+                    </a>
+
+                    {% if info.has_children %}<ul>{% else %}</li>{% endif %}
+                    {% for n in info.num_to_close %}
+                        </ul></li>
+                    {% endfor %}
+            {% endfor %}
+        </ul>
+        </section>
+    </div>
+{% endif %}
+{% if has_facets %}
+    <h4>{% trans "Refine by" %}</h4>
+    <div class="side_categories">
+        {% for field, data in facet_data.items %}
+            {% if data.results %}
+                {% include 'search/partials/facet.html' with name=data.name items=data.results %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+ {% endblock shopfilter %}
+
+
+
+ {% block canvax %}
+ <div class=" hidden-md-down">
+
+ {% block breadcrumbs %}
+    
+ 
+     <div class="page-title">
+             <div class="container">
+               
+               <div class="column">
+                     {% blocktrans with q=query %}
+                     Products matching "{{ q }}"
+                 {% endblocktrans %}
+               </div>
+             </div>
+           </div>
+  {% endblock %}
+ </div>
+ {% endblock canvax %}
+ 
+
+{% block column_2 %}
+{% block toggle %}
+<button class="sidebar-toggle position-right" data-toggle="modal" data-target="#modalShopFilters"><i style=" font-weight:20px" class="material-icons filter_list"></i></button>
+
+{% endblock toggle %}
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+   
+<p class=""></p>
+        <h4 class="widget-title">{% trans "Category List" %}</h4>
+        <div class="col-xl-6 col-lg-8 order-lg-1">
+                <aside class="sidebar sidebar-offcanvas">
+        <section class="widget widget-categories">
+                <ul class="text-lg">
+                {% for tree_category, info in tree_categories %}
+                    <li >
+                        <a href="{{ tree_category.get_absolute_url }}">
+                            {% if tree_category.pk == category.pk %}
+                                <strong>{{ tree_category.name|safe }}</strong>
+                            {% else %}
+                                {{ tree_category.name|safe }}
+                            {% endif %}
+                        </a>
+
+                        {% if info.has_children %}<ul>{% else %}</li>{% endif %}
+                        {% for n in info.num_to_close %}
+                            </ul></li>
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+        </section>
+
+    </aside>
+    </div>
+    {% endif %}
+    {% if has_facets %}
+    <section class="widget">
+        <h4 class="widget-title">{% trans "Refine by" %}</h4>
+        <div class="side_categories">
+            {% for field, data in facet_data.items %}
+                {% if data.results %}
+                    {% include 'search/partials/facet.html' with name=data.name items=data.results %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    
+    {% endif %}
+
+{% endblock %}
+
+<div class="col-xl-9 col-lg-8 order-lg-2">
+{% block content %}
+
+    <form method="get">
+        {# Render other search params as hidden inputs #}
+        {% for value in selected_facets %}
+            <input type="hidden" name="selected_facets" value="{{ value }}" />
+        {% endfor %}
+        <input type="hidden" name="q" value="{{ search_form.q.value|default_if_none:"" }}"/>
+
+        {% if paginator.count %}
+            
+            {% if form %} 
+            <div class="shop-toolbar mb-2">
+                <div class="column">
+                    <div class="shop-sorting">
+                        <span style=" float:left;padding:24px 0;">
+                        {% blocktrans count num_results=paginator.count %}
+                           <b> {{ num_results }} products</b>
+                        {% plural %}
+                           <b> {{ num_results }} products </b>
+                        {% endblocktrans %}
+                        </span>
+                    <span style=" float:right"><b>{% include "partials/form_field.html" with field=form.sort_by %}</b>
+                </div>
+                </div>
+                <div class="column hidden-md-down">
+
+                </div>
+              </div>
+               
+            {% endif %}
+        {% else %}
+            <p>
+                {% trans "<strong>0</strong> results." %}
+            </p>
+        {% endif %}
+    </form>
+   
+    {% if page.object_list %}
+  
+          
+            <div class="isotope-grid cols-4 mb-2 padding-top-0x">
+                <div class="gutter-sizer"></div>
+                <div class="grid-sizer"></div>
+                {% for result in page.object_list %}
+                <div class="grid-item">{% render_product result.object %}</div>
+                {% endfor %}
+              
+           
+{% endif %}
+
+{% endblock content %}
+</div>
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.search.init();
+{% endblock %}
+
+

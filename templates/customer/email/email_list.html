@@ -1,0 +1,32 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load static%}
+{% block bread %}
+Inbox
+{% endblock bread %}
+
+{% block tabcontent %}
+    {% if emails %}
+        <table class="table text-xs">
+            <thead>
+                <tr>
+                    <th>{% trans 'Subject' %}</th>
+                    <th>{% trans 'Date sent' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for email in emails %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'customer:email-detail' email_id=email.id %}" {% include "toast.html" %}>{{ email.subject }}</a>
+                        </td>
+                        <td>{{ email.date_sent }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include "partials/pagination.html" %}
+    {% else %}
+        <p>{% trans 'No emails found' %}</p>
+    {% endif %}
+{% endblock tabcontent %}

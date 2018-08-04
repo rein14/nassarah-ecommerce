@@ -1,0 +1,127 @@
+{% extends "dashboard/layout.html" %}
+{% load form_tags %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }} support new-ticket{% endblock %}
+
+{% block title %}
+    {% trans "New ticket" %} | {{ block.super }}
+{% endblock %}
+
+{% block headertext %}
+    {% trans "New ticket" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+        <li>
+            <a href="{% url 'dashboard:index' %}">{% trans "Dashboard" %}</a>
+        </li>
+        <li class="active">
+            <a href="{% url 'support-dashboard:ticket-list' %}">{% trans "Support tickets" %}</a>
+        </li>
+        <li class="active">{{ title }}</li>
+    </ul>
+{% endblock %}
+
+{% block dashboard_content %}
+    <form class="form wysiwyg fixed-actions" id="ticket-create-form" method="post" action=".">
+        {% csrf_token %}
+
+        <div class="container-fluid">
+            <div class="col-md-9">
+                <div class='table-header'>
+                    <h2><i class="icon-comments"></i>{% trans "New ticket" %}</h2>
+                </div>
+
+                <div class="content-block">
+                    <div class="panel panel-default">
+                        <div class="container-fluid panel-body">
+                            <div class="col-md-6">
+                                {% include "oscar/dashboard/partials/form_field.html" with field=form.requester %}
+                                <span>
+                                {% blocktrans %}
+                                    Enter an existing user or
+                                    <a href="#requester-create-form-modal" data-toggle="modal">
+                                        add a new user
+                                    </a>.
+                                {% endblocktrans %}
+                            </span>
+                            </div>
+                            <div class="col-md-6">
+                                {% include "oscar/dashboard/partials/form_field.html" with field=form.is_internal %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="container-fluid panel-body">
+                            {% for field in form.get_property_fields %}
+                                <div class="col-md-3">
+                                    {% include "oscar/dashboard/partials/form_field.html" with field=field %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="container-fluid panel-body">
+                            {% for field in form.get_message_fields %}
+                                {% include "oscar/dashboard/partials/form_field.html" with field=field %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="table-header">
+                    <h3>{% trans "Ticket details" %}</h3>
+                </div>
+                <div class="page-content panel panel-default">
+                    <div class="container-fluid panel-body">
+                <span style="color: red;">
+                    <strong>TODO:</strong> The related data goes here.
+                </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="fixed-actions-group">
+            <div class="form-actions">
+                <a class="btn" href="{% url 'support-dashboard:ticket-list' %}">{% trans "cancel" %}</a>
+                <div class="pull-right">
+                    {% include "oscar_support/dashboard/partials/save_with_status.html" %}
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="requester-create-form-modal" class="modal fade" tabindex="-1"
+         role="dialog" aria-labelledby="requester-create-form-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="create-user-form" method="post" action="">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h3 id="requester-create-form-modal-label"
+                            class="modal-title">{% trans "Create new user" %}</h3>
+                    </div>
+
+                    <div class="modal-body">
+                        {% include "partials/form_fields.html" with form=requester_create_form %}
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                        <button type="submit" class="btn btn-primary">{% trans "Create user" %}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

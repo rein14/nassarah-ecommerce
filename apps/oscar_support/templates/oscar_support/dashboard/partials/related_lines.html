@@ -1,0 +1,64 @@
+{% load i18n %}
+{% load currency_filters %}
+
+<div class="table-header">
+    <h3>
+        {% trans "Related lines" %}
+        <button type="button" class="btn btn-default pull-right" data-toggle="collapse"
+                data-target="#related-lines">{% trans "Show/Hide" %} {{ ticket.relatedorderlines.all|length }}
+        </button>
+    </h3>
+</div>
+
+{% block ticket_line %}
+    <div id="related-lines" class="collapse in">
+        {% block ticket_line_content %}
+            {{ related_line_formset.management_form }}
+            {{ related_line_formset.non_form_errors }}
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>{% trans "Order number" %}</th>
+                    <th>{% trans "Quantity" %}</th>
+                    <th>{% trans "Line" %}</th>
+                    <th>{% trans "UPC" %}</th>
+                    <th>{% trans "Supplier" %}</th>
+                    <th>{% trans "Supplier SKU" %}</th>
+                    <th>{% trans "Price before discounts" %}</th>
+                    <th>{% trans "Date purchased" %}</th>
+                    <th>{% trans "Delete?" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for related_line_form in related_line_formset %}
+                    {% if related_line_form.non_field_errors %}
+                        <tr>
+                            <td>
+                                {% for error in related_line_form.non_field_errors %}
+                                    <span class="error-block errorlist"><i
+                                            class="icon-exclamation-sign"></i> {{ error }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>{{ related_line_form.instance.line.order.number }}</td>
+                        <td>{{ related_line_form.instance.line.quantity }}</td>
+                        <td>{% include "dashboard/partials/form_field.html" with field=related_line_form.line nolabel=True %}</td>
+                        <td>{{ related_line_form.instance.line.upc }}</td>
+
+                        <td>{{ related_line_form.instance.line.partner_name }}</td>
+                        <td>{{ related_line_form.instance.line.partner_sku }}</td>
+                        <td>{{ related_line_form.instance.line.line_price_incl_tax|currency }}</td>
+                        <td>{{ related_line_form.instance.line.order.date_placed|date:"jS M Y H:i" }}
+                        <td>
+                            {% include "dashboard/partials/form_field.html" with field=related_line_form.uuid nolabel=True %}
+                            {% include "dashboard/partials/form_field.html" with field=related_line_form.DELETE nolabel=True %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endblock ticket_line_content %}
+    </div>
+{% endblock ticket_line %}

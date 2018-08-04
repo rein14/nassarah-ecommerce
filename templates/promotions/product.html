@@ -1,0 +1,36 @@
+{% for product in products %}
+<div class="grid-item">
+        <div class="product-card">
+                <div class="rating-stars hidden-md-down">
+                   
+                </div>
+                {% block product_image %}
+                <a class="product-thumb" href="{{ product.get_absolute_url }}" {% include "toast.html" %}>
+                   {% with image=product.primary_image %}
+                      {% thumbnail image.original "200x150" upscale=False as thumb %}
+                      <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail">
+                      {% endthumbnail %}
+                      
+                    {% endwith %}
+                  </a>
+                  {% endblock %}
+    
+                  {% block product_title %}
+                      <h3 class="product-title"><a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}" data-toast data-toast-position="bottomCenter" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{% static 'oscar/css/img/loadi.gif'%}'> Loading... Please Wait"></a><b>{{ product.get_title|truncatechars:20 }}</b></h3>
+                  {% endblock product_title %}
+    
+              {% block product_price %}
+            <div class="product-price hidden-md-up">
+                {% include "catalogue/partials/stock_without.html" %}
+            </div>
+            <div class="product-price hidden-md-down">
+                    {% include "catalogue/partials/stock_record.html" %}
+                </div>
+    
+        
+              {% endblock %}
+              
+            </div>
+
+</div>
+{% endfor %}

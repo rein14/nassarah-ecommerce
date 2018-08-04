@@ -1,0 +1,6 @@
+{% extends 'oscar_support/dashboard/tag_list.html' %}
+{% load i18n %}
+
+{% block dasboard_content %}
+{% include "oscar_support/dashboard/partials/inline_tag.html" with title=page_title id="ticket-priority" count=priority_count tag_formset=formset %}
+{% endblock dasboard_content %}

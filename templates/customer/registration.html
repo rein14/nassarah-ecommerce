@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Register' %} | {{ block.super }}
+{% endblock %}
+
+ 
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+    {% trans 'Sign up' %}
+{% endblock bread %}</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+
+{% block show_account %}
+
+{% endblock show_account %}
+
+{% block headertext %}
+    {% trans "Register" %}
+{% endblock %}
+{% block canvax %}
+ <div class=" hidden-md-down">
+
+ {% block breadcrumb %}
+ 
+ <div class="page-title">
+         <div class="container">
+           <div class="column text-medium">
+             
+All Products
+           </div>
+         </div>
+ </div>
+ {% endblock breadcrumb %}
+ </div>
+ {% endblock canvax %}
+
+
+ {% include "partials/alert_messages.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6 register_form">
+            <form id="register_form" action="." method="post" class="form-stacked">
+                {% csrf_token %}
+                {% include "partials/form_fields.html"  %}
+                <button name="registration_submit" type="submit" value="Register" class="btn btn-primary btn-lg" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
+                {% if cancel_url %}
+                    {% trans "or" %} <a href="{{ cancel_url }}">{% trans "cancel" %}</a>.
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+<div class="container padding-bottom-2x mb-2">
+        <div class="row align-items-center padding-bottom-2x">
+          <div class="col-md-5"><i style="font-size:200px" class="fa fa-shopping-cart"></i></div>
+          <div class="col-md-7 text-md-left text-center">
+            <div class="mt-30 hidden-md-up"></div>
+            <h2>Search, Select, Buy Online.</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id purus at risus pellentesque faucibus a quis eros. In eu fermentum leo. Integer ut eros lacus. Proin ut accumsan leo. Morbi vitae est eget dolor consequat aliquam eget quis dolor. Mauris rutrum fermentum erat, at euismod lorem pharetra nec. Duis erat lectus, ultrices euismod sagittis at, pharetra eu nisl. Phasellus id ante at velit tincidunt hendrerit. Aenean dolor dolor, tristique nec placerat nec.</p><a class="text-medium text-decoration-none" href="shop-grid-ls.html">View Products&nbsp;<i class="icon-arrow-right"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row align-items-center padding-top-2x padding-bottom-2x">
+          <div class="col-md-5 order-md-2"><i style="font-size:200px" class="fa fa-car"></i></div>
+          <div class="col-md-7 order-md-1 text-md-left text-center">
+            <div class="mt-30 hidden-md-up"></div>
+            <h2>Fast Delivery Worldwide.</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id purus at risus pellentesque faucibus a quis eros. In eu fermentum leo. Integer ut eros lacus. Proin ut accumsan leo. Morbi vitae est eget dolor consequat aliquam eget quis dolor. Mauris rutrum fermentum erat, at euismod lorem pharetra nec. Duis erat lectus, ultrices euismod sagittis at, pharetra eu nisl. Phasellus id ante at velit tincidunt hendrerit. Aenean dolor dolor, tristique nec placerat nec.</p><a class="text-medium text-decoration-none" href="#">Shipping Details&nbsp;<i class="icon-arrow-right"></i></a>
+          </div>
+        </div>
+        <hr>
+        <div class="row align-items-center padding-top-2x padding-bottom-2x">
+          <div class="col-md-5"><i style="font-size:200px" class="fa fa-mobile"></i></div>
+          <div class="col-md-7 text-md-left text-center">
+            <div class="mt-30 hidden-md-up"></div>
+            <h2>Great Mobile App. Shop On The Go.</h2>
+            <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id purus at risus pellentesque faucibus a quis eros. In eu fermentum leo. Integer ut eros lacus. Proin ut accumsan leo. Morbi vitae est eget dolor consequat aliquam eget quis dolor.</p><a class="market-button apple-button" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">App Store</span></a><a class="market-button google-button" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">Google Play</span></a><a class="market-button windows-button" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">Windows Store</span></a>
+          </div>
+        </div><hr>
+       </div>
+          </div>
+        </div>
+      </div>

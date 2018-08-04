@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {{ review.title }} | {% trans "Reviews" %} | {{ product.title }} | {{ block.super }}
+{% endblock %}
+
+ 
+
+{% block mobile %}
+{% block sitelogo %}
+<p></p>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp; {{ product.title|truncatewords:2 }} Reviews</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+{% block canvax %}
+<div class=" hidden-md-down">
+
+{% block breadcrumbs %}
+   
+
+    <div class="page-title">
+            <div class="container">
+              
+              <div class="column">
+                <ul class="breadcrumbs">
+                        <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+                  <li class="separator">&nbsp;</li>
+                  {% with category=product.categories.all.0 %}
+           {% for c in category.get_ancestors_and_self %}
+               <li>
+                   <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+               </li>
+           {% endfor %}
+           
+           <li>
+               <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+           </li>
+       {% endwith %}
+       <li class="separator">&nbsp;</li>
+        <li class="active">{% trans "All reviews" %}</li>
+          
+                  
+                 </ul>
+              </div>
+            </div>
+          </div>
+ {% endblock %}
+</div>
+{% endblock canvax %}
+
+{% block headertext %}
+    {% trans "Customer reviews" %}
+{% endblock  %}
+
+{% block content %}
+<div class="row">
+        <div class="col-sm-12 ">
+       <div class="tet-center"> {% include 'catalogue/reviews/review_product.html' %}
+            </div></div>
+            <div class="col-sm-12 ">
+                    {% include 'catalogue/partials/review.html' %}
+            </div>
+        </div>
+{% endblock %}

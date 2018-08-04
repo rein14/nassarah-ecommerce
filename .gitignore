@@ -1,0 +1,8 @@
+*.mo
+*~
+.coverage
+db.sqlite3
+uwsgi.ini
+log/**
+!log/placeholder
+!media/**/init.txt

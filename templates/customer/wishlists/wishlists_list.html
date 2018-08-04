@@ -1,0 +1,81 @@
+{% extends "customer/baseaccountpage.html" %}
+{% load i18n %}
+{% load static%}
+{% load staticfiles%}
+
+{% block bread %}
+Wishlists
+{% endblock bread %}
+{% block canvax %}
+
+{% block breadcrumbs %}
+<div class="page-title hidden-md-down">
+        <div class="container">
+          
+          <div class="column">
+            <ul class="breadcrumbs">
+                    <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+              <li class="active">{% trans "Wishlists" %}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+{% endblock canvax %}
+
+{% block tabcontent %}
+    {% if wishlists %}
+    <p></p>
+        <table class="table text-xs text-center">
+            <tbody>
+                <tr>
+                    <th>{% trans 'Name' %}</th>
+                    <th></th>
+                    <th>{% trans 'Products' %}</th>
+                    <th>{% trans 'Action' %}</th>
+                </tr>
+                {% for wishlist in wishlists %}
+                    <tr>
+                        <td class="padding-top-2x"><a href="{% url 'customer:wishlists-detail' key=wishlist.key %}">{{ wishlist.name }}</a></td>
+                        <td></td>
+                        <td class="padding-top-2x" >{{ wishlist.lines.count }}</td>
+                        <td>
+                            <div class="btn-group text-xs padding-top-0x">
+                                <a class="btn btn-default btn-sm" style="color:#0da9ef" href="{% url 'customer:wishlists-detail' key=wishlist.key %}" {% include "toast.html" %}><b class="text-xs">{% trans 'View' %}</b></a>
+                                <button style="background-color: rgba(62, 93, 162, 0.02);border-color:white;" class="icon-cog dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button>                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="text-xs" href="{% url 'customer:wishlists-update' key=wishlist.key %}" {% include "toast.html" %}>
+                                            <b>{% trans 'Wish list settings' %}</b>
+                                        </a>
+                                    </li>
+                                
+                                    <hr>
+                                    <li>
+                                        <a class="text-xs" href="{% url 'customer:wishlists-delete' key=wishlist.key %}" {% include "toast.html" %}>
+                                            <b>{% trans 'Delete' %}</b>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include "partials/pagination.html" %}
+    {% else %}
+    <div class="container padding-top-1x padding-bottom-3x mb-1" ><img class="d-block m-auto" src="{% static "oscar/img/components/01.jpg"%}"  style="width:35%; max-width: 550px;" alt="404">
+        <div class="padding-top-1x mt-2 text-center">
+          <h6><b>{% trans "You don't have any wish lists yet." %}</b>
+          </h6>
+          <p><a class="btn btn-sm btn-outline-primary" href="{% url 'customer:wishlists-create' %}" class="btn btn-outline-primary btn-block" {% include "toast.html" %}>{% trans 'Create a new wish list' %}</a></p>
+        </div>
+      </div>
+        
+    {% endif %}
+
+    
+
+{% endblock tabcontent %}

@@ -1,0 +1,111 @@
+{% extends "layout_2_col.html" %}
+
+{% load i18n %}
+{% load static%}
+
+{% block mobile %}
+{% block sitelogo %}
+<p></p>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;">&nbsp;&nbsp;&nbsp;{% block bread %}
+  {% trans 'Account' %}
+{% endblock bread %} </a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+{% block title %}
+    {{ page_title }} | {% trans 'Account' %} | {{ block.super }}
+{% endblock %}
+
+
+
+{% block show_account %}
+<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+
+{% endblock show_account %}
+{% block body_class %}account-profile{% endblock %}
+
+{% block canvax %}
+<div class=" hidden-md-down">
+{% block breadcrumbs %}
+<div class="page-title">
+        <div class="container">
+          
+          <div class="column">
+            <ul class="breadcrumbs">
+                    <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+              <li class="active">{% trans "Basket" %}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+</div>
+{% endblock canvax %}
+{% block headertext %} <span class="text-vg">{{ page_title }}</span>{% endblock %}
+
+{% block modal %}
+Profile Options
+{% endblock modal %}
+{% block user %}
+
+            <nav class="container">
+                <a class="list-group-item" href="{% url 'customer:profile-view' %}"  {% include "toast.html" %}><i class="icon-head"></i><b>{% trans "Profile" %}</b></a>
+                <a class="list-group-item with-badge" href="{% url 'customer:order-list' %}"  {% include "toast.html" %}><i class="icon-bag"></i><b>{% trans "Order History" %}</b><span class="badge badge-primary badge-pill">{{orders.count}}</span></a>
+                <a class="list-group-item " href="{% url 'customer:address-list' %}"  {% include "toast.html" %}><i class="icon-map"></i><b>{% trans "Address Book" %}</b></a>
+                <a class="list-group-item with-badge" href="{% url 'customer:wishlists-list' %}"  {% include "toast.html" %}><i class="icon-heart"></i><b> Wishlist</b><span class="badge badge-primary badge-pill">{% for wishlist in wishlists %}
+                    {{ wishlist.lines.count }}{% endfor%}</span></a>
+                <a class="list-group-item with-badge" href="{% url 'customer:notifications-inbox' %}"  {% include "toast.html" %}><i class=icon-archive></i><b>{% trans "Notifications" %}</b><span class="badge badge-primary badge-pill">{{notifications.count}}</span></a>
+                <a class="list-group-item with-badge" href="{% url 'customer:email-list' %}"  {% include "toast.html" %}><i class="icon-mail"></i><b>{% trans "My Mails" %}</b></a>
+                <a class="list-group-item with-badge" href="{% url 'customer:alerts-list' %}"  {% include "toast.html" %}><i class="icon-tag"></i><b>{% trans "Product Alerts" %}</b></span></a>
+                {% if user.is_staff or perms.partner.dashboard_access %}
+                <a class="list-group-item with-badge" href="{% url 'dashboard:index' %}"  {% include "toast.html" %}><i class="icon-bar-graph-2"></i> {% trans "Dashboard" %}</a>
+              {% endif %}
+            {% comment "support" %}
+            <a class="list-group-item with-badge" href="{% url 'support:customer-ticket-list' %}"  {% include "toast.html" %}><i class="icon-speech-bubble"></i>{% trans "Support" %}</a>
+
+            {% endcomment %}
+            
+            
+            </nav>
+                         
+        
+{% endblock user %}
+    
+{% block column_left %}
+<button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="icon-head"></i></button>
+
+
+<span class="hidden-md-down"> 
+   
+    <pnav class="list-group ">
+        <a class="list-group-item" href="{% url 'customer:profile-view' %}"  {% include "toast.html" %}><i class="icon-head"></i><b>{% trans "Profile" %}</b></a>
+        <a class="list-group-item with-badge" href="{% url 'customer:order-list' %}"data-toast data-toast-position="bottomCenter" {% include "toast.html" %} ><i class="icon-bag"></i>{% trans "Order History" %}<span class="badge badge-primary badge-pill">{{orders.count}}</span></a>
+        <a class="list-group-item " href="{% url 'customer:address-list' %}" data-toast data-toast-position="bottomCenter" {% include "toast.html" %}><i class="icon-map"></i>{% trans "Address Book" %}</a>
+        <a class="list-group-item with-badge" href="{% url 'customer:wishlists-list' %}" data-toast data-toast-position="bottomCenter" {% include "toast.html" %}><i class="icon-heart"></i>Wishlist<span class="badge badge-primary badge-pill">{{wishlists.count}}</span></a>
+        <a class="list-group-item with-badge" href="{% url 'customer:notifications-inbox' %}" data-toast data-toast-position="bottomCenter" {% include "toast.html" %}><i class=icon-archive></i>{% trans "Notifications" %}<span class="badge badge-primary badge-pill">{{notifications.count}}</span></a>
+        <a class="list-group-item with-badge" href="{% url 'customer:email-list' %}" data-toast data-toast-position="bottomCenter" {% include "toast.html" %}><i class="icon-mail"></i>{% trans "Email History" %}<span class="badge badge-primary badge-pill">{{emails.count}}</span></a>
+        <a class="list-group-item with-badge" href="{% url 'customer:alerts-list' %}" {% include "toast.html" %}><i class="icon-tag"></i>{% trans "Product Alerts" %}<span class="badge badge-primary badge-pill">{{alerts.count}}</span></a>
+       
+        {% if user.is_staff or perms.partner.dashboard_access %}
+                <a class="list-group-item with-badge" href="{% url 'dashboard:index' %}"><i class="icon-bar-graph-2"></i> {% trans "Dashboard" %}</a>
+              {% endif %}
+
+              {% comment "hidefornow" %}
+
+    {% block standard_tabs %}
+        <a class="list-group-item with-badge" href="{% url 'support:customer-ticket-list' %}"><i class="icon-speech-bubble"></i>{% trans "Support" %}</a>
+{% endblock %}       {% endcomment %}
+
+    </nav>
+</span>
+ 
+{% endblock %}
+
+
+{% block content %}
+{% include "partials/alert_messages.html" %}
+
+<p></p>
+    {% block tabcontent %}{% endblock tabcontent %}
+{% endblock content %}

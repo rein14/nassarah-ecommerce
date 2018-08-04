@@ -1,0 +1,59 @@
+{% load i18n %}
+{% load wishlist_tags %}
+<span style="float:right">
+{% if user.is_authenticated %}
+    {% with wishlists=user.wishlists.all %}
+        {# Select wishlists that contains product #}
+        {% wishlists_containing_product wishlists product as product_wishlists %}
+        <div class="column container">
+            <p class="padding-bottom-1x"></p>
+            <p class="padding-bottom-1x"></p>
+            <p class="padding-bottom-1x"></p>
+
+        {% if wishlists %}
+               <a class=" " data-toggle="dropdown" href="#"> <i style="font-size:20px;font-weight:bolder;color:#0c75c1;" class="icon-heart icon-2x"></i> </a>
+                <ul class="dropdown-menu pull-right">
+                    {% for wishlist in wishlists %}
+                        {% if wishlist not in product_wishlists %}
+                            <li>
+                                    <a style="font-size:12px" href="{% url 'customer:wishlists-add-product' key=wishlist.key product_pk=product.pk %}" {% include "toast.html" %}>
+                                        {% blocktrans with name=wishlist.name %}
+                                           <b> Add to '{{ name }}' wish list</b>
+                                        {% endblocktrans %}
+                                    </a>
+                            </li>
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                    <li><a style="font-size:12px" href="{% url 'customer:wishlists-create-with-product' product_pk=product.pk %}" {% include "toast.html" %}><b>{% trans 'Create a new wishlist' %}</b></a></li>
+                <li>
+                    {% for wishlist in product_wishlists %}
+                    <hr>
+                    <form action="{% url 'customer:wishlists-remove-product' key=wishlist.key product_pk=product.id %}" method="post">
+                        {% csrf_token %}
+                        {% blocktrans with name=wishlist.name url=wishlist.get_absolute_url %}
+                        <button type="submit" style="font-size:12px;color:red;padding-left:20px;background:white; border:whitesmoke"  data-toast data-toast-position="bottomCenter" data-toast-title=" " data-toast-type="info" data-toast-message=" Removing from wishlist"><b> Remove</b></i></button>
+                        {% endblocktrans %}
+        
+                    </form>
+                {% endfor %}
+                </li>
+                </ul>
+
+        {% else %}
+            {# 1 or no existing wishlists - show a simple button #}
+            <form id="add_to_wishlist_form" action="{% url 'customer:wishlists-add-product' product_pk=product.pk %}" method="post" class="btn-wishlist">
+                {% csrf_token %}
+                <button style="font-size:20px;font-weight:bolder;color:#0c75c1;background:white; border:whitesmoke" type="submit" class="icon-heart icon-2x" ></button>
+            </form>
+         {% endif %}
+
+                   </div>              
+
+
+    {% endwith %}
+{% else %}
+
+    <i class="container" data-toggle="tooltip" data-placement="top" title="{% trans 'Please login/registrater to add products to a wish list.' %} "><i style="font-size:20px;font-weight:bolder; color:rgba(67, 68, 68, 0.685)" class="icon-heart padding-top-1x"></i></i><br/>
+{% endif %}
+                </span>

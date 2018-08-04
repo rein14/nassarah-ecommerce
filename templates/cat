@@ -1,0 +1,83 @@
+ <section class="container hidden-sm-down padding-top-2x">
+                     
+                      <div class="row">
+                         
+                        <div class="col-md-4 col-sm-6">
+                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                           <div class="inner">
+                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                  </div></a>
+                            <div class="card-body text-center">
+                              <h4 class="card-title">Clothing</h4>
+                              <p class="text-muted">Starting from $49.99</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                <div class="inner">
+                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                  </div></a>
+                            <div class="card-body text-center">
+                              <h4 class="card-title">Shoes</h4>
+                              <p class="text-muted">Starting from $56.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                              <div class="inner">
+                                  <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                  <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                </div></a>
+                            <div class="card-body text-center">
+                              <h4 class="card-title">Bags</h4>
+                              <p class="text-muted">Starting from $27.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-4 col-sm-6">
+                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                  <div class="inner">
+                                      <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                      <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                    </div></a>
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">Clothing</h4>
+                                  <p class="text-muted">Starting from $49.99</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                  <div class="inner">
+                                      <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                      <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                    </div></a>
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">Shoes</h4>
+                                  <p class="text-muted">Starting from $56.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                  <div class="inner">
+                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                  </div></a>
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">Bags</h4>
+                                 <p class="text-muted">Starting from $27.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                                </div>
+                              </div>
+                            </div>
+                          
+                        </div>
+                         
+                      <div class="text-center"><a class="btn btn-outline-secondary margin-top-none" href="shop-categories.html">All Categories</a></div>
+                    </section>

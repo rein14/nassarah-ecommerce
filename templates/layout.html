@@ -1,0 +1,886 @@
+{% load pwa %}
+{% load staticfiles %}
+{% load static %}
+{% load currency_filters %}
+{% load category_tags %}
+{% load i18n %}
+{% load thumbnail %}
+{% load promotion_tags%}
+{% load product_tags %}
+{% load history_tags %}
+
+
+<html lang="en">
+  <head>
+      {% progressive_web_app_meta %}
+
+    <meta charset="utf-8">
+    <title>Nasarah
+    </title>
+    <!-- SEO Meta Tags-->
+    <meta name="description" content="Nasarah - Your number one ecommerce in GH">
+    <meta name="keywords" content="shop, e-commerce, modern, flat style, responsive, online store, business, mobile, blog, bootstrap 4, html5, css3, jquery, js, gallery, slider, touch, creative, clean">
+    <meta name="author" content="Nasarah">
+    <!-- Mobile Specific Meta Tag-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Favicon and Apple Icons-->
+    {% comment "favicon" %}
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="icon" type="image/png" href="favicon.png">
+    {% endcomment %}
+ 
+    <link rel="apple-touch-icon"  href="{% static "oscar/css/touch-icon-iphone.png"}">
+    <link rel="apple-touch-icon" sizes="152x152"  href="{% static "oscar/css/touch-icon-ipad.png"}">
+    <link rel="apple-touch-icon" sizes="180x180"  href="{% static "oscar/css/touch-icon-iphone-retina.png"}">
+    <link rel="apple-touch-icon" sizes="167x167"  href="{% static "oscar/css/touch-icon-ipad-retina.png"}">
+    <!-- Vendor Styles including: Bootstrap, Font Icons, Plugins, etc.-->
+ 
+    {% block styles %}
+
+    {% if use_less %}
+      <link rel="stylesheet/less" type="text/css" href="{% static "oscar/less/styles.less" %}" />
+      {% else %}
+      <link rel="stylesheet" type="text/css" href="{% static "oscar/css/css/styles.min.css" %}" />
+          {% endif %}
+          
+      <link rel="stylesheet" type="text/css" href="{% static "oscar/css/css/vendor.min.css" %}" />
+
+      <link rel="stylesheet" href="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css" %}" />
+      <link href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,600' rel='stylesheet'>
+
+      <link rel="stylesheet" type="text/css" href="{% static "oscar/css/datetimepicker.css" %}" />
+  
+          <!-- Main Template Styles-->
+      <!-- Modernizr-->
+    {% endblock styles%}
+
+    <script src="{% static "oscar/js/js/modernizr.min.js"%}"></script>
+    
+  <script>
+    
+      $(document).ready(function() {
+        // change this to your button class name
+        var btn = $('.buttonfixed');
+    
+        var bh = btn.height();
+        var vh = $(window).height();
+        var dh = $(document).height();
+        if(dh+btn<vh) {
+          btn.css({
+            'position' : 'fixed',
+            'bottom' : '0'
+          })
+        }
+      });
+      $(window).resize(function() {
+        // change this to your button class name
+        var btn = $('.buttonfixed');
+    
+        var bh = btn.height();
+        var vh = $(window).height();
+        var dh = $(document).height();
+        if(dh+btn<vh) {
+          btn.css({
+            'position' : 'fixed',
+            'bottom' : '0'
+          })
+        }
+      });
+    </script>
+
+     
+  </head>
+
+  <!-- Body-->
+
+  <body >
+     
+ 
+
+        <div class="modal fade" id="modalDefault" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title padding-top-1x" ><b>{% block modal %}
+                    Disclaimer :
+                    {% endblock %}</b></h6>
+                  <button style="color:#007bff; font-size:25px" class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                 {% block user %}
+                 <ul>
+                   <li>To remove product from your cart, set product <b style="color:#0c75c1">Quantity</b> to <b style="color:#0c75c1">0.</b></li>
+                 <li><b style="color:#0c75c1">Sign up</b> or <b style="color:#0c75c1">login</b> for a better checkout. Take total control over checkout.</li>
+                 <li>Pay <b style="color:#0c75c1">cash on delivery</b> or <b style="color:#0c75c1">mobile money.</b> Your choice.</li>
+                 <li>Get the correct value for your money</li>
+                  </ul>
+  {% endblock user %}
+                </div>
+               
+              </div>
+            </div>
+          </div>
+          
+         
+         
+    {% block layout %}
+    
+    <!-- Off-Canvas Category Menu-->
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+    <div class="offcanvas-container" id="shop-categories">
+        <div class="offcanvas-header">
+          <h3 class="offcanvas-title">Shop Categories</h3>
+        </div>
+        <nav class="offcanvas-menu">
+          <ul class="menu">
+  {% include "category_list.html" %}
+          </ul>
+        </nav>
+      </div>
+      {% endif %}
+
+    
+    <!-- Off-Canvas Mobile Menu different templates-->
+    <div class="offcanvas-container" id="mobile-menu">
+      
+      <nav class="offcanvas-menu">
+        
+        <ul class="menu">
+            {% if user.is_authenticated %}
+      
+            <a class="account-link" href="{% url 'customer:summary' %}">
+              <div class="user-ava"><img src="{% static "oscar/img/account/default_profile.png" %}" alt="Profile Name">
+              </div>
+              <div class="user-info">
+               <h6 class="user-name"> {% trans "Welcome" %}  </h6><span class="text-sm text-white "><em>{{ user.get_full_name|default:request.user.email }}</em></span>
+              </div></a>
+              {% else %}
+              <a class="account-link" href="{% url 'customer:summary' %}">
+                <div class="user-ava"><img src="{% static "oscar/img/account/default_profile.png" %}" alt="Profile Name">
+                </div>
+                <div class="user-info">
+                 <h6 class="user-name"> {% trans "Welcome" %}  </h6><span class="text-sm text-white "><em>Customer</em></span>
+                </div></a>
+                    <li class="has-children active"><span><a class="list-group-item text-white"href="{% url 'customer:login' %}"><i class="icon-unlock"></i> {% trans "Login or register" %}</a></span>
+               </li>
+              
+             {% endif %}
+      
+          
+          <li class="has-children"><span><a href="#">Categories</a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+              {% include "category_list.html" %}
+            </ul>
+          </li>
+
+          <li class="has-children"><span><a href="{% url 'customer:profile-view' %}"><span>Account</span></a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+                <li><a href="{% url 'customer:change-password' %}">Change Password</a></li>
+                <li><a href="{% url 'customer:order-list' %}">Orders List</a></li>
+                <li><a href="{% url 'customer:wishlists-list' %}">Wishlist</a></li>
+                <li><a href="{% url 'customer:notifications-inbox' %}">Notifications</a></li>
+                <li><a href="{% url 'customer:address-list' %}">Contact / Shipping Address</a></li>
+                <li><a href="{% url 'customer:email-list' %}">My Mails</a></li>
+            </ul>
+          </li>
+          
+         
+          <li class=" has-children"><span><a href="/faqs"><span>Help/About</span></a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+                <li><a href="/faqs">Faqs</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+          </li>
+          <li class=" has-children"><span><a href="/faqs"><span> Our Stores</span></a><span class="sub-menu-toggle"></span></span>
+            <ul class="offcanvas-submenu">
+                <li><a href="/faqs">Second Hand Store</a></li>
+            </ul>
+          </li>
+          <li><a class="list-group-item" href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i> My Wishlists</a></li>
+          <li> <a class="list-group-item" class="list-group-item with-badge" href="{% url 'customer:order-list' %}"  {% include "toast.html" %}><i class="icon-bag"></i><b>My {% trans "Order History" %}</b><span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
+
+          <li><a class="list-group-item" href="tel:0242383165"><i class="material-icons call"></i> {% trans " Call Nasarah" %}</a></li>
+          <li> <a class="list-group-item" class="list-group-item" href="{% url 'customer:email-list' %}"  {% include "toast.html" %}><i class="icon-mail"></i><b>My {% trans "Mails" %}</b></a></li>
+
+          <li><a class="list-group-item" href="{% url 'customer:change-password' %}"><i class="icon-lock"></i> Privacy Policy</a></li>
+
+          <li><a class="list-group-item" href="{% url 'customer:change-password' %}">Terms & Conditions</a></li>
+          {% if user.is_authenticated%}
+          
+
+          <li><a href="{% url 'customer:logout' %}"><i class="icon-unlock "></i> {% trans " Logout" %}</a></li>
+      
+      {% endif%}
+        </ul>
+      </nav>
+    </div>
+    <!-- Topbar-->
+    <div class="topbar">
+      <div class="topbar-column hidden-md-down"><a href="mailto:support@unishop.com"><i class="icon-mail"></i>&nbsp; support@noname.com</a><a class="hidden-md-down" href="tel:0242383165"><i class="fa fa-phone"></i>&nbsp; 233 24238 3165</a><a class="social-button sb-facebook shape-none sb-dark" href="#" target="_blank"><i class="socicon-facebook"></i></a><a class="social-button sb-twitter shape-none sb-dark" href="#" target="_blank"><i class="socicon-twitter"></i></a><a class="social-button sb-instagram shape-none sb-dark" href="#" target="_blank"><i class="socicon-instagram"></i></a><a class="social-button sb-pinterest shape-none sb-dark" href="#" target="_blank"><i class="socicon-pinterest"></i></a>
+      </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Navbar-->
+    <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
+    <header class="navbar navbar-sticky">
+      <!-- Search-->
+      <form class="site-search" action="{% url 'search:search' %}"  method="get">
+        {{ search_form.q }}
+        <div class="search-tools"><span class="clear-search"><b> Clear</b></span><span class="close-search"><i class="icon-cross"></i></span></div>
+        
+      </form>
+      <div class="site-branding">
+          <div class="inner">
+              <div class="hidden-md-up">
+  
+                  {% block mobile %}
+                  {% block sitelogo %}
+                  <!-- Off-Canvas Toggle (#mobile-menu)--><a class="offcanvas-toggle menu-toggle" href="#mobile-menu" data-toggle="offcanvas"></a>
+                
+                  <!-- Site Logo--><a class="site-logo" href={{ homepage_url }} {% include "toast.html" %}><img src="{% static "oscar/img/logo/logo.png"%}" alt="Unishop"></a>
+                 {% endblock sitelogo %}
+                  {% endblock mobile %}
+                  </div>
+        
+                  <div class="hidden-md-down">
+                  {% block desktop %}
+                            <!-- Off-Canvas Toggle (#shop-categories)-->
+                            <a class="offcanvas-toggle cats-toggle" href="#shop-categories" data-toggle="offcanvas"></a>
+                  <!-- Site Logo-->
+                            <a class="site-logo" href={{ homepage_url }}><img src="{% static "oscar/img/logo/logo.png"%}" alt="Unishop"></a>
+        
+                  {% endblock desktop %}
+                </div> 
+          </div>
+        </div> 
+      <!-- Main Navigation-->
+      <nav class="site-menu">
+        <ul>
+          <li class="has-megamenu active"><a href="/"><span>Home</span></a>
+          </li>
+         
+          <li class="has-megamenu"><a href="#"><span>Specials</span></a>
+            <ul class="mega-menu">
+              <li><span class="mega-menu-title">Top Categories</span>
+                <ul class="sub-menu">
+                  <li><a href="#">Men's Shoes</a></li>
+                  <li><a href="#">Women's Shoes</a></li>
+                  <li><a href="#">Shirts and Tops</a></li>
+                  <li><a href="#">Swimwear</a></li>
+                  <li><a href="#">Shorts and Pants</a></li>
+                  <li><a href="#">Accessories</a></li>
+                </ul>
+              </li>
+              <li><span class="mega-menu-title">Specialty Shops</span>
+                <ul class="sub-menu">
+                  <li><a href="#">Junior's Shop</a></li>
+                  <li><a href="#">Swim Shop</a></li>
+                  <li><a href="#">Athletic Shop</a></li>
+                  <li><a href="#">Outdoor Shop</a></li>
+                  <li><a href="#">Luxury Shop</a></li>
+                  <li><a href="#">Accessories Shop</a></li>
+                </ul>
+              </li>
+              <li>
+                <section class="promo-box" style="background-image: url('static/oscar/img/banners/02.jpg');"><span class="overlay-dark" style="opacity: .4;"></span>
+                  <div class="promo-box-content text-center padding-top-2x padding-bottom-2x">
+                    <h4 class="text-light text-thin text-shadow">New Collection of</h4>
+                    <h3 class="text-bold text-light text-shadow">Sunglasses</h3><a class="btn btn-sm btn-primary" href="#">Shop Now</a>
+                  </div>
+                </section>
+              </li>
+              <li>
+                <section class="promo-box" style="background-image: url('static/oscar/img/banners/03.jpg');">
+                  <!-- Choose between .overlay-dark (#000) or .overlay-light (#fff) with default opacity of 50%. You can overrride default color and opacity values via 'style' attribute.--><span class="overlay-dark" style="opacity: .45;"></span>
+                  <div class="promo-box-content text-center padding-top-2x padding-bottom-2x">
+                    <h3 class="text-bold text-light text-shadow">Limited Offer</h3>
+                    <h4 class="text-light text-thin text-shadow">save up to 50%!</h4><a class="btn btn-sm btn-primary" href="#">Learn More</a>
+                  </div>
+                </section>
+              </li>
+            </ul>
+          </li>
+          <li><a href="/about"><span>About Us</span></a>
+            
+          </li>
+          <li><a href="blog-rs.html"><span>Blog</span></a>
+            <ul class="sub-menu">
+              <li class="has-children"><a href="blog-rs.html"><span>Blog Layout</span></a>
+                <ul class="sub-menu">
+                    <li><a href="blog-rs.html">Blog Right Sidebar</a></li>
+                    <li><a href="blog-ls.html">Blog Left Sidebar</a></li>
+                    <li><a href="blog-ns.html">Blog No Sidebar</a></li>
+                </ul>
+              </li>
+              <li class="has-children"><a href="blog-single-rs.html"><span>Single Post Layout</span></a>
+                <ul class="sub-menu">
+                    <li><a href="blog-single-rs.html">Post Right Sidebar</a></li>
+                    <li><a href="blog-single-ls.html">Post Left Sidebar</a></li>
+                    <li><a href="blog-single-ns.html">Post No Sidebar</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#"><span>Help / FAQ</span></a>
+            <ul class="sub-menu">
+                <li><a href="/faqs">Help / FAQ</a></li>
+                <li><a href="contacts.html">Contacts</a></li>
+                
+            </ul>
+          </li>
+          <li class="has-megamenu"><a href="components/accordion.html"><span>Categories</span></a>
+            
+            <ul class="mega-menu">
+                {% for tree_category, info in tree_categories %}
+
+              <li><span class="sub-menu-title"><a href="{{ tree_category.get_absolute_url }}">
+                  {% if tree_category.pk == category.pk %}
+                      <h6>{{ tree_category.name|safe }}</h6>
+                      <p></p>
+                  {% else %}
+                     <h6>{{ tree_category.name|safe }}</h6> 
+                      <p></p>
+                  {% endif %}
+              </a></span>
+              
+              {% if info.has_children %} <ul class="sub-menu"></li>{% endif %}
+                {% for n in info.num_to_close %}
+                    </ul></li>
+                {% endfor %}
+              {% endfor %}
+
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <!-- Toolbar-->
+      <div class="toolbar">
+        <div class="inner">
+          <div class="tools">
+{% block show_search %}
+<div class="search"><i style="font-weight:bold" class="icon-search"></i></div>
+
+{% endblock show_search %}
+
+            <!--account-->
+            {% block show_account %}
+            
+            <div class="account"><a href="/accounts" {% include "toast.html" %}></a><i style="font-weight:bold" class="icon-head"></i>
+              <ul class="toolbar-dropdown">
+                  {% if user.is_authenticated %}
+                <li class="sub-menu-user">
+                    
+              
+                  <div class="user-info">
+                    <h6 class="user-name">{{ user.get_full_name|default:request.user.email }}</h6><span class="text-xs text-muted"></span>
+                  </div>
+                </li>
+                <li>
+                    {% if num_unread_notifications > 0 %}
+                        {# If user has new notifications - we change account link to go to inbox #}
+                        <a href="{% url 'customer:notifications-inbox' %}">
+                          
+                            {% trans "Account" %}
+                            <span class="label label-important">{{ num_unread_notifications }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'customer:summary' %}"></i><i style:"font-weight:bold" class="icon-head"></i> {% trans "Account" %}</a>
+                    {% endif %}
+                </li>
+                  <li><a href="{% url 'customer:wishlists-list' %}"><i style:"font-weight:bold" class="icon-heart"></i>Wishlist</a></li>
+                <li class="sub-menu-separator"></li>
+
+                <li>
+                    {% if num_unread_notifications > 0 %}
+                        {# If user has new notifications - we change account link to go to inbox #}
+                        <a href="{% url 'customer:notifications-inbox' %}" >
+                            <i class="icon-head"></i>
+                            {% trans "Account" %}
+                            <span class="label label-important">{{ num_unread_notifications }}</span>
+                        </a>
+                   {% endif %}
+                </li>
+
+                {% if user.is_staff or perms.partner.dashboard_access %}
+                  <li><a href="{% url 'dashboard:index' %}"><i class="icon-bar-graph-2"></i> {% trans "Dashboard" %}</a></li>
+                {% endif %}
+
+                <li><a href="{% url 'customer:logout' %}"><i class="icon-unlock"></i> {% trans "Logout" %}</a></li>
+                {% else %}
+                    <li><a href="{% url 'customer:login' %}"><i class="icon-unlock"></i> {% trans "Login or register" %}</a></li>
+                 
+                {% endif %}
+
+              </ul>
+            </div>
+            {% endblock show_account %}
+
+            {% block show_basket %}
+            
+            <div class="cart"><a href="{% url 'basket:summary' %}" {% include "toast.html" %}></a><i style="font-weight:bold" class="icon-bag"></i><span class="count" style="color:red "><strong> {{request.basket.all_lines.count}}</strong></span><span class="subtotal">
+             
+                {% if not request.basket.is_empty %}
+                    {% if request.basket.is_tax_known %}
+                           <strong>  {{request.basket.total_incl_tax|currency:request.basket.currency }}</strong>
+                    {% else %}
+                  <strong>{% blocktrans with total=request.basket.total_excl_tax|currency:request.basket.currency %}</strong>
+                            {{ total }}
+                        {% endblocktrans %}
+                    {% endif %}
+                {% endif %}
+            </span>
+            <div class="toolbar-dropdown">
+                <div class="toolbar-dropdown">
+                    
+                    
+                    <div class="toolbar-dropdown-group">
+                      <div class="column"><a class="btn btn-sm btn-block btn-secondary" href="cart.html">View Cart</a></div>
+                      <div class="column"><a class="btn btn-sm btn-block btn-success" href="checkout-address.html">Checkout</a></div>
+                    </div>
+                  </div>
+                {% if request.basket.num_lines %}
+                {% for line in request.basket.all_lines %}
+              <div class="dropdown-product-item"><span class="dropdown-product-remove"><i class="icon-cross"></i></span>
+                 {% with image=line.product.primary_image %}
+                  {% thumbnail image.original "50x50" upscale=False as thumb %}
+                  <a class="dropdown-product-thumb" href="{{ line.product.get_absolute_url }}"><img class="thumbnail" src="{{ thumb.url }}" alt=""></a>
+                  {% endthumbnail %}
+                   </a>{% endwith %}</a>
+                <div class="dropdown-product-info"><a class="dropdown-product-title" href="{{ line.product.get_absolute_url }}">{{ line.product.get_title }}</a><span class="dropdown-product-details">{{ line.quantity }} * {{ line.unit_price_excl_tax|currency:request.basket.currency }}</span></div>
+              </div>
+              {% endfor %}
+
+                <div class="toolbar-dropdown-group">
+                    {% trans "Basket" %}
+                    {% if not request.basket.is_empty %}
+                        {% if request.basket.is_tax_known %}
+                            {% blocktrans with total=request.basket.total_incl_tax|currency:request.basket.currency %}
+                 
+                  <div class="column text-right"><span class="text-lg text-medium">{{ total }}&nbsp;</span></div>
+                  {% endblocktrans %}
+                  {% else %}
+                      {% blocktrans with total=request.basket.total_incl_tax|currency:request.basket.currency %}
+                         <div class="column text-right"><span class="text-lg text-medium">{{ total }}&nbsp;</span></div>
+                      {% endblocktrans %}
+
+                      {% endif %}
+                  {% endif %}
+                </div>
+                <div class="toolbar-dropdown-group">
+                  <div class="column"><a class="btn btn-sm btn-block btn-outline-primary" href="{% url 'basket:summary' %}">View Cart</a></div>
+                  <div class="column"><a class="btn btn-sm btn-block btn-outline-success" href="{% url 'checkout:index' %}">Checkout</a></div>
+                </div>
+                {% else %}
+                  <li><p>{% trans "Your basket is empty." %}</p></li>
+                {% endif %}
+
+
+              </div>
+            </div>
+            {% endblock show_basket %}            
+
+          </div>
+        </div>
+      </div>
+      
+    </header>
+
+
+{% block canvax %}
+
+
+<div class="offcanvas-wrapper" style=" background:rgba(253, 253, 253, 0.336)">
+  <!-- Page Content-->
+  <!-- Main Slider-->
+  <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/5b3dfbe16d961556373d6fb9/default';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
+  
+  <div class="hidden-sm-down">
+  {% for promotion in promotions_banner %}
+            {% render_promotion promotion %}
+           {% endfor %}
+          </div>
+
+             <ul class="nav nav-tabs nav-justified text-lg" role="tablist">
+                <li class="nav-item hidden-md-down"><a class="nav-link active" href="#settings" data-toggle="tab" role="tab"><i class="icon-grid"></i>Discover</a></li>
+
+                <li class="nav-item hidden-md-down"><a class="nav-link" href="#home2" data-toggle="tab" role="tab"><i style class="icon-stack-2"></i>Categories</a></li>
+                <li class="nav-item hidden-md-down"><a class="nav-link" href="#home3" data-toggle="tab" role="tab"><i style class="icon-stack-2"></i>new </a></li>
+
+              </ul>
+            
+            <div class="tab-content">
+
+              <div class="tab-pane fade" id="home3" role="tabpanel">
+                  <section class="container padding-top-2x">
+                  {% for promotion in promotions_another %}
+                  {% render_promotion promotion %}
+                  {% endfor %}
+              </section>
+</div>              
+              <div class="tab-pane fade" id="home2" role="tabpanel">
+               
+
+                  <section class="container hidden-sm-down padding-top-2x">
+                     
+                      <div class="row">
+                         
+                        <div class="col-md-4 col-sm-6">
+                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                           <div class="inner">
+                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                  </div></a>
+                            <div class="card-body text-center">
+                              <h4 class="card-title">Clothing</h4>
+                              <p class="text-muted">Starting from $49.99</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                <div class="inner">
+                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                  </div></a>
+                            <div class="card-body text-center">
+                              <h4 class="card-title">Shoes</h4>
+                              <p class="text-muted">Starting from $56.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                              <div class="inner">
+                                  <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                  <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                </div></a>
+                            <div class="card-body text-center">
+                              <h4 class="card-title">Bags</h4>
+                              <p class="text-muted">Starting from $27.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-4 col-sm-6">
+                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                  <div class="inner">
+                                      <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                      <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                    </div></a>
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">Clothing</h4>
+                                  <p class="text-muted">Starting from $49.99</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                  <div class="inner">
+                                      <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                      <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                    </div></a>
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">Shoes</h4>
+                                  <p class="text-muted">Starting from $56.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
+                                  <div class="inner">
+                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
+                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
+                                  </div></a>
+                                <div class="card-body text-center">
+                                  <h4 class="card-title">Bags</h4>
+                                 <p class="text-muted">Starting from $27.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
+                                </div>
+                              </div>
+                            </div>
+                          
+                        </div>
+                         
+                      <div class="text-center"><a class="btn btn-outline-secondary margin-top-none" href="shop-categories.html">All Categories</a></div>
+                    </section>
+
+
+                    
+                   
+                   
+              </div>
+
+
+              <div class="tab-pane fade show active" id="settings" role="tabpanel">
+                <div class="hidden-md-up">
+                      {% for promotion in promotions_picture %}
+                                {% render_promotion promotion %} 
+                               {% endfor %}
+                              </div>
+                              <p></p>
+                              
+                  <div class="container mb-2">
+                      <div class="page_inner">
+                          <div class="row">
+
+                          <div class="col-xl-9 col-lg-8">
+
+                      <div id="promotions">
+                        {% for promotion in promotions_categories %}
+                        {% render_promotion promotion %}
+                    {% endfor %}
+                    <p></p>
+                    <div class="alert alert-image-bg alert-dismissible fade show text-center padding-bottom-0x padding-top-0x" style="background-image: url('../static/oscar/img/components/a4.jpg');">
+                      <div class="h3 text-medium text-white padding-top-1x padding-bottom-1x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      </div>
+                    </div>
+                    <p></p>
+                   
+
+                           <p> <p></p></p>             
+                    <div>
+                      <p></p>
+                              {% for promotion in promotions_another %}
+                              {% render_promotion promotion %}
+
+                          {% endfor %}
+                              </div>
+
+                              <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
+
+                            
+
+                              <p class="padding-bottom-1x"></p>
+                              <div class="hidden-md-up">
+
+                            {% for promotion in promotions_offers %}
+                                {% render_promotion promotion %}
+                            {% endfor %}
+                                </div>
+                          {% for promotion in promotions_page %}
+                              {% render_promotion promotion %}
+                          {% endfor %}
+                          <div class="alert alert-image-bg alert-dismissible fade show text-center padding-bottom-0x padding-top-0x" style="background-image: url('../static/oscar/img/components/xx.jpg');">
+                            <div class="h3 text-medium text-white padding-top-1x padding-bottom-1x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                          </div>                           <p class=" padding-bottom-1x"></p>
+                          {% recently_viewed_products current_product=product %}
+                           <p></p>
+                          {% for promotion in promotions_arrivals %}
+                              {% render_promotion promotion %}
+                          {% endfor %}
+                          <p class='hidden-md-down'></p>
+                          <p class="padding-bottom-1x hidden-md-up"></p>   
+                         
+                      </div>
+                      </div>
+                        {% block sidebar %}
+                        {% include "sidebar.html" %}
+                        {% endblock sidebar %}
+                       
+                          
+                        <hr>
+                          <div class="container text-md text-center hidden-md-down" style="border:2px solid black">
+                        <hr>
+                        <p></p>
+                          <p><b> Online Shopping on Nasarah.com – Ghana’s Largest Online Mall</b></p>
+
+
+                        <p> Nasarah.com is Ghana’s number one online Shopping destination.We pride ourselves in having everything you could possibly need for life and living at the best prices than anywhere else.Our access to Original Equipment Manufacturers and premium sellers gives us a wide range of products at very low prices. Some of our popular categories include electronics, mobile phones, computers, fashion, beauty products, home and kitchen, Building and construction materials and a whole lot more from premium brands. Some of our other categories include Food and drinks, automotive and industrial, books, musical equipment, babies and kids items, sports and fitness, to mention a few. To make your shopping experience swift and memorable, there are also added services like gift vouchers, consumer promotion activities across different categories and bulk purchases with hassle-free delivery. Enjoy free shipping rates for certain products and with the bulk purchase option, you can enjoy low shipping rates, discounted prices and flexible payment. When you shop on our platform, you can pay with your debit card or via NasarahPay, which is a convenient and secured payment solution. Get the best of lifestyle services online. Don't miss out on the biggest sales online which takes place on special dates yearly.
+                        </p> <p> <b> Buy all you need from Nasarah.com</b></p>
+                        <p> Nasarah.com is your one stop shop with all you could possibly need for life and living. With very broad categories containing several items, all you need to do select the products you need, add to your cart and check out. Shop fabulous fashion items from or trendy and robust Fashion category. Fit your home with every furniture, living room and kitchen appliances; be it large or small and other necessities needed in homes from our Home & Kitchen category. Get the latest entertainment systems like televisions, video games,DVD Players,home theatres and more from our Electronics category. Stay in touch with the world on the go with original mobile phones, smartphones and tablets at the best prices from top brands like the samsung galaxy S8 and more. You can simplify your work life with fast and durable computers, laptops and accessories. Do you have babies and kids? Get everything form toys to clothes, games and books for your kids from our Baby Kids and Toys category. Never be in the dark again thanks to our generators, solar panels and other power generators from our Generator and Power solutions category. Start shopping now.
+                        </p>
+                      </div>
+                      </div>
+                      <p>
+                      
+                  </div>
+                
+              </div>
+              <div class="tab-pane fade" id="settings2" role="tabpanel">
+                
+                
+     
+       
+            <div class="row">
+                    <section class="container">
+                             <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: true, &quot;dots&quot;: true, &quot;margin&quot;: 5, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:5},&quot;1200&quot;:{&quot;items&quot;:5}} }">
+              
+              </div>
+              
+            </div>
+
+{% block breadcrumbs %}
+
+{% endblock breadcrumbs %}
+
+{% endblock canvax %}
+
+<div class="container hidden-md-down">
+{% block checkout_nav %}
+
+{% endblock checkout_nav %}
+</div>
+{% block  contain%}
+{% include "partials/alert_messages.html" %}
+
+<div class="container mb-2">
+
+{% block content_wrapper %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% endblock content_wrapper %}
+</div>
+{% endblock  %}
+
+      <!-- Top Categories-->
+           
+{% endblock %}
+<!--Start of Tawk.to Script-->
+
+
+</div>
+ <footer class="site-footer hidden-md-down">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <!-- Contact Info-->
+        <section class="widget widget-light-skin">
+          <h3 class="widget-title">Get In Touch With Us</h3>
+          <p class="text-white">Phone: 00 33 169 7720</p>
+          <ul class="list-unstyled text-sm text-white">
+            <li><span class="opacity-50">Monday-Friday:</span>9.00 am - 8.00 pm</li>
+            <li><span class="opacity-50">Saturday:</span>10.00 am - 6.00 pm</li>
+          </ul>
+          <p><a class="navi-link-light" href="#">support@unishop.com</a></p><a class="social-button shape-circle sb-facebook sb-light-skin" href="#"><i class="socicon-facebook"></i></a><a class="social-button shape-circle sb-twitter sb-light-skin" href="#"><i class="socicon-twitter"></i></a><a class="social-button shape-circle sb-instagram sb-light-skin" href="#"><i class="socicon-instagram"></i></a><a class="social-button shape-circle sb-google-plus sb-light-skin" href="#"><i class="socicon-googleplus"></i></a>
+        </section>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <!-- Mobile App Buttons-->
+        <section class="widget widget-light-skin">
+          <h3 class="widget-title">Our Mobile App</h3><a class="market-button apple-button mb-light-skin" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">App Store</span></a><a class="market-button google-button mb-light-skin" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">Google Play</span></a><a class="market-button windows-button mb-light-skin" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">Windows Store</span></a>
+        </section>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <!-- About Us-->
+        <section class="widget widget-links widget-light-skin">
+          <h3 class="widget-title">About Us</h3>
+          <ul>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">About Unishop</a></li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Our Blog</a></li>
+          </ul>
+        </section>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <!-- Account / Shipping Info-->
+        <section class="widget widget-links widget-light-skin">
+          <h3 class="widget-title">Account &amp; Shipping Info</h3>
+          <ul>
+            <li><a href="#">Your Account</a></li>
+            <li><a href="#">Shipping Rates & Policies</a></li>
+            <li><a href="#">Refunds & Replacements</a></li>
+            <li><a href="#">Taxes</a></li>
+            <li><a href="#">Delivery Info</a></li>
+            <li><a href="#">Affiliate Program</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <hr class="hr-light mt-2 margin-bottom-2x ">
+    <div class="row">
+      <div class="col-md-7 padding-bottom-1x">
+        <!-- Payment Methods-->
+        <div class="margin-bottom-1x" style="max-width: 615px;"><img src="{% static "oscar/img/methods.png" %}" alt="Payment Methods">
+        </div> 
+      </div>
+      <div class="col-md-5 padding-bottom-1x">
+        <div class="margin-top-1x hidden-md-up"></div>
+        <!--Subscription-->
+        <form class="subscribe-form" action="//rokaux.us12.list-manage.com/subscribe/post?u=c7103e2c981361a6639545bd5&amp;amp;id=1194bb7544" method="post" target="_blank" novalidate>
+          <div class="clearfix">
+            <div class="input-group input-light">
+              <input class="form-control" type="email" name="EMAIL" placeholder="Your e-mail"><span class="input-group-addon"><i class="icon-mail"></i></span>
+            </div>
+            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+              <input type="text" name="b_c7103e2c981361a6639545bd5_1194bb7544" tabindex="-1">
+            </div>
+            <button class="btn btn-primary" type="submit"><i class="icon-check"></i></button>
+          </div><span class="form-text text-sm text-white opacity-50">Subscribe to our Newsletter to receive early discount offers, latest news, sales and promo information.</span>
+        </form>
+      </div>
+    </div>
+    <!-- Copyright-->
+    <p class="footer-copyright">© All rights reserved.<a href="http://techfendghana.com/" target="_blank"> &nbsp;by techfendghana</a></p>
+  </div>
+</footer>
+</div>
+
+</div>
+
+<a class="scroll-to-top-btn" href="#"><i class="icon-arrow-up"></i></a> 
+    <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
+    
+{% block cdn_scripts %}
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{% static "oscar/js/jquery/jquery-1.9.1.min.js" %}"><\/script>')</script>
+{% endblock %}
+
+
+{# Local scripts #}
+{% block scripts %}
+
+  <script src="{% static "oscar/js/oscar/ui.js"%}"></script>
+  <script src="{% static "oscar/js/js/vendor.min.js"%}"></script>
+  <script src="{% static "oscar/js/js/scripts.min.js"%}"></script>
+  <!-- Oscar -->
+   <script src="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js" %}" type="text/javascript" charset="utf-8"></script>
+  <script src="{% static "oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}" type="text/javascript" charset="utf-8"></script>
+
+  {% endblock %}
+
+{% block extrascripts %}
+  {% include "partials/extrascripts.html" %}
+  {{ block.super }}
+{% endblock %}
+<div class="site-backdrop"></div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+
+{# Block for body onload functions #}
+<script type="text/javascript">
+  $(function() {
+      {% block onbodyload %}{% endblock %}
+  });
+</script>
+
+</body>
+
+</html>
