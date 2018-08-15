@@ -4,6 +4,7 @@
 {% load reviews_tags %}
 {% load display_tags %}
 
+
 {% block headertext %}
     {% blocktrans with number=order.number %}Order #{{ number }}{% endblocktrans %}
 {% endblock %}
@@ -12,7 +13,7 @@
 {% block sitelogo %}
 <p class="padding-bottom-1x"></p>
 <p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
-    {% trans 'Sign up' %}
+    {% trans 'Order Status' %}
 {% endblock bread %}</a>
 
  {% endblock sitelogo %}
@@ -32,8 +33,7 @@
          <div class="container">
            <div class="column text-medium">
              
-All Products
-           </div>
+Order Status           </div>
          </div>
  </div>
  {% endblock breadcrumb %}
@@ -43,16 +43,16 @@ All Products
 {% block content %}
     {% if order.status %}
         <div class="sub-header">
-            <h3>{% trans 'Status' %}</h3>
+            <h6 class="text-primary text-medium"><b>{% trans 'Status' %}</b></h6>
         </div>
-        <p>{{ order.status }}</p>
+        <p class=" text-danger" >{{ order.status }}</p>
     {% endif %}
 
     {% with address=order.shipping_address %}
-        <div class="sub-header">
-            <h3>{% trans 'Shipping address' %}</h3>
+        <div class="text-medium sub-header">
+            <h6 class=" text-primary">{% trans 'Shipping Address' %}</h6>
         </div>
-        <table class="table">
+        <table class="table text-xs">
             <tr>
                 <th>{% trans 'Address' %}</th>
                 <td>
@@ -77,15 +77,15 @@ All Products
     {% endwith %}
 
     <div class="sub-header">
-        <h3>{% trans 'Shipping method' %}</h3>
+        <h6 class=" text-primary">{% trans 'Shipping Method' %}</h6>
     </div>
     <p>{{ order.shipping_method }}</p>
 
     <div class="sub-header">
-        <h3>{% trans 'Order contents' %}</h3>
+        <h6 class="">{% trans 'Order Content' %}</h6>
     </div>
     {% csrf_token %}
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered table-responsive text-xs">
         <tr>
             <th>{% trans 'Product' %}</th>
             <th>{% trans 'Status' %}</th>
@@ -123,8 +123,8 @@ All Products
         {% endfor %}
     </table>
 
-    <table class="table table-striped table-bordered">
-        <caption>{% trans 'Totals' %}</caption>
+    <table class="table table-striped table-bordered text-xs">
+        <h6 class=" text-primary">{% trans 'Totals' %}</h6>
         <tr>
             <th>{% trans 'Basket total (inc. tax)' %}</th>
             <td>{{ order.basket_total_incl_tax|currency:order.currency }}</td>

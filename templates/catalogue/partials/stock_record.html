@@ -19,7 +19,7 @@
 {% block product_review %}
                 
 
-<p class="star-rating {{ product.rating|as_stars }}">
+<h class="star-rating {{ product.rating|as_stars }}">
         <i class="icon-star"></i>
         <i class="icon-star"></i>
         <i class="icon-star"></i>
@@ -31,7 +31,7 @@
 <div class="pull right">
 
 <div class="{{ session.availability.code }} availability hidden-md-down">
-    <i class=" icon-{% if session.availability.is_available_to_buy %}check{% else %}cross{% endif %}" style="color:rgb(0, 162, 255)" ></i>
+    <i class=" icon-{% if session.availability.is_available_to_buy %}check{% else %}cross{% endif %} text-bold" style="color:rgb(0, 162, 255)" ></i>
     {% if verbose %}
         {{ session.availability.message }}
     {% else %}

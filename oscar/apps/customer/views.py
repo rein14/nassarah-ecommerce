@@ -254,7 +254,6 @@ class LogoutView(generic.RedirectView):
 # =============
 
 
-@method_decorator(cache_page(60 * 65), name='dispatch')
 class ProfileView(PageTitleMixin, generic.TemplateView):
     template_name = 'customer/profile/profile.html'
     page_title = _('Profile')

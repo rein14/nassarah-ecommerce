@@ -9,6 +9,7 @@ class HomeView(TemplateView):
     template_name = 'promotions/home.html'
 
 
+
 class RecordClickView(RedirectView):
     """
     Simple RedirectView that helps recording clicks made on promotions

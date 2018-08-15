@@ -7,6 +7,7 @@
 {% load i18n %}
 {% load static%}
 {% load staticfiles%}
+{% load cache %}
 
 {% block title %}
     {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
@@ -33,7 +34,7 @@
 {% endblock modal %}
 
 {% block user %}
-
+{% cache 600 cat_desk%}
 {% category_tree as tree_categories %}
 {% if tree_categories %}
              <section class="widget widget-categories container">
@@ -43,6 +44,7 @@
 
         </section>
  {% endif %}
+ {% endcache %}
 {% if has_facets %}
 <p class="padding-bottom-1x "></p>
 <section class="container"><h3 class="widget-title"><i class=" material-icons sort_by_alpha "></i>{% trans "Refine by" %}</h3>
@@ -61,33 +63,35 @@
 
 
  {% block canvax %}
- <div class=" hidden-md-down">
+ {% block breadcrumbs %}
+   
 
- {% block breadcrumb %}
- 
- <div class="page-title">
+ <div class="page-title hidden-md-down">
          <div class="container">
-           <div class="column text-medium">
-             
-All Products
+           <div class="column">
+             <ul class="breadcrumbs">
+             <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+               <li class="separator">&nbsp;</li>
+              <li>All Products </li>
+             </ul>
            </div>
          </div>
- </div>
- {% endblock breadcrumb %}
- </div>
+       </div>
+{% endblock %}
  {% endblock canvax %}
  
-
 {% block column_2 %}
 {% block toggle %}
 <button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="material-icons filter_list"></i></button>
 
 {% endblock toggle %}
+{% cache 600 categrories_cat%}
     {% category_tree as tree_categories %}
     {% if tree_categories %}
    
 <p class=""></p>
                  <aside class="sidebar sidebar-offcanvas">
+                     
                         <section class="widget widget-categories">
 
                             <h3 class="widget-title"><i class=" icon-grid-2"></i> Shop Categories </h3>
@@ -96,6 +100,8 @@ All Products
 
     </aside>
     {% endif %}
+    {% endcache%}
+
     {% if has_facets %}
     <section class="widget">
             <h3 class="widget-title">Shop Categories</h3>
@@ -127,6 +133,8 @@ All Products
             <div class="shop-toolbar ">
                 <div class="column">
                     <div class="shop-sorting">
+                            {% cache 600 paginator%}
+
                         <span style=" float:left;padding:24px 0;">
                                 {% blocktrans with page_num=page_obj.number total_pages=paginator.num_pages %}
                                 <strong>Page {{ page_num }} of {{ total_pages }}</strong>
@@ -137,6 +145,7 @@ All Products
                            <b> ({{ num_results }} products) </b>
                         {% endblocktrans %}
                         </span>
+                        {% endcache %}
                     <span style=" float:right"><b >{% include "partials/form_field.html" with field=form.sort_by %}</b>
                 </div>
                 </div>
@@ -153,8 +162,6 @@ All Products
     </form>
    
     {% if products %}
-    
-          
             <div class="isotope-grid cols-4 padding-top-0x" >
                 <div class="gutter-sizer"></div>
                 <div class="grid-sizer"></div>

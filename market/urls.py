@@ -4,6 +4,7 @@ from oscar.app import application
 from django.conf import settings
 from django.conf.urls.static import static
 from apps.cashondelivery.dashboard.app import application as cod_app
+from .views import CouponView
 #from apps.oscar_accounts.dashboard.app import application as accounts_app
 #from apps.oscar_accounts.views import AccountBalanceView
 #from paypal.express.dashboard.app import application
@@ -21,6 +22,8 @@ urlpatterns = [
     url(r'', include(application.urls)),
     #url(r'^giftcard-balance/', AccountBalanceView.as_view(),name="account-balance"),
     url(r'^dashboard/cod/', include(cod_app.urls)),
+    url(r'^coupon/$', CouponView.as_view(), name='coupon'),
+
     url(r'', include('pwa.urls')),  # You MUST use an empty string as the URL prefix
     #url(r'^dashboard/accounts/', include(accounts_app.urls)),
     #url(r'^dashboard/paypal/express/', include(application.urls)),

@@ -22,7 +22,7 @@ class ProductReviewForm(forms.ModelForm):
 
     class Meta:
         model = ProductReview
-        fields = ('title', 'score', 'body', 'name', 'email')
+        fields = ('score', 'body', 'name', 'email')
 
 
 class VoteForm(forms.ModelForm):

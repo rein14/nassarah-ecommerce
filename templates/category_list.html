@@ -1,3 +1,6 @@
+{% load cache %}
+
+{% cache 600 category_list%}
 <li class="has-children"><span><a href="#">Electronics</a><span class="sub-menu-toggle"></span></span>
     <ul class="offcanvas-submenu">
       <li><a href="#">Sneakers</a></li>
@@ -52,3 +55,4 @@
       <li><a href="#">View All</a></li>
     </ul>
   </li>
+{% endcache %}

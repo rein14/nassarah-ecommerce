@@ -1,16 +1,16 @@
 {% extends "customer/baseaccountpage.html" %}
-
 {% load i18n %}
 {% load static%}
 {% load staticfiles%}
-
+{% load cache%}
 
 {% block tabcontent %}
+{% cache 600 user request.user.username%}
+
 <p class="padding-bottom-1x hidden-md-up"></p>
 
 <aside class="user-info-wrapper">
-    <div class="user-cover" style="background-image: url('/static/oscar/css/img/user.png');">
-      <div class="info-label" data-toggle="tooltip" title="You will be notified soon "><i class="icon-medal"></i></div>
+    <div class="user-cover" style="background-image: url('/static/oscar/img/account/user-cover.jpg');">
     </div>
     <div class="user-info">
       <div class="user-avatar"><a href="#"></a><img src="{% static "oscar/img/account/default_profile.png"%}" alt="User"></div>
@@ -21,7 +21,6 @@
   </aside>
     <table class="table text-xs ">
         <tbody>
-            
             <tr>
                 <th>{% trans 'Email address' %}</th>
                 <td>{{ user.email }}</td>
@@ -51,5 +50,5 @@
 
 </span>
    
-
+{% endcache %}
 {% endblock %}

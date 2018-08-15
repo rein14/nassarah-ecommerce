@@ -51,7 +51,8 @@ INSTALLED_APPS = [
  
 ]
 
-INTERNAL_IPS =['127.0.0.1','192.168.43.156']
+INTERNAL_IPS = ['127.0.0.1', '192.168.43.156']
+
 
 from oscar import get_core_apps
 INSTALLED_APPS = INSTALLED_APPS + get_core_apps([
@@ -337,7 +338,7 @@ OSCAR_EAGER_ALERTS = True
 
 # Registration
 OSCAR_SEND_REGISTRATION_EMAIL = True
-OSCAR_FROM_EMAIL = 'no@name.comx'
+OSCAR_FROM_EMAIL = 'no@name.com'
 
 # Slug handling
 OSCAR_SLUG_FUNCTION = 'oscar.core.utils.default_slugifier'
@@ -527,11 +528,7 @@ OSCAR_DASHBOARD_NAVIGATION = [
             },
         ]
     },
-    {
-        'label': _("Support"),
-        'icon': 'icon-comments',
-        'url_name': 'support-dashboard:ticket-list',
-    },
+     
    
 ]
 

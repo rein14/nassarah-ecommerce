@@ -14,7 +14,7 @@
 {% block checkout_title %}{% trans "Who are you?" %}{% endblock %}
 
 {% block content %}
-
+<div class="col-xl-3 col-lg-4 hidden-lg-down">
     <form action="." method="post" class="form-stacked well">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -61,7 +61,8 @@
             </div>
         </div>
     </form>
-
+</div>
+{% include " siddebar.html" %}
 {% endblock content %}
 
 {% block onbodyload %}

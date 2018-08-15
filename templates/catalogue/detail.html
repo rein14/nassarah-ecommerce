@@ -8,8 +8,7 @@
 {% load display_tags %}
 {% load i18n %}
 {% load purchase_info_tags %}
-{% load cache %}
-
+ 
 {% block title %}
     {{ product.title }} | {{ block.super }}
 {% endblock %}
@@ -17,7 +16,7 @@
 {% block mobile %}
 {% block sitelogo %}
 <p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p> 
 
 &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
 
@@ -65,16 +64,13 @@
 {% endblock header %}
 
 {% block content %}
-{% cache 600 test %}
-{% block toggle %}
-
-<button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="material-icons help_outline"></i></button>
-
-{% endblock toggle %}
+  
     <div class="row" >
         {% block product_gallery %}
         <div class="col-sm-6" >
             {% include "catalogue/partials/gallery.html" %}
+            <p></p> 
+             
         </div>
         {% endblock %}
 
@@ -88,13 +84,11 @@
             
              <div class="hidden-md-down padding-top-0x "></div>
             <h5 class=" text-medium text-center"><b>{{ product.get_title }}</b></h5>
-            {% iffeature "reviews" %}
-              {% include "catalogue/reviews/partials/review_stars.html" %}
-             {% endiffeature %}
+            
  
               {% block product_stock_record %}
                 {% include "catalogue/partials/stock_record_md.html" with verbose=1 %}
-            {% endblock %}
+              {% endblock %}
 <div class="hidden-md-down">
             <p>{% if product.description %}
                     <div id="product_description" class="sub-header">
@@ -104,11 +98,14 @@
                 </div>
          <hr>
              <div class="d-flex flex-wrap justify-content-between">
-                          <div class="entry-share mt-2 mb-2"><span>&nbsp;&nbsp;&nbsp;Share:</span>
-                <div class="share-links"><a class="social-button shape-circle sb-facebook" href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="socicon-facebook"></i></a><a class="social-button shape-circle sb-twitter" href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="socicon-twitter"></i></a><a class="social-button shape-circle sb-instagram" href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="socicon-instagram"></i></a>&nbsp;&nbsp;&nbsp;</div>
-              </div>
+                          <div class="entry-share mt-2 mb-2"><span>&nbsp;&nbsp;&nbsp; {% iffeature "reviews" %}
+                                {% include "catalogue/reviews/partials/review_stars.html" %}
+                               {% endiffeature %}</span>
+                </div>
               <hr>
+              
               <p></p>
+              
               <div>
                 {% block product_basket_form %}
                 {% include "catalogue/partials/add_to_basket_form.html" %}
@@ -123,14 +120,14 @@
                                 <form id="add_to_basket_form" action="{% url 'basket:add' pk=product.pk  %}" method="post" class="add-to-basket">
                                     {% csrf_token %}
                                     {% include "partials/form_fields.html" with form=basket_form %}
-                                     <button class=" hidden-md-down btn btn-outline-primary btn-sm btn-block" data-toggle="tooltip" data-placement="top" title=" "  data-toast data-toast-position="bottomRight"data-toast-title=" " data-toast-type="info" data-toast-message="{% load i18n %}
+                                     <button class=" hidden-md-down btn btn-success btn-sm btn-block" data-toggle="tooltip" data-placement="top" title=" "  data-toast data-toast-position="bottomRight"data-toast-title=" " data-toast-type="info" data-toast-message="{% load i18n %}
                                           {% blocktrans with title=product.get_title %}
                                          <strong>{{ title }}</strong> has been added to your basket.
                                          {% endblocktrans %}
                                      ">
                                      <b>{% trans "Add to basket" %}</b></button>
-                                     <button class="btn btn-outline-primary btn-sm btn-block hidden-md-up " data-toast data-toast-position="Top" data-toast-title=" " data-toast-type="success" data-toast-message="<strong>{{ product.get_title}}</strong> is being added to your basket">
-                                     <b>Buy</b></button>
+                                     <button class="btn btn-success btn-sm btn-block hidden-md-up " data-toast data-toast-position="Top" data-toast-title=" " data-toast-type="success" data-toast-message="<strong>{{ product.get_title}}</strong> is being added to your basket">
+                                     <b>Buy Me</b></button>
 
                                 </form>
                         </div> 
@@ -148,11 +145,19 @@
                         </div>
                         {% endif %} 
              </div>
+             <div class="d-flex flex-wrap justify-content-between">
+                          <div class="entry-share mt-2 mb-2">
+                <div class="share-links">
+                </div>
+              </div>
+              <hr>
+              <p></p>
+              <div>
           </div>
        </div>
         {% endblock %}
     </div><!-- /row -->
-    <div class="gallery-item text-center text-xc"><a href="/offers/bingi-offers/" {% include "toast.html" %}><img style="border-radius:0px" src="/static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
+    <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/" {% include "toast.html" %}><img style="border-radius:0px" src="/static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
 
             <p></p>
              <hr class="margin-bottom-1x">
@@ -184,7 +189,7 @@
                             {% purchase_info_for_product request product as session %}
                             {% if session.price.exists %}
                             <tr>
-                                    <th>{% trans "UPC" %}</th><td>{{ product.upc }}</td>
+                                    <th>{% trans "UPC" %}</th><td>{{ session.partner }}</td>
                                 </tr>
                                 <tr>
                                     <th>{% trans "Price (excl. tax)" %}</th><td>{{ session.price.excl_tax|currency:session.price.currency }}</td>
@@ -254,7 +259,16 @@
                                         <li>
                                         {% include 'catalogue/partials/review.html' %}
                                         </li>
+                                        
                                     {% endfor %}
+                                    {% if product|is_review_permitted:user %}
+
+                                         {% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
+                                            {% blocktrans %}
+                                            <a href="{{ add_review_url }}#addreview" class="text-danger"> Write your personally review- HERE </a>
+                                        {% endblocktrans %}
+                                        {%endif%}
+                                      
                                 </ol>
                             {% endif %}
                         </section>
@@ -264,9 +278,9 @@
                 </div>
               </div>
             </div>
-            {% endcache%}
-
+ 
     <div class="container">
+        <p></p>
        <!-- Carousel--> {% recently_viewed_products current_product=product %}
        <p class=" padding-bottom-1x"></p>
 

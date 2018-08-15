@@ -70,23 +70,21 @@
 
 
  {% block canvax %}
- <div class=" hidden-md-down">
-
  {% block breadcrumbs %}
-    
- 
-     <div class="page-title">
-             <div class="container">
-               
-               <div class="column">
-                     {% blocktrans with q=query %}
-                     Products matching "{{ q }}"
-                 {% endblocktrans %}
-               </div>
-             </div>
+   
+
+ <div class="page-title hidden-md-down">
+         <div class="container">
+           <div class="column">
+             <ul class="breadcrumbs">
+               <li>{% blocktrans with q=query %}
+                    Products matching "{{ q }}"
+                {% endblocktrans %}</li>
+             </ul>
            </div>
-  {% endblock %}
- </div>
+         </div>
+       </div>
+{% endblock %}
  {% endblock canvax %}
  
 

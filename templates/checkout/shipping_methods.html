@@ -31,20 +31,18 @@
 <hr class="hidden-md-up padding-bottom-1x">
 <div class="table-responsive">
   <table class="table table-hover">
-    <thead class="thead-default text-xs">
+    <thead class="thead-default text-sm">
       <tr>
-        <th></th>
+        
         <th>Method</th>
         <th>Fees</th>
-        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Click to Select</th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Click to Select</th>
       </tr>
     </thead>
     {% for method in methods %}
     <tbody>
       <tr>
-        <td class="align-middle">
-        </td>
-        <td class="align-middle text-xs">{{ method.name }}<br><span class="text-muted text-xs">{% if method.description %}{{ method.description|safe }}{% endif %} <p></p> <p class="text-primary"> {% if method.days%}{{method.days}}{% endif %}</p></span></td>
+        <td class="text-xs">{{ method.name }}<br><span class="text-muted text-xs">{% if method.description %}{{ method.description|safe }}{% endif %} <p></p> <p class="text-danger"> {% if method.days%}{{method.days}}{% endif %}</p></span></td>
         <td class="align-middle text-xs"> {% shipping_charge method basket as charge %}
           {% if charge.is_tax_known %}
               {{ charge.incl_tax|currency:basket.currency }}
@@ -54,7 +52,7 @@
           <td class="align-middle text-xs"><div class="custom-control custom-radio mb-0">
                 <form method="post" action="{% url 'checkout:shipping-method' %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-primary" {% include "toast.html" %}><b>{% trans "select " %}<i style="font-weight:bold"; class="icon-arrow-right"></i></b></button>
+                        <button type="submit" class="btn btn-sm btn-success" {% include "toast.html" %}><b>{% trans "select " %}<i style="font-weight:bold"; class="icon-arrow-right"></i></b></button>
 
                         <input type="hidden" name="method_code" value="{{ method.code }}" />
         </form>

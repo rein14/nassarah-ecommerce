@@ -3,11 +3,11 @@
 
 {% if product.rating != None %}
     <p class="star-rating {{ product.rating|as_stars }} text-center">
-        <i class="icon-star"></i>
-        <i class="icon-star"></i>
-        <i class="icon-star"></i>
-        <i class="icon-star"></i>
-        <i class="icon-star"></i>
+        <i class="icon-star text-bold"></i>
+        <i class="icon-star text-bold"></i>
+        <i class="icon-star text-bold"></i>
+        <i class="icon-star text-bold"></i>
+        <i class="icon-star text-bold"></i>
 
         <small><a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}">
                 {% blocktrans count product.num_approved_reviews as num_reviews %}
@@ -19,19 +19,19 @@
     </p>
 
     {% else %}
-    <p class="star-rating {{ product.rating|as_stars }} text-center">
+    <p class="star-rating {{ product.rating|as_stars }} text-center text-sm">
             <i class="icon-star"></i>
             <i class="icon-star"></i>
             <i class="icon-star"></i>
             <i class="icon-star"></i>
             <i class="icon-star"></i>
     
-            <small><a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}">
+            <a href="{% url 'catalogue:reviews-list' product_slug=product.slug product_pk=product.id %}">
                     {% blocktrans count product.num_approved_reviews as num_reviews %}
                         {{ num_reviews }} customer review
                     {% plural %}
                         {{ num_reviews }} customer reviews
                     {% endblocktrans %}
-            </a></small>
+            </a>
     </p>    
 {% endif %}

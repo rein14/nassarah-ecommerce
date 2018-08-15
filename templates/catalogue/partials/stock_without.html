@@ -9,9 +9,9 @@
 {% if session.price.excl_tax == 0 %}
 <div class="product-price">{% trans "Free" %}</div>
 {% elif session.price.is_tax_known %}
-<div class="product-price text-xs text-bold"><b>{{ session.price.incl_tax|currency:session.price.currency }}</b></div>
+<div class="product-price text-xc text-bold"><b>{{ session.price.incl_tax|currency:session.price.currency }}</b></div>
 {% else %}
-<div class="product-price text-xs text-bold" ><b>{{ session.price.excl_tax|currency:session.price.currency }}</b></div>
+<div class="product-price text-xc text-bold" ><b>{{ session.price.excl_tax|currency:session.price.currency }}</b></div>
 {% endif %}
 {% else %}
     <div class="price_color">&nbsp;</div>

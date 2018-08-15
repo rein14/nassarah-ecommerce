@@ -1,0 +1,75 @@
+{% extends 'checkout/thank_you.html' %}
+{% load i18n %}
+{% load currency_filters %}
+{% load currency_filters %}
+{% load thumbnail %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+
+
+{% block checkout_nav %}
+{% endblock %}
+
+{% block checkout_title %}
+    
+{% endblock %}
+
+{% block content %}
+
+ <p>
+	 <p></p>
+ </p>
+<div class="card text-center container">
+		{% blocktrans with number=order.number %}
+		<p></p>
+			<span class="text-lg text-center"> Order {{ number }}: confirmation
+				</span>
+				<p></p>
+				{% endblocktrans %}
+		<div class="card-body padding-top-1x">
+				{% blocktrans with number=order.number %}
+		  <h3 class="card-title">Thank you for your order!</h3>
+		  <p class="card-text">Your order has been placed and will be processed as soon as possible.</p>
+		  <p class="card-text">Make sure you make note of your order number, which is <span class="text-medium"><strong>{{ number }}</strong>.</span></p>
+		  <p class="card-text">You will be receiving an email shortly with confirmation of your order. 
+				{% endblocktrans %}
+				{% trans "Please make a note of this reference or print this page and quote it in any communication with us regarding your order." %}</p>
+
+			<u>You can now:</u>
+		  </p>
+		  <div class="padding-top-1x padding-bottom-1x"><a class="btn btn-outline-success" href="{{ homepage_url }}" {% include "toast.html" %}>Go Back Shopping</a>
+			{% if not order.user %}
+
+			<a class="btn btn-outline-primary" href="{% url 'customer:anon-order' order_number=order.number hash=order.verification_hash %}" {% include "toast.html" %}>{% trans "View order status" %}</a>
+			{% endif %}
+			<a class="btn btn-outline-primary" onclick="window.print()" href="#"><i class="icon-location" {% include "toast.html" %}></i>&nbsp;Print Order Page</a></div>
+		</div>
+		
+	  </div>
+    
+    <p class="padding-top-2x"></p>
+
+  
+
+<p></p>
+{% endblock content %}
+
+{% block tracking %}
+    {% if send_analytics_event %}
+        {% include "partials/google_analytics_transaction.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block payment_info %}
+<div class="well well-success">
+	<h3>{% trans "Payment" %}</h3>
+	<p>{% trans "Account allocations" %}</p>
+	<ul>
+	{% for source in order.sources.all %}
+	<li>{% blocktrans with amount=source.amount_debited|currency ref=source.reference %}{{ amount }} from account with code {{ ref }}{% endblocktrans %}</li>
+	{% endfor %}
+	</ul>
+</div>
+{% endblock %}

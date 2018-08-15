@@ -8,6 +8,7 @@
 {% load promotion_tags%}
 {% load product_tags %}
 {% load history_tags %}
+{% load cache%}
 
 
 <html lang="en">
@@ -55,40 +56,7 @@
     {% endblock styles%}
 
     <script src="{% static "oscar/js/js/modernizr.min.js"%}"></script>
-    
-  <script>
-    
-      $(document).ready(function() {
-        // change this to your button class name
-        var btn = $('.buttonfixed');
-    
-        var bh = btn.height();
-        var vh = $(window).height();
-        var dh = $(document).height();
-        if(dh+btn<vh) {
-          btn.css({
-            'position' : 'fixed',
-            'bottom' : '0'
-          })
-        }
-      });
-      $(window).resize(function() {
-        // change this to your button class name
-        var btn = $('.buttonfixed');
-    
-        var bh = btn.height();
-        var vh = $(window).height();
-        var dh = $(document).height();
-        if(dh+btn<vh) {
-          btn.css({
-            'position' : 'fixed',
-            'bottom' : '0'
-          })
-        }
-      });
-    </script>
-
-     
+         
   </head>
 
   <!-- Body-->
@@ -126,6 +94,7 @@
     {% block layout %}
     
     <!-- Off-Canvas Category Menu-->
+    {% cache 600 category_list_desk%}
     {% category_tree as tree_categories %}
     {% if tree_categories %}
     <div class="offcanvas-container" id="shop-categories">
@@ -140,7 +109,7 @@
       </div>
       {% endif %}
 
-    
+    {% endcache%}
     <!-- Off-Canvas Mobile Menu different templates-->
     <div class="offcanvas-container" id="mobile-menu">
       
@@ -167,7 +136,7 @@
               
              {% endif %}
       
-          
+          {% cache 600 list %}
           <li class="has-children"><span><a href="#">Categories</a><span class="sub-menu-toggle"></span></span>
             <ul class="offcanvas-submenu">
               {% include "category_list.html" %}
@@ -197,25 +166,25 @@
                 <li><a href="/faqs">Second Hand Store</a></li>
             </ul>
           </li>
-          <li><a class="list-group-item" href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i> My Wishlists</a></li>
-          <li> <a class="list-group-item" class="list-group-item with-badge" href="{% url 'customer:order-list' %}"  {% include "toast.html" %}><i class="icon-bag"></i><b>My {% trans "Order History" %}</b><span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
+          <li> <a class="list-group-item" class="list-group-item with-badge" href="{% url 'customer:order-list' %}"  {% include "toast.html" %}><i class="icon-bag"></i><b>My {% trans "Orders" %}</b><span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
+
+          <li><a class="list-group-item" href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i><b> My Wishlists</b></a></li>
 
           <li><a class="list-group-item" href="tel:0242383165"><i class="material-icons call"></i> {% trans " Call Nasarah" %}</a></li>
           <li> <a class="list-group-item" class="list-group-item" href="{% url 'customer:email-list' %}"  {% include "toast.html" %}><i class="icon-mail"></i><b>My {% trans "Mails" %}</b></a></li>
-
+ 
           <li><a class="list-group-item" href="{% url 'customer:change-password' %}"><i class="icon-lock"></i> Privacy Policy</a></li>
 
           <li><a class="list-group-item" href="{% url 'customer:change-password' %}">Terms & Conditions</a></li>
+          {% endcache %}
           {% if user.is_authenticated%}
-          
-
           <li><a href="{% url 'customer:logout' %}"><i class="icon-unlock "></i> {% trans " Logout" %}</a></li>
-      
       {% endif%}
         </ul>
       </nav>
     </div>
     <!-- Topbar-->
+    {% cache 600 topbar%}
     <div class="topbar">
       <div class="topbar-column hidden-md-down"><a href="mailto:support@unishop.com"><i class="icon-mail"></i>&nbsp; support@noname.com</a><a class="hidden-md-down" href="tel:0242383165"><i class="fa fa-phone"></i>&nbsp; 233 24238 3165</a><a class="social-button sb-facebook shape-none sb-dark" href="#" target="_blank"><i class="socicon-facebook"></i></a><a class="social-button sb-twitter shape-none sb-dark" href="#" target="_blank"><i class="socicon-twitter"></i></a><a class="social-button sb-instagram shape-none sb-dark" href="#" target="_blank"><i class="socicon-instagram"></i></a><a class="social-button sb-pinterest shape-none sb-dark" href="#" target="_blank"><i class="socicon-pinterest"></i></a>
       </div>
@@ -223,6 +192,7 @@
         </div>
       </div>
     </div>
+    {% endcache %}
     <!-- Navbar-->
     <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
     <header class="navbar navbar-sticky">
@@ -257,9 +227,10 @@
           </div>
         </div> 
       <!-- Main Navigation-->
+      {% cache 600 site_menu%}
       <nav class="site-menu">
         <ul>
-          <li class="has-megamenu active"><a href="/"><span>Home</span></a>
+          <li class="has-megamenu active"><a href="/"><span><b>Home</b></span></a>
           </li>
          
           <li class="has-megamenu"><a href="#"><span>Specials</span></a>
@@ -356,6 +327,8 @@
           </li>
         </ul>
       </nav>
+      {% endcache%}
+      
       <!-- Toolbar-->
       <div class="toolbar">
         <div class="inner">
@@ -474,7 +447,7 @@
                   <div class="column"><a class="btn btn-sm btn-block btn-outline-success" href="{% url 'checkout:index' %}">Checkout</a></div>
                 </div>
                 {% else %}
-                  <li><p>{% trans "Your basket is empty." %}</p></li>
+                  <li><p class=" text-sm text-center">{% trans "Your basket is empty." %}</p></li>
                 {% endif %}
 
 
@@ -483,8 +456,7 @@
             {% endblock show_basket %}            
 
           </div>
-        </div>
-      </div>
+        
       
     </header>
 
@@ -508,221 +480,222 @@
   })();
   </script>
   <!--End of Tawk.to Script-->
-  
   <div class="hidden-sm-down">
+
+  {% cache 600 banner_down%}
+
+ 
   {% for promotion in promotions_banner %}
             {% render_promotion promotion %}
            {% endfor %}
-          </div>
+  {%endcache%}
+</div>
 
-             <ul class="nav nav-tabs nav-justified text-lg" role="tablist">
-                <li class="nav-item hidden-md-down"><a class="nav-link active" href="#settings" data-toggle="tab" role="tab"><i class="icon-grid"></i>Discover</a></li>
+  <div class="hidden-md-up">
 
-                <li class="nav-item hidden-md-down"><a class="nav-link" href="#home2" data-toggle="tab" role="tab"><i style class="icon-stack-2"></i>Categories</a></li>
-                <li class="nav-item hidden-md-down"><a class="nav-link" href="#home3" data-toggle="tab" role="tab"><i style class="icon-stack-2"></i>new </a></li>
-
-              </ul>
-            
-            <div class="tab-content">
-
-              <div class="tab-pane fade" id="home3" role="tabpanel">
-                  <section class="container padding-top-2x">
-                  {% for promotion in promotions_another %}
-                  {% render_promotion promotion %}
-                  {% endfor %}
-              </section>
-</div>              
-              <div class="tab-pane fade" id="home2" role="tabpanel">
-               
-
-                  <section class="container hidden-sm-down padding-top-2x">
-                     
-                      <div class="row">
-                         
-                        <div class="col-md-4 col-sm-6">
-                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
-                           <div class="inner">
-                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
-                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
-                                  </div></a>
-                            <div class="card-body text-center">
-                              <h4 class="card-title">Clothing</h4>
-                              <p class="text-muted">Starting from $49.99</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
-                                <div class="inner">
-                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
-                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
-                                  </div></a>
-                            <div class="card-body text-center">
-                              <h4 class="card-title">Shoes</h4>
-                              <p class="text-muted">Starting from $56.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                          <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
-                              <div class="inner">
-                                  <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
-                                  <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
-                                </div></a>
-                            <div class="card-body text-center">
-                              <h4 class="card-title">Bags</h4>
-                              <p class="text-muted">Starting from $27.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-md-4 col-sm-6">
-                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
-                                  <div class="inner">
-                                      <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
-                                      <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
-                                    </div></a>
-                                <div class="card-body text-center">
-                                  <h4 class="card-title">Clothing</h4>
-                                  <p class="text-muted">Starting from $49.99</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6">
-                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
-                                  <div class="inner">
-                                      <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
-                                      <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
-                                    </div></a>
-                                <div class="card-body text-center">
-                                  <h4 class="card-title">Shoes</h4>
-                                  <p class="text-muted">Starting from $56.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6">
-                              <div class="card mb-30"><a class="card-img-tiles" href="shop-grid-ls.html">
-                                  <div class="inner">
-                                    <div class="main-img"> <img src="{% static "oscar/img/shop/products/05.jpg"%}" alt="Category"></div>
-                                    <div class="thumblist"><img src="{% static "oscar/img/shop/categories/05.jpg"%}" alt="Category"><img src="{% static "oscar/img/shop/categories/04.jpg"%}" alt="Category"></div>
-                                  </div></a>
-                                <div class="card-body text-center">
-                                  <h4 class="card-title">Bags</h4>
-                                 <p class="text-muted">Starting from $27.00</p><a class="btn btn-outline-primary btn-sm" href="shop-grid-ls.html">View Products</a>
-                                </div>
-                              </div>
-                            </div>
-                          
-                        </div>
-                         
-                      <div class="text-center"><a class="btn btn-outline-secondary margin-top-none" href="shop-categories.html">All Categories</a></div>
-                    </section>
-
-
-                    
-                   
-                   
-              </div>
-
-
-              <div class="tab-pane fade show active" id="settings" role="tabpanel">
-                <div class="hidden-md-up">
+{%cache 600 mobile_banner %}
                       {% for promotion in promotions_picture %}
                                 {% render_promotion promotion %} 
                                {% endfor %}
-                              </div>
+                              {% endcache%}
+                            </div>
+
                               <p></p>
+                              {% cache 6000 top_cat%}
+                    <section class="container hidden-sm-down padding-top-0x">                     
+                        <div class="row">
+                           
+                            <div class="col-md-4 col-sm-6">
                               
-                  <div class="container mb-2">
+                            <div class="card mb-30">
+                                <div class="card-body text-center" style=" background-color: rgb(255, 166, 0)">
+                                    <h6 class="card-title text-white" style=" font-size:13px">ELECTRONICS</h6>
+                                   
+                                   </div>
+                              <div class="card-img-tiles">
+                             <div class="inner text-center">
+                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+  
+                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/a.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                     </div></div>
+                              <div class="card-body text-center" style=" border: 2px solid rgb(255, 166, 0)">
+                                 <p>Starting from $49.99</p>
+                              </div>
+                            </div>
+                          </div>
+                              <div class="col-md-4 col-sm-6">
+                              
+                                  <div class="card mb-30">
+                                      <div class="card-body text-center" style=" background-color: rgb(255, 0, 149)">
+                                          <h6 class="card-title text-white" style=" font-size:13px">WOMEN</h6>
+                                         
+                                         </div>
+                                    <div class="card-img-tiles">
+                                   <div class="inner text-center">
+                                      <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/f.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+    
+                                      <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                           </div></div>
+                                    <div class="card-body text-center" style=" border: 2px solid rgb(255, 0, 149)">
+                                       <p>Starting from $49.99</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                              
+                                  <div class="card mb-30">
+                                      <div class="card-body text-center" style=" background-color:#007bff">
+                                          <h6 class="card-title text-white" style=" font-size:13px">MEN</h6>
+                                         
+                                         </div>
+                                    <div class="card-img-tiles">
+                                   <div class="inner text-center">
+                                      <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+    
+                                      <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                           </div></div>
+                                    <div class="card-body text-center" style=" border: 2px solid #007bff">
+                                       <p>Starting from $49.99</p>
+                                    </div>
+                                  </div>
+                                </div>
+                        <div class="row">
+                          <div class="col-md-4 col-sm-6">
+                              
+                            <div class="card mb-30">
+                                <div class="card-body text-center" style=" background-color: rgb(7, 134, 2)">
+                                    <h6 class="card-title text-white " style=" font-size:13px">ELECTRONICS</h6>
+                                    </div>
+                              <div class="card-img-tiles">
+                             <div class="inner text-center">
+                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/x2.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+  
+                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/x7.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                     </div></div>
+                              <div class="card-body text-center" style=" border: 2px solid rgb(7, 134, 2)">
+                                 <p>Starting from $49.99</p>
+                              </div>
+                            </div>
+                          </div>
+                              <div class="col-md-4 col-sm-6">
+                              
+                                <div class="card mb-30">
+                                    <div class="card-body text-center" style=" background-color: rgb(122, 6, 6)">
+                                        <h6 class="card-title text-white" style=" font-size: 13px">Clothing</h6>
+                                        
+                                       </div>
+                                  <div class="card-img-tiles" href="shop-grid-ls.html">
+                                 <div class="inner text-center">
+                                    <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+  
+                                    <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                         </div></div>
+                                  <div class="card-body text-center" style=" border: 2px solid rgb(122, 6, 6)">
+                                     <p>Starting from $49.99</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-4 col-sm-6">
+                              
+                                <div class="card mb-30">
+                                    <div class="card-body text-center" style=" background-color: rgb(0, 195, 255)">
+                                        <h6 class="card-title text-white" style=" font-size:13px">Clothing</h6>
+                                        
+                                       </div>
+                                  <div class="card-img-tiles" href="shop-grid-ls.html">
+                                 <div class="inner text-center">
+                                    <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+  
+                                    <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                         </div></div>
+                                  <div class="card-body text-center" style=" border: 2px solid rgb(0, 195, 255)">
+                                     <p>Starting from $49.99</p>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                          
+                       </div></section>
+                       <div class=" text-center text-danger text-bold hidden-md-down"></i> SEE TOP FOR MORE CATEGORIES</div>
+                       {% endcache %}
+              {%cache 600 mobile_promo %}
+                       <div class="container mb-2">
+                        <div class="page_inner">
+                            <div class="row">
+                  
+                                <div class="col-xl-12 col-lg-8">
                       <div class="page_inner">
-                          <div class="row">
-
-                          <div class="col-xl-9 col-lg-8">
-
-                      <div id="promotions">
+                          
+                      <div id="promotions ">
+                        <div class=" hidden-md-up">
                         {% for promotion in promotions_categories %}
                         {% render_promotion promotion %}
                     {% endfor %}
+                  </div>
                     <p></p>
-                    <div class="alert alert-image-bg alert-dismissible fade show text-center padding-bottom-0x padding-top-0x" style="background-image: url('../static/oscar/img/components/a4.jpg');">
+                    <div class="alert alert-image-bg alert-dismissible fade show text-center padding-bottom-0x padding-top-0x hidden-md-up" style="background-image: url('../static/oscar/img/components/245.jpg');">
                       <div class="h3 text-medium text-white padding-top-1x padding-bottom-1x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       </div>
                     </div>
                     <p></p>
-                   
-
+                    <div class="gallery-item hidden-md-up"><a href="/secondhand/" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/components/aqw.jpg" alt="Image"></a><span class="caption">Kids</span></div>
+                    <p></p>
                            <p> <p></p></p>             
                     <div>
                       <p></p>
+                      <div class=" hidden-md-up">
+
                               {% for promotion in promotions_another %}
                               {% render_promotion promotion %}
 
                           {% endfor %}
+                          </div>
                               </div>
-
+<hr>
                               <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
-
-                            
-
-                              <p class="padding-bottom-1x"></p>
-                              <div class="hidden-md-up">
-
-                            {% for promotion in promotions_offers %}
-                                {% render_promotion promotion %}
-                            {% endfor %}
-                                </div>
+                            <hr class=" hidden-md-up"> 
+                              <p class="padding-bottom-1x hidden-md-up"></p>
+                               {% endcache %}
+                               <div class=" hidden-md-up">
+                           {% cache 600 page_promotion %}
                           {% for promotion in promotions_page %}
                               {% render_promotion promotion %}
                           {% endfor %}
-                          <div class="alert alert-image-bg alert-dismissible fade show text-center padding-bottom-0x padding-top-0x" style="background-image: url('../static/oscar/img/components/xx.jpg');">
-                            <div class="h3 text-medium text-white padding-top-1x padding-bottom-1x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            </div>
-                          </div>                           <p class=" padding-bottom-1x"></p>
+                          {% endcache %}
+                               </div>
+                          {% cache 300 recent_views %}
+                             <p class=" padding-bottom-1x"></p>
                           {% recently_viewed_products current_product=product %}
-                           <p></p>
+                          {% endcache%}
+
+                          <p class=" hidden-md-up"></p>
+                          <div class=" hidden-md-up">
+
+                           {% cache 600 arrivals %}
                           {% for promotion in promotions_arrivals %}
                               {% render_promotion promotion %}
                           {% endfor %}
-                          <p class='hidden-md-down'></p>
-                          <p class="padding-bottom-1x hidden-md-up"></p>   
-                         
+
+                            {% endcache %}
+ </div>
+                  
                       </div>
-                      </div>
-                        {% block sidebar %}
-                        {% include "sidebar.html" %}
-                        {% endblock sidebar %}
-                       
-                          
-                        <hr>
-                          <div class="container text-md text-center hidden-md-down" style="border:2px solid black">
+                      </div> 
+                         {% cache 600 about %}
+                          <div class="text-md text-center hidden-md-down" style="border:2px solid black">
                         <hr>
                         <p></p>
                           <p><b> Online Shopping on Nasarah.com – Ghana’s Largest Online Mall</b></p>
-
-
                         <p> Nasarah.com is Ghana’s number one online Shopping destination.We pride ourselves in having everything you could possibly need for life and living at the best prices than anywhere else.Our access to Original Equipment Manufacturers and premium sellers gives us a wide range of products at very low prices. Some of our popular categories include electronics, mobile phones, computers, fashion, beauty products, home and kitchen, Building and construction materials and a whole lot more from premium brands. Some of our other categories include Food and drinks, automotive and industrial, books, musical equipment, babies and kids items, sports and fitness, to mention a few. To make your shopping experience swift and memorable, there are also added services like gift vouchers, consumer promotion activities across different categories and bulk purchases with hassle-free delivery. Enjoy free shipping rates for certain products and with the bulk purchase option, you can enjoy low shipping rates, discounted prices and flexible payment. When you shop on our platform, you can pay with your debit card or via NasarahPay, which is a convenient and secured payment solution. Get the best of lifestyle services online. Don't miss out on the biggest sales online which takes place on special dates yearly.
                         </p> <p> <b> Buy all you need from Nasarah.com</b></p>
                         <p> Nasarah.com is your one stop shop with all you could possibly need for life and living. With very broad categories containing several items, all you need to do select the products you need, add to your cart and check out. Shop fabulous fashion items from or trendy and robust Fashion category. Fit your home with every furniture, living room and kitchen appliances; be it large or small and other necessities needed in homes from our Home & Kitchen category. Get the latest entertainment systems like televisions, video games,DVD Players,home theatres and more from our Electronics category. Stay in touch with the world on the go with original mobile phones, smartphones and tablets at the best prices from top brands like the samsung galaxy S8 and more. You can simplify your work life with fast and durable computers, laptops and accessories. Do you have babies and kids? Get everything form toys to clothes, games and books for your kids from our Baby Kids and Toys category. Never be in the dark again thanks to our generators, solar panels and other power generators from our Generator and Power solutions category. Start shopping now.
                         </p>
                       </div>
+                      {% endcache %}
                       </div>
                       <p>
-                      
                   </div>
-                
               </div>
-              <div class="tab-pane fade" id="settings2" role="tabpanel">
-                
-                
-     
-       
-            <div class="row">
-                    <section class="container">
-                             <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: true, &quot;dots&quot;: true, &quot;margin&quot;: 5, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:5},&quot;1200&quot;:{&quot;items&quot;:5}} }">
-              
-              </div>
-              
             </div>
 
 {% block breadcrumbs %}
@@ -751,13 +724,13 @@
 </div>
 {% endblock  %}
 
-      <!-- Top Categories-->
-           
+      <!-- Top Categories-->      
 {% endblock %}
 <!--Start of Tawk.to Script-->
 
 
 </div>
+{% cache 600 footer%}
  <footer class="site-footer hidden-md-down">
   <div class="container">
     <div class="row">
@@ -835,13 +808,14 @@
     <p class="footer-copyright">© All rights reserved.<a href="http://techfendghana.com/" target="_blank"> &nbsp;by techfendghana</a></p>
   </div>
 </footer>
+{% endcache %}
 </div>
 
 </div>
 
 <a class="scroll-to-top-btn" href="#"><i class="icon-arrow-up"></i></a> 
     <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
-    
+    {% cache 1000 javascript %}
 {% block cdn_scripts %}
     <!-- jQuery -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -872,7 +846,7 @@
         window.history.back();
     }
 </script>
-
+{% endcache %}
 
 {# Block for body onload functions #}
 <script type="text/javascript">

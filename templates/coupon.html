@@ -1,0 +1,167 @@
+{% extends "layout_2_col.html" %}
+
+{% load basket_tags %}
+{% load promotion_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load i18n %}
+{% load static%}
+{% load staticfiles%}
+{% load thumbnail %}
+
+{% block title %}
+    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
+{% endblock %}
+
+
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+    {% trans 'All Products' %} ( {{paginator.count}} )
+{% endblock bread %}</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+{% block show_account %}
+<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+
+{% endblock show_account %}
+ 
+{% block modal %}
+<i class="pe-7s-filter text-bold"></i> Product Filters
+{% endblock modal %}
+
+
+
+ {% block canvax %}
+ <div class=" hidden-md-down">
+
+ {% block breadcrumb %}
+ 
+ <div class="page-title">
+         <div class="container">
+           <div class="column text-medium">
+             
+All Products
+           </div>
+         </div>
+ </div>
+ {% endblock breadcrumb %}
+ </div>
+ {% endblock canvax %}
+ 
+
+{% block column_2 %}
+{% block toggle %}
+<button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="material-icons filter_list"></i></button>
+
+{% endblock toggle %}
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+   
+<p class=""></p>
+                 <aside class="sidebar sidebar-offcanvas">
+                        <section class="widget widget-categories">
+
+                            <h3 class="widget-title"><i class=" icon-grid-2"></i> Shop Categories </h3>
+                            {% include "catalogue/catalogue_categories.html" %}
+                    </section>
+
+    </aside>
+    {% endif %}
+    {% if has_facets %}
+    <section class="widget">
+            <h3 class="widget-title">Shop Categories</h3>
+            <div class="side_categories">
+            {% for field, data in facet_data.items %}
+                {% if data.results %}
+                    {% include 'search/partials/facet.html' with name=data.name items=data.results %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    
+    {% endif %}
+
+{% endblock %}
+
+<div class="col-xl-9 col-lg-8 order-lg-2">
+
+        {% for promotion in promotions_page %}
+
+        {% block content %}
+
+        <section class=" padding-top-0x" >
+            {% if promotion.name %}
+            <div class="sub-header hidden-md-up">
+                <h6 class=" text-black bg-primary text-white"><b style=" padding-left:20px">{{ promotion.name }} <em class=" text-xx">(swipe left)</em></b></h6>
+            </div>
+            <div class="sub-header hidden-md-down">
+                    <h6 class=" text-black"><b>{{ promotion.name }}</b></h6>
+                </div>
+            {% endif %}
+            <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;margin&quot;: 0, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
+        
+                            {% for product in products %}
+                <div class="grid-item">
+                        <div class="product-card">
+                                <div class="rating-stars hidden-md-down">
+                                   
+                                </div>
+                                {% block product_image %}
+                                <a class="product-thumb" href="{{ product.get_absolute_url }}" {% include "toast.html" %}>
+                                   {% with image=product.primary_image %}
+                                      {% thumbnail image.original "200x150" upscale=False as thumb %}
+                                      <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail">
+                                      {% endthumbnail %}
+                                      
+                                    {% endwith %}
+                                  </a>
+                                  {% endblock %}
+                    
+                                  {% block product_title %}
+                                      <h3 class="product-title"><a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}" data-toast data-toast-position="bottomCenter" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{% static 'oscar/css/img/loadi.gif'%}'> Loading... Please Wait"></a><b>{{ product.get_title|truncatechars:20 }}</b></h3>
+                                  {% endblock product_title %}
+                    
+                              {% block product_price %}
+                            <div class="product-price hidden-md-up">
+                                {% include "catalogue/partials/stock_without.html" %}
+                            </div>
+                            <div class="product-price hidden-md-down">
+                                    {% include "catalogue/partials/stock_record.html" %}
+                                </div>
+                    
+                        
+                              {% endblock %}
+                              
+                            </div>
+        
+                </div>
+                {% endfor %}
+          {% if block.link_url %}
+                <a href="{{ block.link_url }}">{% trans "See more" %}</a>
+            {% endif %}
+              </div>
+            
+        
+        
+            <div class=" text-center bg">
+            {% if promotion.link_url %}
+        <a  href="{{ promotion.link_url}}"><p class=" text-primary text-black"> See More &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="text-primary text-bold icon-arrow-right"></i></p>
+        </a>
+        {% endif %}
+        
+        </div>
+        </section>
+        
+        {% endblock %}
+        {% endfor %}
+
+</div>
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.search.init();
+{% endblock %}
+

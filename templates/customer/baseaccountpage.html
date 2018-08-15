@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load static%}
+{% load cache %}
 
 {% block mobile %}
 {% block sitelogo %}
@@ -15,8 +16,6 @@
 {% block title %}
     {{ page_title }} | {% trans 'Account' %} | {{ block.super }}
 {% endblock %}
-
-
 
 {% block show_account %}
 <div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
@@ -47,6 +46,7 @@
 {% block modal %}
 Profile Options
 {% endblock modal %}
+{% cache 600 modal%}
 {% block user %}
 
             <nav class="container">
@@ -102,7 +102,7 @@ Profile Options
  
 {% endblock %}
 
-
+{% endcache %}
 {% block content %}
 {% include "partials/alert_messages.html" %}
 

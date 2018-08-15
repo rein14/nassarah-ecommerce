@@ -32,7 +32,7 @@ class AbstractProductReview(models.Model):
         verbose_name=pgettext_lazy(u"Product review title", u"Title"),
         max_length=255, validators=[validators.non_whitespace])
 
-    body = models.TextField(_("Body"))
+    body = models.TextField(_("Review product here"))
 
     # User information.
     user = models.ForeignKey(

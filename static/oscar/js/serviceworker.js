@@ -122,12 +122,12 @@ self.addEventListener('install', function(event) {
   var now = Date.now();
 
   var urlsToPrefetch = [
-    '/static/oscar/css/css/vendor.min.css',
+'/static/oscar/css/css/vendor.min.css',
 '/static/oscar/css/css/styles.min.css',
 '/static/oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css',
 '/static/oscar/css/datetimepicker.css',
 '/static/oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js',
-'/statmoic/oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js',
+'/static/oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js',
 '/static/oscar/js/oscar/ui.js',
 '/static/oscar/js/jquery/jquery-1.9.1.min.js',
 '/static/oscar/img/components/01.jpg',
@@ -151,7 +151,7 @@ self.addEventListener('install', function(event) {
 '/static/oscar/img/components/c8.png',
 '/static/oscar/img/components/c3.png',
 '/static/oscar/img/components/c4.png',
-'static/oscar/img/components/c5.png',
+'/static/oscar/img/components/c5.png',
 '/static/oscar/img/components/c6.png',
 '/static/oscar/img/gallery/06.jpg',
 '/static/oscar/img/gallery/05.jpg',
@@ -161,17 +161,16 @@ self.addEventListener('install', function(event) {
 '/static/oscar/css/img/pageLoad.gif',
 '/static/oscar/img/account/default_profile.png',
 '/static/oscar/css/fonts/feather-webfont.woff',
-'/static/oscar/css/fonts//fonts/feather-webfont.eot',
+'/static/oscar/css/fonts/feather-webfont.eot',
 '/static/oscar/css/fonts/socicon.woff',
 '/static/oscar/img/gallery/04.jpg',
 '/static/oscar/img/banners/02.jpg',
 '/static/oscar/img/gallery/02.jpg',
 '/static/oscar/css/fonts/MaterialIcons-Regular.woff2',
 '/static/oscar/css/fonts/MaterialIcons-Regular.woff',
-'/static/oscar/css/fonts/fonts/MaterialIcons-Regular.eot',
+'/static/oscar/css/fonts/MaterialIcons-Regular.eot',
 'https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,600',
-
-    'https://embed.tawk.to/5b3dfbe16d961556373d6fb9/default'
+'https://embed.tawk.to/5b3dfbe16d961556373d6fb9/default'
   ];
 
   // All of these logging statements should be visible via the "Inspect" interface

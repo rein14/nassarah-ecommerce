@@ -867,7 +867,7 @@ figure figcaption {
 }
 
 .bg-success {
-    background-color: #43d9a3 !important
+    background-color: #126e4c !important
 }
 
 .bg-info {
@@ -879,7 +879,7 @@ figure figcaption {
 }
 
 .bg-danger {
-    background-color: #ff5252 !important
+    background-color: #440606 !important
 }
 
 .bg-inverse {
@@ -1619,7 +1619,10 @@ p {
     color: #7f8690;
 
 }
-
+.text-xx {
+    font-size: 10px;
+    font-weight:bold
+}
 ul,
 ol {
     margin-top: 0;
@@ -2434,7 +2437,7 @@ button:focus {
 }
 
 .btn-success {
-    background-color: #43d9a3
+    background-color: #0c8357
 }
 
 .btn-success:hover {
@@ -2450,7 +2453,7 @@ button:focus {
 }
 
 .btn-warning {
-    background-color: #ffb74f
+    background-color: #f0bf1e
 }
 
 .btn-warning:hover {
@@ -3565,6 +3568,7 @@ button:focus {
 .text-white .card-title,
 .text-light .card-title {
     color: #fff
+
 }
 
 .card-group .card .card-footer {
@@ -6729,7 +6733,7 @@ video {
     transition: color .3s;
     color: #606975;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: bold;
     text-decoration: none
 }
 
@@ -7102,7 +7106,7 @@ video {
     .toolbar .search, .toolbar .account, .toolbar .cart {
         display: inline-block;
         position: relative;
-        height: 44px;
+        height: 41px;
         margin-left:0px;
         margin-right:0px;
         transition: background-color .35s;
@@ -7123,17 +7127,17 @@ video {
         width: 74px;
         transition: color .3s;
         border-right: 1px solid #ffffff03;
-
     }
      .navbar {
         min-height: 55px
     }
     .offcanvas-toggle {
-        width: 56px
+        width: 56px;
+        height:41px
     }
     .site-logo {
         width: 145px;
-        padding-left: 16px
+        padding-left: 0px
     }
 }
 

@@ -1,0 +1,77 @@
+{% extends "checkout/checkout.html" %}
+
+{% load currency_filters %}
+{% load i18n %}
+{% load shipping_tags %}
+{% load static%}
+
+{% block title %}
+    {% trans "Shipping method" %} | {{ block.super }}
+{% endblock %}
+
+{% block bread %}
+{% trans "Shipping Method 2 Of 3" %}</a>
+
+{% endblock bread %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=2 %}
+{% endblock %}
+
+{% block checkout_title %}{% trans "Shipping method" %}{% endblock %}
+
+{% block order_contents %}{% endblock %}
+{% block shipping_address %}{% endblock %}
+{% block payment_method %}{% endblock %}
+
+{% block shipping_method %}
+
+<div class="col-xl-9 col-lg-8">
+<h6 class="hidden-md-down">Choose Shipping Method</h6>
+<hr class="hidden-md-up padding-bottom-1x">
+<div class="table-responsive">
+  <table class="table table-hover ">
+    <thead class=" thead-light text-xs">
+      <tr>
+        <th></th>
+        <th>Method</th>
+        <th>Fees</th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Click to Select</th>
+      </tr>
+    </thead>
+    {% for method in methods %}
+    <tbody>
+      <tr>
+        <td class="align-middle">
+        </td>
+        <td class="align-middle text-xs">{{ method.name }}<br><span class="text-muted text-xs">{% if method.description %}{{ method.description|safe }}{% endif %}<em class="text-danger"> {% if method.days%}{{method.days}}{% endif %}</em></span></td>
+        <td class="align-middle text-xs"> {% shipping_charge method basket as charge %}
+          {% if charge.is_tax_known %}
+              {{ charge.incl_tax|currency:basket.currency }}
+          {% else %}
+              {{ charge.excl_tax|currency:basket.currency }}
+          {% endif %}</td>
+          <td class="align-middle text-xs"><div class="custom-control custom-radio mb-0">
+                <form method="post" action="{% url 'checkout:shipping-method' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-success" {% include "toast.html" %}><b>{% trans "select " %}<i style="font-weight:bold"; class="icon-arrow-right"></i></b></button>
+
+                        <input type="hidden" name="method_code" value="{{ method.code }}" />
+        </form>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+
+    {% endfor %}
+    
+  </table>
+</div>
+
+</div>
+
+{% include "checkout/sidebar.html" %}
+{% endblock shipping_method %}
+<!-- Sidebar          -->
+
+</div>

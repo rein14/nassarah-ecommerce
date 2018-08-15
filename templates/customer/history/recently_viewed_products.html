@@ -3,14 +3,13 @@
 {% load thumbnail %}
 
 
-
 {% with products_sliced=products|slice:":6" %}
     {% if products_sliced %}
         <div class="text-center text-sm hidden-md-down">
-            <h6 class="text-sm"><b>{% trans 'Products you recently viewed' %}</b></h6>
+            <h6 class="text-sm bg-primary text-white"><b>{% trans 'Products you recently viewed' %}  </b></h6>
         </div>
         <div class="hidden-md-up bg-primary">
-                <h6 class="text-black bg-primary text-white"><b style=" padding-left:20px">{% trans 'Products you recently viewed' %}</b></h6>
+                <h6 class="text-black bg-primary text-white"><b style=" padding-left:20px">{% trans 'Your Recent Views' %}<em class=" text-xx"> (swipe left)</em></b></h6>
         </div>
   
      <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;margin&quot;: 10, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">

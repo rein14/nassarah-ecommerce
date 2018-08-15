@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block title %}
+    {% trans "Checkout gateway" %} | {{ block.super }}
+{% endblock %}
+
+{% block show_account %}
+
+{% endblock show_account %}
+{% block show_search %}
+
+{% endblock show_search %}
+
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp; {% trans "Tell us who you are?" %}</a>
+
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
+
+{% block canvax %}
+
+{% block breadcrumbs %}
+
+{% endblock %}
+{% endblock canvax %}
+
+
+
+{% block content %}
+<div class="col-xl-9 col-lg-8">
+
+<p></p>
+
+<h4 class="hidden-md-down text-center">{% trans "Who are you?" %}</h4>
+<p></p>
+    <form action="." method="post" class="form-stacked well" style="font-weight:bold">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        {% include "partials/form_field.html" with field=form.username %}
+
+        <div class="form-group">
+            <div class="controls">
+                <div class="radio">
+                    {{ form.options.0 }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group {% if form.password.errors %}error{% endif %}">
+            {{ form.options.errors }}
+            <div class="controls">
+                <div class="radio">
+                    {{ form.options.2 }}
+                    <div class="form-inline">
+                        {% render_field form.password class+="form-control" %}
+                        <p></p>
+                        <small><a class="text-primary" href="{% url 'password-reset' %}" tabindex="-1">{% trans "Get a password reminder" %}</a></small>
+                        {% for error in form.password.errors %}
+                            <span class="error-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="controls">
+                <div class="radio">
+                    {{ form.options.1 }}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" >
+            <div class="row">
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary btn-sm"  {% include "toast.html" %}><b>{% trans "Continue" %} <i class="icon-arrow-right"></i></b></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+     {% include "./sidebar.html" %}
+{% endblock content %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.checkout.gateway.init();
+{% endblock %}

@@ -7,7 +7,7 @@
 {% block mobile %}
 {% block sitelogo %}
 <p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+<p class="padding-bottom-1x" style=" height:0px"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
         {{ offer.name }} ( {{paginator.count}} )
 {% endblock bread %}</a>
 
@@ -65,7 +65,7 @@
                 <div class="gutter-sizer"></div>
                 <div class="grid-sizer"></div>                    
                 {% for product in products %}
-                <div class="grid-item"><b class="text-primary">{{offer.description|truncatewords:1}}</b>
+                <div class="grid-item"><div class="product-badge text-danger">{{offer.description|truncatewords:1}}</div>
                     {% render_product product %}
                     </div>
                     {% endfor %}

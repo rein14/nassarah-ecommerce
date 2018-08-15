@@ -35,16 +35,16 @@
                     {% endblock %}
                      {% block errors %}
                         {% for error in field.errors %}
-                            <span style="color:red" class="error-block"><i class="icon-exclamation-sign"></i> {{ error }}</span>
+                            <span class="error-block text-danger"><i class="icon-exclamation-sign"></i> {{ error }}</span>
                         {% endfor %}
                     {% endblock %}
 
                     {% block help_text %}
                         {% if field.help_text %}
-                            <span class='help-block'>
+                            <p class='help-block text-primary'>
                                 {# We allow HTML within form help fields #}
                                 {{ field.help_text|safe }}
-                            </span>
+                            </p>
                         {% endif %}
                     {% endblock %}
                 </div>
