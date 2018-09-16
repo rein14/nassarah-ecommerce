@@ -5,15 +5,14 @@ from django.contrib.sites.models import Site
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
-from oscar.core.compat import user_is_authenticated
-from oscar.core.loading import get_class, get_model
+from oscar.apps.order.signals import order_placed
+from oscar.core.loading import get_model
 
 from . import exceptions
 
 Order = get_model('order', 'Order')
 Line = get_model('order', 'Line')
 OrderDiscount = get_model('order', 'OrderDiscount')
-order_placed = get_class('order.signals', 'order_placed')
 
 
 class OrderNumberGenerator(object):
@@ -116,7 +115,7 @@ class OrderCreator(object):
             order_data['shipping_address'] = shipping_address
         if billing_address:
             order_data['billing_address'] = billing_address
-        if user and user_is_authenticated(user):
+        if user and user.is_authenticated:
             order_data['user_id'] = user.id
         if status:
             order_data['status'] = status

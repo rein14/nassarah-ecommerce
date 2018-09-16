@@ -1,7 +1,7 @@
 {% extends "customer/baseaccountpage.html" %}
 
 {% block bread %}
-{{ email.subject|truncatechars:22 }}
+{{ email.subject|truncatewords:2 }}
 {% endblock bread %}
 
 {% load i18n %}

@@ -12,7 +12,7 @@
                 <i class="icon-star"></i>
                 <i class="icon-star"></i>
             </span>
-            <a href="{{ review.get_absolute_url }}" {% include "toast.html" %}><h4 class="comment-title">{{ review.title }}</h4></a>
+            <a href="{{ review.get_absolute_url }}"><h4 class="comment-title">{{ review.title }}</h4></a>
         </h3>
     </header>
 </div>
@@ -38,12 +38,12 @@
         <form action="{% url 'catalogue:reviews-vote' product_slug=product.slug product_pk=product.pk pk=review.pk %}" method="post" class="vote_agree" >
             {% csrf_token %}
             <input type="hidden" name="delta" value="1"/>
-            <button type="submit" class="btn btn-success btn-xs" {% include "toast.html" %}>{% trans "Yes" %}</button>
+            <button type="submit" class="btn btn-success btn-xs" >{% trans "Yes" %}</button>
         </form>
         <form  action="{% url 'catalogue:reviews-vote' product_slug=product.slug product_pk=product.pk pk=review.pk %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="delta" value="-1"/>
-            <button type="submit" class="btn btn-danger btn-xs" {% include "toast.html" %}>{% trans "No" %}</button>
+            <button type="submit" class="btn btn-danger btn-xs">{% trans "No" %}</button>
         </form>
     {% endif %}
              

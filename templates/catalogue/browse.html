@@ -16,51 +16,28 @@
 
 {% block mobile %}
 {% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
-    {% trans 'All Products' %} ( {{paginator.count}} )
-{% endblock bread %}</a>
-
+        <div style=" padding-top:22px">
+            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
+                {% trans 'All Products' %} ( {{paginator.count}} ){% endblock bread %}</a>
+            </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
 
 {% block show_account %}
-<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+<div class="account"><a href="/" onclick="$('#cover-spin').show(0)"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
  
+{% comment "reminder" %}
+not the best of hacks. change it in the future
+{% endcomment %}
+{% block show_basket %}
+<div class="cart"><a href="{% url 'basket:summary' %}"  onclick="$('#cover-spin').show(0)"></a><i style="font-weight:bold" class="icon-bag"></i></div>
+
+{% endblock show_basket %}
 {% block modal %}
 <i class="pe-7s-filter text-bold"></i> Product Filters
 {% endblock modal %}
-
-{% block user %}
-{% cache 600 cat_desk%}
-{% category_tree as tree_categories %}
-{% if tree_categories %}
-             <section class="widget widget-categories container">
-
-                    <h3 class="widget-title"><i class=" material-icons sort "></i>Shop Categories</h3>
-                    {% include "catalogue/catalogue_categories.html" %}
-
-        </section>
- {% endif %}
- {% endcache %}
-{% if has_facets %}
-<p class="padding-bottom-1x "></p>
-<section class="container"><h3 class="widget-title"><i class=" material-icons sort_by_alpha "></i>{% trans "Refine by" %}</h3>
-    <div class="idget-categories">
-        {% for field, data in facet_data.items %}
-            {% if data.results %}
-                {% include 'search/partials/facet.html' with name=data.name items=data.results %}
-            {% endif %}
-        {% endfor %}
-    </div>
-</section>
-
-{% endif %}
- {% endblock user %}
-
-
 
  {% block canvax %}
  {% block breadcrumbs %}
@@ -82,44 +59,46 @@
  
 {% block column_2 %}
 {% block toggle %}
-<button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="material-icons filter_list"></i></button>
+<button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="pe-7s-filter"></i></button>
 
 {% endblock toggle %}
-{% cache 600 categrories_cat%}
-    {% category_tree as tree_categories %}
-    {% if tree_categories %}
-   
-<p class=""></p>
-                 <aside class="sidebar sidebar-offcanvas">
-                     
-                        <section class="widget widget-categories">
 
-                            <h3 class="widget-title"><i class=" icon-grid-2"></i> Shop Categories </h3>
-                            {% include "catalogue/catalogue_categories.html" %}
-                    </section>
 
-    </aside>
-    {% endif %}
-    {% endcache%}
+{% block user %}
+{% block show_cat %}
+ {% category_tree as tree_categories %}
 
-    {% if has_facets %}
-    <section class="widget">
-            <h3 class="widget-title">Shop Categories</h3>
-            <div class="side_categories">
-            {% for field, data in facet_data.items %}
-                {% if data.results %}
-                    {% include 'search/partials/facet.html' with name=data.name items=data.results %}
-                {% endif %}
-            {% endfor %}
-        </div>
-    </section>
-    
-    {% endif %}
+{% if tree_categories %}
+             <section class="widget widget-categories container">
+
+                    <h3 class="widget-title"><i class=" material-icons sort "></i>Shop Categories</h3>
+                    {% include "catalogue/catalogue_categories.html" %}
+
+        </section>
+ {% endif %}
+  {% endblock show_cat %}
+
+{% if has_facets %}
+<p class="padding-bottom-1x "></p>
+<section class="container"><h3 class="widget-title"><i class=" material-icons sort_by_alpha "></i>{% trans "Refine by" %}</h3>
+    <div class="widget-categories">
+        {% for field, data in facet_data.items %}
+            {% if data.results %}
+                {% include 'search/partials/facet.html' with name=data.name items=data.results %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+{% endif %}
+ {% endblock user %}
 
 {% endblock %}
 
 <div class="col-xl-9 col-lg-8 order-lg-2">
 {% block content %}
+{% block form %}
+
 <form method="get">
         {# Render other search params as hidden inputs #}
         {% for value in selected_facets %}
@@ -133,8 +112,6 @@
             <div class="shop-toolbar ">
                 <div class="column">
                     <div class="shop-sorting">
-                            {% cache 600 paginator%}
-
                         <span style=" float:left;padding:24px 0;">
                                 {% blocktrans with page_num=page_obj.number total_pages=paginator.num_pages %}
                                 <strong>Page {{ page_num }} of {{ total_pages }}</strong>
@@ -145,7 +122,7 @@
                            <b> ({{ num_results }} products) </b>
                         {% endblocktrans %}
                         </span>
-                        {% endcache %}
+                        
                     <span style=" float:right"><b >{% include "partials/form_field.html" with field=form.sort_by %}</b>
                 </div>
                 </div>
@@ -160,8 +137,9 @@
             </p>
         {% endif %}
     </form>
-   
-    {% if products %}
+    {% endblock form %}
+     {% if products %}
+    
             <div class="isotope-grid cols-4 padding-top-0x" >
                 <div class="gutter-sizer"></div>
                 <div class="grid-sizer"></div>
@@ -176,8 +154,7 @@
         
                      {% else %}
                      <p class="nonefound">{% trans "No products found." %}</p>
-{% endif %}
-
+                     {% endif %}
 {% endblock content %}
 </div>
 {% block onbodyload %}

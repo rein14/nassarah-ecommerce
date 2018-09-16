@@ -1,9 +1,18 @@
 from django.contrib import admin
 
-from oscar.apps.promotions.models import (
-    AutomaticProductList, HandPickedProductList, Image,
-    KeywordPromotion, MultiImage, OrderedProduct, PagePromotion,
-    RawHTML, SingleProduct, TabbedBlock)
+from oscar.core.loading import get_model
+
+AutomaticProductList = get_model('promotions', 'AutomaticProductList')
+HandPickedProductList = get_model('promotions', 'HandPickedProductList')
+Image = get_model('promotions', 'Image')
+KeywordPromotion = get_model('promotions', 'KeywordPromotion')
+MultiImage = get_model('promotions', 'MultiImage')
+MultiProImage = get_model('promotions', 'MultiProImage')
+OrderedProduct = get_model('promotions', 'OrderedProduct')
+PagePromotion = get_model('promotions', 'PagePromotion')
+RawHTML = get_model('promotions', 'RawHTML')
+SingleProduct = get_model('promotions', 'SingleProduct')
+TabbedBlock = get_model('promotions', 'TabbedBlock')
 
 
 class OrderProductInline(admin.TabularInline):
@@ -26,6 +35,7 @@ class KeywordPromotionAdmin(admin.ModelAdmin):
 
 admin.site.register(Image)
 admin.site.register(MultiImage)
+admin.site.register(MultiProImage)
 admin.site.register(RawHTML)
 admin.site.register(HandPickedProductList, HandPickedProductListAdmin)
 admin.site.register(AutomaticProductList)

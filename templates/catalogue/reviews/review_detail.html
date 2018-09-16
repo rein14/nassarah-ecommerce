@@ -1,25 +1,10 @@
-{% extends "layout.html" %}
+{% extends "catalogue/reviews/review_list.html" %}
 {% load i18n %}
 
 {% block title %}
     {{ review.title }} | {% trans "Reviews" %} | {{ product.title }} | {{ block.super }}
 {% endblock %}
 
- 
-
-{% block mobile %}
-{% block sitelogo %}
-<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp; {{ product.title|truncatewords:2 }} Reviews</a>
-
- {% endblock sitelogo %}
-{% endblock mobile %}
-{% block show_search %}
-
-{% endblock show_search %}
-{% block show_account %}
-
-{% endblock show_account %}
 
 {% block canvax %}
 <div class=" hidden-md-down">

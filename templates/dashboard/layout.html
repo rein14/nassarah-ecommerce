@@ -37,10 +37,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <span class="navbar-brand">{{ shop_name }}</span>
+                <span class="navbar-brand"></span>
+                <img src="{% static 'oscar/img/ui/dashboard/logo.png' %} " alt="">
             </div>
             <div class="collapse navbar-collapse nav-accounts">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right"> 
                     <li><b> <span id='clockbox'></span></b></li> 
                     <li><span><b> <i class="icon-male" style="font-size:14px"></i> {% trans " Welcome" %} <em>{{ user.get_full_name|default:request.user.email }}</em></span></b></li>
                     <li><a href="{{ homepage_url }}"><b> <i class="fa fa-home"></i> {% trans "Return to site" %}</b></a></li>

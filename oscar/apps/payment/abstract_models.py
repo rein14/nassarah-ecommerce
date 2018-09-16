@@ -115,7 +115,7 @@ class AbstractSource(models.Model):
         verbose_name_plural = _("Sources")
 
     def __str__(self):
-        description = _("Allocation of %(amount)s from type %(type)s") % {
+        description = _("You chose to pay an amount of %(amount)s via %(type)s") % {
             'amount': currency(self.amount_allocated, self.currency),
             'type': self.source_type}
         if self.reference:

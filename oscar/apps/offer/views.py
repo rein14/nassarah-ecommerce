@@ -4,9 +4,6 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 
 from oscar.core.loading import get_model
-#from django.views.decorators.cache import cache_page
-#from django.utils.decorators import method_decorator
-
 
 ConditionalOffer = get_model('offer', 'ConditionalOffer')
 Range = get_model('offer', 'Range')
@@ -46,13 +43,14 @@ class OfferDetailView(ListView):
     def get_queryset(self):
         return self.offer.products()
 
+
 class RangeDetailView(ListView):
     template_name = 'offer/range.html'
     context_object_name = 'products'
 
     def dispatch(self, request, *args, **kwargs):
         self.range = get_object_or_404(
-            Range, slugl=kwargs['slug'], is_public=True)
+            Range, slug=kwargs['slug'], is_public=True)
         return super(RangeDetailView, self).dispatch(
             request, *args, **kwargs)
 

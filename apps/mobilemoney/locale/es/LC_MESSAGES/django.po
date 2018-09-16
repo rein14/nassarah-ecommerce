@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-08-17 02:10-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: dashboard/config.py:8
+msgid "Cash On Delivery Dashboard"
+msgstr "Tablero Efectivo Contranentrega"
+
+#: forms.py:22
+msgid "Same as the shipping address"
+msgstr "El mismo como dirección de envío"
+
+#: forms.py:23 forms.py:43
+msgid "Enter a new address"
+msgstr "Ingrese una nueva dirección"
+
+#: models.py:12 templates/dashboard/cashondelivery/transaction_list.html:33
+msgid "Order Number"
+msgstr "Número de Orden"
+
+#: models.py:13
+msgid "Date Created"
+msgstr "Fecha de creación"
+
+#: models.py:14 templates/dashboard/cashondelivery/transaction_detail.html:33
+#: templates/dashboard/cashondelivery/transaction_list.html:34
+msgid "Amount"
+msgstr "Cantidad"
+
+#: models.py:15 templates/dashboard/cashondelivery/transaction_detail.html:34
+msgid "Currency"
+msgstr "Moneda"
+
+#: models.py:16 templates/dashboard/cashondelivery/transaction_detail.html:30
+msgid "Reference"
+msgstr "Referencia"
+
+#: models.py:17 templates/dashboard/cashondelivery/transaction_detail.html:35
+#: templates/dashboard/cashondelivery/transaction_list.html:35
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#: models.py:18 templates/dashboard/cashondelivery/transaction_list.html:36
+msgid "Date Confirmed"
+msgstr "Fecha de confirmación"
+
+#: models.py:23 models.py:27 templates/cashondelivery/preview.html:28
+#: templates/dashboard/cashondelivery/transaction_detail.html:15
+#: templates/dashboard/cashondelivery/transaction_list.html:15
+msgid "Cash on Delivery"
+msgstr "Efectivo Contraentrega"
+
+#: templates/cashondelivery/payment_details.html:5
+#: templates/cashondelivery/preview.html:10
+msgid "Payment details"
+msgstr "Detalles del pago"
+
+#: templates/cashondelivery/payment_details.html:12
+msgid "What address should the invoice be issued to?"
+msgstr "¿A qué dirección se debe emitir la factura?"
+
+#: templates/cashondelivery/payment_details.html:20
+msgid "You've chosen to pay cash on delivery."
+msgstr "Ha elegido pagar en efectivo contranetrega."
+
+#: templates/cashondelivery/payment_details.html:57
+msgid "Continue"
+msgstr "Continuar"
+
+#: templates/cashondelivery/preview.html:12
+msgid "Billing address"
+msgstr "Dirección de envío"
+
+#: templates/cashondelivery/preview.html:21
+msgid "Change payment details"
+msgstr "Cambiar los detalles del pago"
+
+#: templates/cashondelivery/preview.html:27
+msgid "Payment method"
+msgstr "Método de pago"
+
+#: templates/cashondelivery/preview.html:30
+msgid "Change payment method"
+msgstr "Cambiar el método de pago"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:6
+msgid "Cash on Delivery transaction"
+msgstr "Transacción Efectivo Contraentrega"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:12
+#: templates/dashboard/cashondelivery/transaction_list.html:12
+msgid "Dashboard"
+msgstr "Tablero"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:18
+#: templates/dashboard/cashondelivery/transaction_detail.html:24
+#, python-format
+msgid "Transaction %(reference)s"
+msgstr "Transacción %(reference)s"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:31
+#: templates/dashboard/cashondelivery/transaction_list.html:37
+msgid "Date"
+msgstr "Fecha"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:32
+#: templates/dashboard/cashondelivery/transaction_list.html:32
+msgid "Method"
+msgstr "Método"
+
+#: templates/dashboard/cashondelivery/transaction_detail.html:36
+msgid "Date confirmed"
+msgstr "Fecha de confirmación"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:6
+#: templates/dashboard/cashondelivery/transaction_list.html:22
+msgid "Cash on Delivery transactions"
+msgstr "Transacciones Efectivo Contraentrega"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:17
+msgid "Transactions"
+msgstr "Transacciones"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:31
+msgid "Reference hash"
+msgstr "Referencia"
+
+#: templates/dashboard/cashondelivery/transaction_list.html:60
+msgid "No transactions have been made yet."
+msgstr "No se han hecho transacciones aún."

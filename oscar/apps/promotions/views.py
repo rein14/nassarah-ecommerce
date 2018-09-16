@@ -1,7 +1,5 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views.generic import RedirectView, TemplateView
-#from django.views.decorators.cache import cache_page
-#from django.utils.decorators import method_decorator
 
 
 class HomeView(TemplateView):

@@ -13,10 +13,10 @@ from django.views import generic
 from oscar.apps.promotions.conf import PROMOTION_CLASSES
 from oscar.core.loading import get_class, get_classes
 
-SingleProduct, RawHTML, Image, MultiImage, AutomaticProductList, \
+SingleProduct, RawHTML, Image, MultiImage, MultiProImage, AutomaticProductList, \
     PagePromotion, HandPickedProductList \
     = get_classes('promotions.models',
-                  ['SingleProduct', 'RawHTML', 'Image', 'MultiImage',
+                  ['SingleProduct', 'RawHTML', 'Image', 'MultiImage','MultiProImage',
                    'AutomaticProductList', 'PagePromotion',
                    'HandPickedProductList'])
 SelectForm, RawHTMLForm, PagePromotionForm, HandPickedProductListForm, \
@@ -173,6 +173,11 @@ class CreateMultiImageView(CreateView):
     fields = ['name']
 
 
+class CreateMultiProImageView(CreateView):
+    model = MultiProImage
+    fields = ['name']
+
+
 class CreateAutomaticProductListView(CreateView):
     model = AutomaticProductList
     fields = ['name', 'description', 'link_url', 'link_text', 'method',
@@ -289,6 +294,10 @@ class UpdateMultiImageView(UpdateView):
     model = MultiImage
     fields = ['name', 'images']
 
+class UpdateMultiProImageView(UpdateView):
+    model = MultiProImage
+    fields = ['name', 'images']
+
 
 class UpdateAutomaticProductListView(UpdateView):
     model = AutomaticProductList
@@ -350,6 +359,8 @@ class DeleteImageView(DeleteView):
 class DeleteMultiImageView(DeleteView):
     model = MultiImage
 
+class DeleteMultiProImageView(DeleteView):
+    model = MultiProImage
 
 class DeleteAutomaticProductListView(DeleteView):
     model = AutomaticProductList

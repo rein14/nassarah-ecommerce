@@ -16,7 +16,7 @@
                     {% for wishlist in wishlists %}
                         {% if wishlist not in product_wishlists %}
                             <li>
-                                    <a style="font-size:12px" href="{% url 'customer:wishlists-add-product' key=wishlist.key product_pk=product.pk %}" {% include "toast.html" %}>
+                                    <a style="font-size:12px" href="{% url 'customer:wishlists-add-product' key=wishlist.key product_pk=product.pk %}">
                                         {% blocktrans with name=wishlist.name %}
                                            <b> Add to '{{ name }}' wish list</b>
                                         {% endblocktrans %}
@@ -25,14 +25,14 @@
                             <hr>
                         {% endif %}
                     {% endfor %}
-                    <li><a style="font-size:12px" href="{% url 'customer:wishlists-create-with-product' product_pk=product.pk %}" {% include "toast.html" %}><b>{% trans 'Create a new wishlist' %}</b></a></li>
+                    <li><a style="font-size:12px" href="{% url 'customer:wishlists-create-with-product' product_pk=product.pk %}"><b>{% trans 'Create a new wishlist' %}</b></a></li>
                 <li>
                     {% for wishlist in product_wishlists %}
                     <hr>
                     <form action="{% url 'customer:wishlists-remove-product' key=wishlist.key product_pk=product.id %}" method="post">
                         {% csrf_token %}
                         {% blocktrans with name=wishlist.name url=wishlist.get_absolute_url %}
-                        <button type="submit" style="font-size:12px;color:red;padding-left:20px;background:white; border:whitesmoke"  data-toast data-toast-position="bottomCenter" data-toast-title=" " data-toast-type="info" data-toast-message=" Removing from wishlist"><b> Remove</b></i></button>
+                        <button type="submit" style="font-size:12px;color:red;padding-left:20px;background:white; border:whitesmoke"><b> Remove</b></i></button>
                         {% endblocktrans %}
         
                     </form>

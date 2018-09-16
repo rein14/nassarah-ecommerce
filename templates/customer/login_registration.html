@@ -7,18 +7,21 @@
 
 {% block mobile %}
 {% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>
 
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp; {% trans 'Login/Register' %}</a>
-
+<div style=" padding-top:22px">
+    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a>&nbsp;&nbsp;&nbsp;<a style="font-size:17px;color:#606975;padding-top:200px"> {% block bread %}
+        {% trans 'Login/Register' %}{% endblock bread %}</a>
+    </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
 
 {% block show_account %}
-<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+<div class="account"><a href="/" onclick="$('#cover-spin').show(0)"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
+{% block show_basket %}
+
+{% endblock show_basket %}
 
 {% block show_search %}
 
@@ -56,25 +59,25 @@
 
     <div class="row">
         <div class="col-sm-6 login_form">
-            <form id="login_form" action="{{ request.get_full_path }}" method="post" class="well" >
-                <h6 class='text-center' style="color:#606975"><b>{% trans 'Log In' %}</b></h6>
+            <form onsubmit="$('#cover-spin').show(0)" id="login_form" action="{{ request.get_full_path }}" method="post" class="well" style="background-image: url('/static/oscar/css/img/bg.png');">
+                <h6 class='text-center hidden-md-down' style="color:#606975"><b><i class=" material-icons person_pin_circle"></i> {% trans ' Log In' %}</b></h6>
+                <p class=" hidden-md-up"></p>
                 {% csrf_token %}
                 {% include "partials/form_fields.html" with form=login_form %}
-                <p><a href="{% url 'password-reset' %}">{% trans "I've forgotten my password" %}</a></p>
-                <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-outline-primary btn-sm btn-block" {% include "toast.html" %}><b>{% trans 'Log In' %}</b></button>
+                <p><a class=" text-primary" href="{% url 'password-reset' %}">{% trans "I've forgotten my password" %}</a></p>
+                <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{% trans 'Logging In...' %}"><b>{% trans 'Log In' %}</b></button>
             </form>
-            <hr> 
-<p class=" padding-bottom-1x"> </p>
+            
         </div>
-        <div class="col-sm-6 register_form">
-                <h6 class="margin-bottom-1x hidden-md-down">No Account?</h6>
-                <p>No accout? Registration takes less than a minute. Get full control over your orders</p>
-            <form id="register_form" action="{{ request.get_full_path }}" method="post" class="well">
+        <div class="col-sm-6 register_form ">
+                <span class="margin-bottom-1x text-sd text-center">Not a member?&nbsp;&nbsp; <a  href="{% url 'customer:register' %}"><u class=" text-primary"><i class=" pe-7s-add-user text-bold"></i>&nbsp; Sign Up Now</u></a></span>
+                <p class=" hidden-sm-down">Not a customer? Registration takes less than a minute. Get full control over your orders</p>
+            <form onsubmit="$('#cover-spin').show(0)" class="hidden-sm-down" id="register_form" action="{{ request.get_full_path }}" method="post" class="well" style="background-image: url('/static/oscar/css/img/bg.png');">
                 
-                    <h6 class='text-center'><b style="color:#606975">{% trans 'Register' %}</b></h6>
+                    <h6 class='text-center'><b style="color:#606975"> <i class=" pe-7s-add-user text-bold"></i> {% trans ' Register' %}</b></h6>
                     {% csrf_token %}
                 {% include "partials/form_fields.html" with form=registration_form %}
-                <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" {% include "toast.html" %}><b>{% trans 'Register' %}</b></button>
+                <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{% trans 'Registering...' %}"><b>{% trans 'Register' %}</b></button>
             </form>
         </div>
     </div>

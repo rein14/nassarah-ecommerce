@@ -1,4 +1,5 @@
-{% extends "layout.html" %}
+{% extends "catalogue/detail.html" %}
+
 
 {% load history_tags %}
 {% load i18n %}
@@ -7,38 +8,22 @@
     {% trans "All reviews" %} | {{ product.title }} | {{ block.super }}
 {% endblock %}
   
- {% block canvax %}
- {% block breadcrumbs %}
-    
+
+{% block mobile %}
+{% block sitelogo %}
+<p class="padding-bottom-1x"></p>
+<p class="padding-bottom-1x"></p>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp; {{ product.title|truncatewords:2 }} Reviews</a>
+
+ {% endblock sitelogo %}
+{% endblock mobile %}
  
-     <div class="page-title">
-             <div class="container">
-               
-               <div class="column">
-                 <ul class="breadcrumbs">
-                         <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
-                   <li class="separator">&nbsp;</li>
-                   {% with category=product.categories.all.0 %}
-            {% for c in category.get_ancestors_and_self %}
-                <li>
-                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-                </li>
-            {% endfor %}
-            
-            <li>
-                <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
-            </li>
-        {% endwith %}
-        <li class="separator">&nbsp;</li>
-         <li class="active">{% trans "All reviews" %}</li>
-           
-                   
-                  </ul>
-               </div>
-             </div>
-           </div>
-  {% endblock %}
- {% endblock canvax %}
+{% block show_search %}
+
+{% endblock show_search %}
+{% block show_basket %}
+
+{% endblock  %}
 
 {% block headertext %}
     {% trans "Customer reviews" %}
@@ -50,7 +35,7 @@
         {% include 'catalogue/reviews/review_product.html' %}
 
         {% if reviews %}
-            <form action="." method="get" class="form-inline">
+            <form class=" container" action="." method="get" class="form-inline">
                 {% for field in form %}
                     {{ field.label }}
                     {{ field }}

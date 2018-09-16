@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
     'apps.cashondelivery',
+    'apps.mobilemoney',
+    'apps.bank',
     #'paypal'
     'pwa',
     'debug_toolbar',
@@ -51,7 +53,7 @@ INSTALLED_APPS = [
  
 ]
 
-INTERNAL_IPS = ['127.0.0.1', '192.168.43.156']
+#INTERNAL_IPS = ['127.0.0.1', '192.168.43.156']
 
 
 from oscar import get_core_apps
@@ -61,9 +63,16 @@ INSTALLED_APPS = INSTALLED_APPS + get_core_apps([
    'apps.shipping',
    'apps.dashboard',
    'apps.order',
-    # 'apps.promotions',
+   'apps.promotions',
    
     ])
+
+
+OSCAR_PAYMENT_METHODS = (
+    ('cod', 'Cash on delivery'),
+    ('mobilemoney', 'mobile money'),
+    ('bank','Bank payment'),
+)
 
 SITE_ID = 1
 
@@ -73,20 +82,18 @@ USE_I18N = True
 USE_L10N = True
 
 MIDDLEWARE = [
- 
-    'django.middleware.security.SecurityMiddleware',
+    'django.middleware.common.CommonMiddleware',
     #'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 
     # Allow languages to be selected
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
-    'django.middleware.common.CommonMiddleware',
 
     # Ensure a valid basket is added to the request instance for every request
     'oscar.apps.basket.middleware.BasketMiddleware',
@@ -251,9 +258,11 @@ from collections import OrderedDict
 
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+OSCAR_SETTINGS = dict(
+    [(k, v) for k, v in locals().items() if k.startswith('OSCAR_')])
 
 OSCAR_SHOP_NAME = 'Ambez'
-OSCAR_SHOP_TAGLINE = ''
+OSCAR_SHOP_TAGLINE = 'Number One Stop Shop'
 OSCAR_HOMEPAGE = reverse_lazy('promotions:home')
 
 # Basket settings
@@ -288,7 +297,7 @@ OSCAR_REQUIRED_ADDRESS_FIELDS = ('first_name', 'last_name','line4', 'line1',
 # Pagination settings
 
 OSCAR_OFFERS_PER_PAGE = 20
-OSCAR_PRODUCTS_PER_PAGE = 20
+OSCAR_PRODUCTS_PER_PAGE = 30
 OSCAR_REVIEWS_PER_PAGE = 20
 OSCAR_NOTIFICATIONS_PER_PAGE = 20
 OSCAR_EMAILS_PER_PAGE = 20
@@ -314,7 +323,7 @@ OSCAR_PROMOTION_POSITIONS = (('page', 'Page'),
                              ('coupons', 'Coupons'),
                              ('categories', 'Categories'),
                              ('another', 'Another'),
-                             ('undercats','Undercats'),
+                             ('undercats', 'Undercats'),
                              ('arrivals', 'Arrivals'),
                              ('offers', 'Offers'),
                              ('banner', 'Banner '),
@@ -393,7 +402,7 @@ OSCAR_DASHBOARD_NAVIGATION = [
         ]
     },
   
-    {
+     {
         'label': _('Fulfilment'),
         'icon': 'icon-shopping-cart',
         'children': [
@@ -413,14 +422,26 @@ OSCAR_DASHBOARD_NAVIGATION = [
             # be confusing. Weight-based shipping methods aren't hooked into
             # the shipping repository by default (as it would make
             # customising the repository slightly more difficult).
-            {
-               'label': _('Shipping charges'),
-               'url_name': 'dashboard:shipping-method-list',
-            },
-
+            # {
+            #   'label': _('Shipping charges'),
+            #   'url_name': 'dashboard:shipping-method-list',
+            # },
+        ]},
+    {
+        'label': _('Payments'),
+        'icon': 'icon-money',
+        'children': [
             {
                 'label': _('COD transactions'),
                 'url_name': 'cashondelivery-transaction-list',
+            },
+            {
+                'label': _('MOMO transactions'),
+                'url_name': 'mobilemoney-transaction-list',
+            },
+            {
+                'label': _('BANK transactions'),
+                'url_name': 'bank-transaction-list',
             },
         ]
     },
@@ -449,6 +470,10 @@ OSCAR_DASHBOARD_NAVIGATION = [
             {
                 'label': _('Vouchers'),
                 'url_name': 'dashboard:voucher-list',
+            },
+            {
+                'label': _('Voucher Sets'),
+                'url_name': 'dashboard:voucher-set-list',
             },
         ],
     },
@@ -572,9 +597,6 @@ OSCAR_SEARCH_FACETS = {
 OSCAR_PROMOTIONS_ENABLED = True
 OSCAR_PRODUCT_SEARCH_HANDLER = None
 
-OSCAR_SETTINGS = dict(
-    [(k, v) for k, v in locals().items() if k.startswith('OSCAR_')])
-
 # Meta
 # ====
 
@@ -601,6 +623,8 @@ OSCAR_ORDER_STATUS_PIPELINE = {
 }
 # This dict defines the line statuses that will be set when an order's status
 # is changed   
+OSCAR_LINE_STATUS_PIPELINE = OSCAR_ORDER_STATUS_PIPELINE
+
 OSCAR_ORDER_STATUS_CASCADE = {
      'Being processed': 'Being processed',
     'Cancelled': 'Cancelled',
@@ -619,13 +643,10 @@ ACCOUNTS_UNIT_NAME_PLURAL = 'Giftcards'
 ACCOUNTS_MIN_LOAD_VALUE = D('30.00')
 ACCOUNTS_MAX_ACCOUNT_VALUE = D('1000.00')
 
-
-
 # Taken from PayPal's documentation - these should always work in the sandbox
 PAYPAL_API_USERNAME = 'test_xxxx.gmail.com'
 PAYPAL_API_PASSWORD = '123456789'
 PAYPAL_API_SIGNATURE = '...'
-
 
 PWA_APP_NAME = 'Nasarah'
 PWA_APP_DESCRIPTION = "Do kickass things all day long without that pesky browser chrome"
@@ -638,7 +659,7 @@ PWA_APP_ICONS = [
         'sizes': '160x160'
     }
 ]
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/oscar/js/serviceworker.js')
+#PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/oscar/js/serviceworker.js')
 
 import dj_database_url
 import os
@@ -648,5 +669,7 @@ DATABASES = {
           default='sqlite:////{0}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
       )
   }
-
+  
+SESSION_SERIALIZER ='django.contrib.sessions.serializers.PickleSerializer'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+

@@ -27,8 +27,6 @@ class Base(object):
     #  during checkout.  Can contain HTML.
     description = ''
 
-    days=''
-
     #: Whether the charge includes a discount
     is_discounted = False
 

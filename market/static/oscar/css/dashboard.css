@@ -5507,9 +5507,7 @@ td .btn-toolbar {
   min-height: 50px;
   font-size: 12px;
   line-height: 1.6666;
-  background-image: -webkit-linear-gradient(top, #353535 0%, #373737 100%);
-  background-image: -o-linear-gradient(top, #353535 0%, #282626 100%);
-  background-image: linear-gradient(to bottom, #050721 0%, #030525 100%);
+  background:#0da9ef;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff373737', endColorstr='#ff242424', GradientType=0);
   border: none;
@@ -5534,9 +5532,7 @@ td .btn-toolbar {
   min-height: 44px;
 }
 .navbar-primary .container-fluid {
-  background-image: -webkit-linear-gradient(top, #353535 0%, #373737 100%);
-  background-image: -o-linear-gradient(top, #353535 0%, #282626 100%);
-  background-image: linear-gradient(to bottom, #030525 0%, #373737 100%);
+  background: #0da9ef;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff353535', endColorstr='#ff373737', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false) !important;

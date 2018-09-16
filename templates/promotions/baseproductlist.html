@@ -7,27 +7,31 @@
 {% load thumbnail %}
 {% load static%}
 {% load staticfiles%}
+{% load cache %}
 
 
 {% block content %}
+{% cache 100 promo promotion.id %}
+
 <section class=" padding-top-0x" >
     {% if promotion.name %}
     <div class="sub-header hidden-md-up">
-        <h6 class=" text-black bg-primary text-white"><b style=" padding-left:20px">{{ promotion.name }} <em class=" text-xx">(swipe left)</em></b></h6>
+        <h6 class="text-black"><b>{{ promotion.name }} <em class=" text-xx">(swipe left)</em></b></h6>
     </div>
     <div class="sub-header hidden-md-down">
             <h6 class=" text-black"><b>{{ promotion.name }}</b></h6>
         </div>
     {% endif %}
     <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;margin&quot;: 0, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
-       {% for product in products %}
+      
+        {% for product in products %}
         <div class="grid-item">
                 <div class="product-card">
                         <div class="rating-stars hidden-md-down">
                            
                         </div>
                         {% block product_image %}
-                        <a class="product-thumb" href="{{ product.get_absolute_url }}" {% include "toast.html" %}>
+                        <a class="product-thumb" href="{{ product.get_absolute_url }}" onclick="$('#cover-spin').show(0)">
                            {% with image=product.primary_image %}
                               {% thumbnail image.original "200x150" upscale=False as thumb %}
                               <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail">
@@ -38,7 +42,7 @@
                           {% endblock %}
             
                           {% block product_title %}
-                              <h3 class="product-title"><a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}" data-toast data-toast-position="bottomCenter" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{% static 'oscar/css/img/loadi.gif'%}'> Loading... Please Wait"></a><b>{{ product.get_title|truncatechars:20 }}</b></h3>
+                              <h3 class="product-title"><a href="{{ product.get_absolute_url }}" onclick="$('#cover-spin').show(0)" title="{{ product.get_title }}" ></a><b>{{ product.get_title|truncatechars:20 }}</b></h3>
                           {% endblock product_title %}            
                       {% block product_price %}
                     <div class="product-price hidden-md-up">
@@ -50,6 +54,7 @@
                       {% endblock %}                      
                     </div>
         </div>
+     
         {% endfor %}
       </div>
     <div class=" text-center bg">
@@ -59,7 +64,8 @@
 {% endif %}
 
 </div>
+
 </section>
 
-
+{% endcache %}
 {% endblock %}

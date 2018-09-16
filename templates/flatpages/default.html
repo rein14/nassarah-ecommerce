@@ -19,12 +19,14 @@
   
   {% endblock sidebar %}
   {% block show_account %}
-  <div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
-  
-  {% endblock show_account %}
-  {% block show_search %}
+  <div class="account hidden-md-up"><a href="/"></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+  <div class="account hidden-md-down"><a href="/accounts"  ></a><i style="font-weight:bold" class="icon-head"></i>
 
-{% endblock show_search %}
+  {% endblock show_account %}
+  
+{% block show_basket %}
+
+{% endblock show_basket %}
 {% block canvax %}
 <div class="hidden-md-down">
 {% block breadcrumbs %}
@@ -36,7 +38,7 @@
                 <ul class="breadcrumbs">
                 <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
                   <li class="separator">&nbsp;</li>
-                  
+                  <li>{{ flatpage.title|safe }}</li>
                 </ul>
               </div>
             </div>
@@ -47,10 +49,10 @@
 {% block content %}
 
 {% if user.is_staff %}
-<a class="pull-right hidden-xs" href="{% url 'dashboard:page-update' pk=flatpage.id %}"><small><i class="icon-edit"></i> {% trans "Edit this page" %}</small></a>
+<a class="hidden-xs float-right" href="{% url 'dashboard:page-update' pk=flatpage.id %}"><small><i class="icon-edit"></i> {% trans "Edit this page" %}</small></a>
 {% endif %}
 
-<div class=" cols-md-6">
+<div class=" cols-md-12">
     <article>{{ flatpage.content|safe }}</article>
   </div>
 {% endblock %}

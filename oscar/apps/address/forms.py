@@ -2,7 +2,7 @@ from django import forms
 from django.conf import settings
 
 from oscar.core.loading import get_model
-from oscar.views.generic import PhoneNumberMixin
+from oscar.forms.mixins import PhoneNumberMixin
 
 UserAddress = get_model('address', 'useraddress')
 
@@ -21,11 +21,12 @@ class AbstractAddressForm(forms.ModelForm):
 
 
 class UserAddressForm(PhoneNumberMixin, AbstractAddressForm):
+
     class Meta:
         model = UserAddress
         fields = [
             'first_name', 'last_name',
-            'line4','line1', 'line2','country',
+            'line1', 'line4','country',
             'phone_number',
         ]
 

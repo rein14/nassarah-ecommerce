@@ -15,7 +15,7 @@
         "**/.DS_Store": true,
         ".vscode": true,
         "**/*.pyc": true
-    },
+    },  
     "workbench.editor.enablePreview": false,
     "editor.fontSize": 14,
     "files.autoSave": "afterDelay",

@@ -52,7 +52,7 @@
           <td class="align-middle text-xs"><div class="custom-control custom-radio mb-0">
                 <form method="post" action="{% url 'checkout:shipping-method' %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-success" {% include "toast.html" %}><b>{% trans "select " %}<i style="font-weight:bold"; class="icon-arrow-right"></i></b></button>
+                        <button style="margin-right:20px" style="border-radius:5px" name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'proceeding..' %}"><b>{% trans "select " %}<i style="font-weight:bold"; class="icon-arrow-right"></i></b></button>
 
                         <input type="hidden" name="method_code" value="{{ method.code }}" />
         </form>

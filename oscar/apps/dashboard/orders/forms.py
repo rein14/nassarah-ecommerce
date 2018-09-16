@@ -5,15 +5,15 @@ from django.http import QueryDict
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext_lazy
 
-from oscar.apps.address.forms import AbstractAddressForm
-from oscar.core.loading import get_model
+from oscar.core.loading import get_class, get_model
+from oscar.forms.mixins import PhoneNumberMixin
 from oscar.forms.widgets import DatePickerInput
-from oscar.views.generic import PhoneNumberMixin
 
 Order = get_model('order', 'Order')
 OrderNote = get_model('order', 'OrderNote')
 ShippingAddress = get_model('order', 'ShippingAddress')
 SourceType = get_model('payment', 'SourceType')
+AbstractAddressForm = get_class('address.forms', 'AbstractAddressForm')
 
 
 class OrderStatsForm(forms.Form):
@@ -138,9 +138,9 @@ class ShippingAddressForm(PhoneNumberMixin, AbstractAddressForm):
     class Meta:
         model = ShippingAddress
         fields = [
-            'title', 'first_name', 'last_name',
-            'line1', 'line2', 'line4',
-            'country',
+            'first_name', 'last_name','line4',
+            'line1',
+             'country',
             'phone_number',
         ]
 

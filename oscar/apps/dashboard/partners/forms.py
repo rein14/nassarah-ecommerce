@@ -1,16 +1,16 @@
 from django import forms
 from django.contrib.auth.models import Permission
+from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import pgettext_lazy
 
-from oscar.apps.customer.forms import EmailUserCreationForm
 from oscar.core.compat import existing_user_fields, get_user_model
-from oscar.core.loading import get_model
-from oscar.core.validators import validate_password
+from oscar.core.loading import get_class, get_model
 
 User = get_user_model()
 Partner = get_model('partner', 'Partner')
 PartnerAddress = get_model('partner', 'PartnerAddress')
+EmailUserCreationForm = get_class('customer.forms', 'EmailUserCreationForm')
 
 
 class PartnerSearchForm(forms.Form):
@@ -134,6 +134,6 @@ class PartnerAddressForm(forms.ModelForm):
         label=pgettext_lazy(u"Partner's name", u"Name"))
 
     class Meta:
-        fields = ('name', 'line1', 'line2', 'line4',
+        fields = ('name', 'line1', 'line4',
                    'country')
         model = PartnerAddress

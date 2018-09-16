@@ -12,12 +12,12 @@
             {% if offer_discounts or voucher_discounts %}
             <tr>
                     <td class=" total text-xs">{% trans "Basket total (before discounts)" %}</td>
-                    <td class="total align-right text-xs">{{ basket.total_incl_tax_excl_discounts|currency }}</td>
+                    <td class="total align-right text-xs text-primary">{{ basket.total_incl_tax_excl_discounts|currency }}</td>
                 </tr>
                 {% if offer_discounts %}
                 {% for discount in offer_discounts %}
                 <tr>
-                    <td class="total text-xs"><span>{% trans "Discount" %} -</span> {{ discount.name }}
+                    <td class="total text-xs"><span class=" text-white bg-success">{% trans "Discount " %} </span>&nbsp; - {{ discount.name }}
                         {% if discount.description %}
                         <br/><small>{{ discount.description }}</small>
                         {% endif %}
@@ -42,7 +42,7 @@
             {% endif %}
                 <tr>
                     <td class="total text-xs">{% trans "Basket total (after discounts)" %}</td>
-                    <td class="total align-right text-xs">
+                    <td class="total align-right text-xs text-primary">
                         {% if not show_tax_separately and basket.is_tax_known %}
                             {{ basket.total_incl_tax|currency:basket.currency }}
                         {% else %}
@@ -71,8 +71,8 @@
           
           <tr>
             {% if not shipping_method.is_discounted %}
-            <td class="text-xs hidden-md-down">{{ shipping_method.name }}</td>
-            <td class="text-xs hidden-md-down">
+            <td class="text-xs">{{ shipping_method.name }}</td>
+            <td class="text-xs">
                 {% if not show_tax_separately and shipping_charge.is_tax_known %}
                 {{ shipping_charge.incl_tax|currency:basket.currency }}
             {% else %}
@@ -151,9 +151,9 @@
           <tr>
             <td></td>
             {% if order_total.is_tax_known %}
-            <td class="text-lg text-xs text-danger"> {{ order_total.incl_tax|currency:basket.currency }}</td>
+            <td class="text-lg text-sd"> {{ order_total.incl_tax|currency:basket.currency }}</td>
             {% else %}
-            <td class="text-lg text-xs"> {{ order_total.incl_tax|currency:basket.currency }}</td>
+            <td class="text-lg text-sd">{{ order_total.incl_tax|currency:basket.currency }}</td>
             {% endif %}
         </tr>
           {% if not order_total.is_tax_known %}

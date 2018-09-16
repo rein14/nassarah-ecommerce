@@ -14,6 +14,7 @@
                     {% endwith %}
                   </a>
                   {% endblock %}
+                  
     
                   {% block product_title %}
                       <h3 class="product-title"><a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}" data-toast data-toast-position="bottomCenter" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{% static 'oscar/css/img/loadi.gif'%}'> Loading... Please Wait"></a><b>{{ product.get_title|truncatechars:20 }}</b></h3>

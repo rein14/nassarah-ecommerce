@@ -1,5 +1,5 @@
+'''
 from oscar.apps.shipping import repository
-
 from . import methods
 
 
@@ -7,3 +7,4 @@ from . import methods
 # custom methods
 class Repository(repository.Repository):
     methods = (methods.OfficePickUp(), methods.Standard(),)
+    '''

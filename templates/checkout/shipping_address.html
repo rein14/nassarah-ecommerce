@@ -9,9 +9,29 @@
 
 
 {% block bread %}
-{% trans "Shipping address 1 Of 3" %}</a>
+{% trans "Shipping address" %} <span class=" text-primary">1</span> Of <span class=" text-info"> 3</span></a>
 
 {% endblock bread %}
+
+{% block canvax %}
+{% block breadcrumbs %}
+  
+
+<div class="page-title hidden-md-down">
+        <div class="container">
+          <div class="column">
+            <ul class="breadcrumbs">
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+             <li>Checkout </li>
+             <li class="separator">&nbsp;</li>
+             <li>Shipping Address </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+{% endblock canvax %}
 
 {% block checkout_nav %}
     {% include 'checkout/nav.html' with step=1 %}
@@ -47,13 +67,14 @@
                                     <input type="hidden" name="action" value="ship_to" />
                                     <input type="hidden" name="address_id" value="{{ address.id }}" />
                                     {% if address.is_default_for_shipping %}
-                                        <button  type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address" {% include "toast.html" %}><b>{% trans "Ship to default address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
+                                    <button style="margin-right:20px"  onclick="$('#cover-spin').show(0)" style="border-radius:5px" name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Loading...' %}"><b>{% trans "Ship to default address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
                                     {% else %}
-                                        <button style="margin-right:20px" type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address" {% include "toast.html" %}><b>{% trans "Ship to this address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
-                                    {% endif %}
+                                        <button style="margin-right:20px"  onclick="$('#cover-spin').show(0)" style="border-radius:5px" name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Loading..' %}"><b>{% trans "Ship to this address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
+ 
+                                        {% endif %}
 
                                     <div class="btn-group address-controls">
-                                        <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm" ><b class=" text-sm">{% trans "Edit address" %}</b></a>
+                                        <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm" ><b class=" text-sm text-primary">{% trans "Edit address" %}</b></a>
                                         <button class="btn-secondary btn-sms dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button>
                                         <div class="dropdown-menu"><a class="dropdown-item text-xs" href="{% url 'checkout:user-address-delete' pk=address.id %}"><b><b>{% trans "Delete" %}</b></b></a>
                                         </div>
@@ -76,17 +97,18 @@
 
     {% block new_address_form %}
     <div class="col-xl-9">
-        <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address" class="form form-horizontal">
+        <form action="{% url 'checkout:shipping-address' %}" onsubmit="$('#cover-spin').show(0)"  method="post" id="new_shipping_address" class="form form-horizontal">
                 {% csrf_token %}
                 {% include "partials/form_fields.html" with form=form  %}
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-outline-primary btn-sm btn-block" {% include "toast.html" %} ><b>{% trans "Continue" %}&nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i> </b></button>
+                        <button  name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Loading...' %}" ><b>{% trans "Continue" %}&nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i> </b></button>
                     </div>
                 </div>
             </form>
         </div>
-    {% endblock %} 
+    {% endblock %}
+     
 </div>
 
 {% include "checkout/sidebar.html" %}

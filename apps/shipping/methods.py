@@ -1,3 +1,4 @@
+'''
 from decimal import Decimal as D
 from django.template.loader import render_to_string
 
@@ -22,12 +23,13 @@ class Standard(methods.Base):
     charge_per_item = D('0.99')
     description = ''
     days = ' including handling fee'
-    '''render_to_string(
+    render_to_string(
         'shipping/express.html', {'charge_per_item': charge_per_item})
-'''
+
     def calculate(self, basket):
         total = basket.num_items * self.charge_per_item
         return prices.Price(
             currency=basket.currency,
             excl_tax=total,
             incl_tax=total)
+'''

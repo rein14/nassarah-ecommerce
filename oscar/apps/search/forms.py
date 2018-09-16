@@ -41,7 +41,9 @@ class SearchForm(FacetedSearchForm):
         widget=SearchInput({
             "placeholder": _('What are you looking for?'),
             "tabindex": "1",
-            "class": "form-control"
+            "class": "form-control",
+            "name":"q"
+            
         }))
 
     # Search

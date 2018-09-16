@@ -3,14 +3,16 @@
 {% load i18n %}
 {% load display_tags %}
 {% load staticfiles %}
+{% load cache%}
 
 {% block product %}
-        <div class="product-card" {% include "toast.html" %}>
+
+        <div class="product-card">
             <div class="rating-stars hidden-md-down">
                
             </div>
             {% block product_image %}
-            <a class="product-thumb" href="{{ product.get_absolute_url }}" >
+            <a class="product-thumb" href="{{ product.get_absolute_url }}" onclick="$('#cover-spin').show(0)">
                {% with image=product.primary_image %}
                   {% thumbnail image.original "155x155" upscale=False as thumb %}
                   <img src="{{ thumb.url }}" alt="{{ product.get_title }}" class="thumbnail">
@@ -22,7 +24,7 @@
               {% endblock %}
 
               {% block product_title %}
-              <a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}" ><h6 class="product-title" ><b>{{ product.get_title|truncatechars:15 }} </b></h6></a>
+              <a href="{{ product.get_absolute_url }}" onclick="$('#cover-spin').show(0)" title="{{ product.get_title }}" ><h6 class="product-title" ><b>{{ product.get_title|truncatechars:15 }} </b></h6></a>
               {% endblock product_title %}
 
           {% block product_price %}

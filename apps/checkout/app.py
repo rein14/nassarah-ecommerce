@@ -1,4 +1,11 @@
-from oscar.apps.checkout import app
-from apps.cashondelivery.app import application as cod_app
+from oscar.apps.checkout.app import CheckoutApplication as OscarCheckoutApplication
+from apps.checkout import views
 
-app.application = cod_app
+
+class CheckoutApplication(OscarCheckoutApplication):
+    # Specify new view for payment details
+    payment_method_view = views.PaymentMethodView
+    payment_details_view = views.PaymentDetailsView
+
+
+application = CheckoutApplication()

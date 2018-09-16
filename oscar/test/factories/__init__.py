@@ -6,13 +6,13 @@ import datetime
 from django.conf import settings
 from django.utils import timezone
 
-from oscar.apps.offer import models
 from oscar.core.loading import get_class, get_model
 from oscar.test.factories.address import *  # noqa
 from oscar.test.factories.basket import *  # noqa
 from oscar.test.factories.catalogue import *  # noqa
 from oscar.test.factories.contrib import *  # noqa
 from oscar.test.factories.customer import *  # noqa
+from oscar.test.factories.models import *  # noqa
 from oscar.test.factories.offer import *  # noqa
 from oscar.test.factories.order import *  # noqa
 from oscar.test.factories.partner import *  # noqa
@@ -39,10 +39,14 @@ ProductClass = get_model('catalogue', 'ProductClass')
 ProductAttribute = get_model('catalogue', 'ProductAttribute')
 ProductAttributeValue = get_model('catalogue', 'ProductAttributeValue')
 ProductImage = get_model('catalogue', 'ProductImage')
-ConditionalOffer = get_model('offer', 'ConditionalOffer')
 
 WeightBand = get_model('shipping', 'WeightBand')
 WeightBased = get_model('shipping', 'WeightBased')
+
+Range = get_model('offer', 'Range')
+Condition = get_model('offer', 'Condition')
+Benefit = get_model('offer', 'Benefit')
+ConditionalOffer = get_model('offer', 'ConditionalOffer')
 
 
 def create_stockrecord(product=None, price_excl_tax=None, partner_sku=None,
@@ -184,14 +188,14 @@ def create_offer(name=u"Dùｍϻϒ offer", offer_type="Site",
     Helper method for creating an offer
     """
     if range is None:
-        range, __ = models.Range.objects.get_or_create(
+        range, __ = Range.objects.get_or_create(
             name=u"All products räñgë", includes_all_products=True)
     if condition is None:
-        condition, __ = models.Condition.objects.get_or_create(
-            range=range, type=models.Condition.COUNT, value=1)
+        condition, __ = Condition.objects.get_or_create(
+            range=range, type=Condition.COUNT, value=1)
     if benefit is None:
-        benefit, __ = models.Benefit.objects.get_or_create(
-            range=range, type=models.Benefit.PERCENTAGE, value=20)
+        benefit, __ = Benefit.objects.get_or_create(
+            range=range, type=Benefit.PERCENTAGE, value=20)
     if status is None:
         status = ConditionalOffer.OPEN
 

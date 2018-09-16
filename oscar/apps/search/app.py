@@ -21,6 +21,7 @@ class SearchApplication(Application):
                 form_class=self.search_form,
                 searchqueryset=self.get_sqs()),
                 name='search'),
+                
         ]
         return self.post_process_urls(urlpatterns)
 

@@ -3,18 +3,18 @@
 {% load i18n %}
 
 {% block show_account %}
-<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+<div class="account"><a href="/" onclick="$('#cover-spin').show(0)"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
 
-{% block logo %}
-&nbsp;&nbsp;<i class=" categorylist icon-arrow-left padding-top-1x"></i>
-{% endblock logo %}
 
 {% block mobile %}
 {% block sitelogo %}
-<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp; {% trans 'Basket'%}</a>
+<div style=" padding-top:22.5px">
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:17px;color:#606975;padding-top:200px">{% block bread %}
+    {% trans 'My Basket' %}{% endblock bread %}</a>
+</div>
+
 
  {% endblock sitelogo %}
 {% endblock mobile %}
@@ -48,20 +48,21 @@
 
 {# Hide mini-basket so we don't have two baskets to keep in sync #}
 {% block mini_basket %}{% endblock %}
-
+{% block show_partial %}
+ 
+{% endblock show_partial %}
 {% block content %}
-<div class="padding-bottom-3x mb-1">
-    {% block basket_alert %}
-    
-    {% endblock basket_alert %}
+<div class="padding-bottom-10x mb-1">
+        {% include "partials/alert_messages.html" %}
+
     {# Use a partial template so that AJAX can be used to re-render basket #}
     {% include 'basket/partials/basket_content.html' %}
     </div>
 {% endblock content %}
 
-{% block ad %}
-
-{% endblock ad %}
+{% block showfooter %}
+  
+{% endblock showfooter %}
 {% block onbodyload %}
     {{ block.super }}
     {# We pass in the URL to send AJAX requests to #}

@@ -6,15 +6,15 @@ from django import forms
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 
-from oscar.apps.address.forms import AbstractAddressForm
-from oscar.core.loading import get_model
-from oscar.views.generic import PhoneNumberMixin
+from oscar.core.loading import get_class, get_model
+from oscar.forms.mixins import PhoneNumberMixin
 
 from . import bankcards
 
 Country = get_model('address', 'Country')
 BillingAddress = get_model('order', 'BillingAddress')
 Bankcard = get_model('payment', 'Bankcard')
+AbstractAddressForm = get_class('address.forms', 'AbstractAddressForm')
 
 # List of card names for all the card types supported in payment.bankcards
 VALID_CARDS = set([card_type[0] for card_type in bankcards.CARD_TYPES])
@@ -277,5 +277,6 @@ class BillingAddressForm(PhoneNumberMixin, AbstractAddressForm):
         model = BillingAddress
         fields = [
             'title', 'first_name', 'last_name',
-             'line4','line1', 'line2', 'country',
+            'line1', 'line2', 'line3', 'line4',
+            'state', 'postcode', 'country',
         ]

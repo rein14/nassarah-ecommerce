@@ -13,3 +13,4 @@ class TransactionDetailView(DetailView):
     model = models.CashOnDeliveryTransaction
     context_object_name = 'txn'
     template_name = 'dashboard/cashondelivery/transaction_detail.html'
+

@@ -7,23 +7,78 @@ from decimal import ROUND_DOWN
 
 from django.conf import settings
 from django.core import exceptions
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.query import Q
 from django.template.defaultfilters import date as date_filter
+from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.timezone import get_current_timezone, now
 from django.utils.translation import ugettext_lazy as _
 
-from oscar.apps.offer import results, utils
-from oscar.apps.offer.managers import ActiveOfferManager
 from oscar.core.compat import AUTH_USER_MODEL
-from oscar.core.loading import get_class, get_model
+from oscar.core.loading import get_class, get_classes, get_model
 from oscar.models import fields
 from oscar.templatetags.currency_filters import currency
 
-BrowsableRangeManager = get_class('offer.managers', 'BrowsableRangeManager')
+ActiveOfferManager, BrowsableRangeManager \
+    = get_classes('offer.managers', ['ActiveOfferManager', 'BrowsableRangeManager'])
+ZERO_DISCOUNT = get_class('offer.results', 'ZERO_DISCOUNT')
+load_proxy, unit_price = get_classes('offer.utils', ['load_proxy', 'unit_price'])
+
+
+@python_2_unicode_compatible
+class BaseOfferMixin(models.Model):
+    class Meta:
+        abstract = True
+
+    def proxy(self):
+        """
+        Return the proxy model
+        """
+        klassmap = self.proxy_map
+        # Short-circuit logic if current class is already a proxy class.
+        if self.__class__ in klassmap.values():
+            return self
+
+        field_dict = dict(self.__dict__)
+        for field in list(field_dict.keys()):
+            if field.startswith('_'):
+                del field_dict[field]
+
+        if self.proxy_class:
+            klass = load_proxy(self.proxy_class)
+            # Short-circuit again.
+            if self.__class__ == klass:
+                return self
+            return klass(**field_dict)
+        if self.type in klassmap:
+            return klassmap[self.type](**field_dict)
+        raise RuntimeError("Unrecognised %s type (%s)" % (self.__class__.__name__.lower(), self.type))
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def name(self):
+        """
+        A plaintext description of the benefit/condition. Every proxy class
+        has to implement it.
+
+        This is used in the dropdowns within the offer dashboard.
+        """
+        proxy_instance = self.proxy()
+        if self.proxy_class and self.__class__ == proxy_instance.__class__:
+            raise AssertionError('Name property is not defined on proxy class.')
+        return proxy_instance.name
+
+    @property
+    def description(self):
+        """
+        A description of the benefit/condition.
+        Defaults to the name. May contain HTML.
+        """
+        return self.name
 
 
 @python_2_unicode_compatible
@@ -61,6 +116,12 @@ class AbstractConditionalOffer(models.Model):
     )
     offer_type = models.CharField(
         _("Type"), choices=TYPE_CHOICES, default=SITE, max_length=128)
+
+    exclusive = models.BooleanField(
+        _("Exclusive offer"),
+        help_text=_("Exclusive offers cannot be combined on the same items"),
+        default=True
+    )
 
     # We track a status variable so it's easier to load offers that are
     # 'available' in some sense.
@@ -233,7 +294,7 @@ class AbstractConditionalOffer(models.Model):
         Applies the benefit to the given basket and returns the discount.
         """
         if not self.is_condition_satisfied(basket):
-            return results.ZERO_DISCOUNT
+            return ZERO_DISCOUNT
         return self.benefit.proxy().apply(
             basket, self.condition.proxy(), self)
 
@@ -391,8 +452,7 @@ class AbstractConditionalOffer(models.Model):
             structure=Product.CHILD)
 
 
-@python_2_unicode_compatible
-class AbstractBenefit(models.Model):
+class AbstractBenefit(BaseOfferMixin, models.Model):
     range = models.ForeignKey(
         'offer.Range',
         blank=True,
@@ -444,61 +504,27 @@ class AbstractBenefit(models.Model):
         verbose_name = _("Benefit")
         verbose_name_plural = _("Benefits")
 
-    def proxy(self):
-        from oscar.apps.offer import benefits
-
-        klassmap = {
-            self.PERCENTAGE: benefits.PercentageDiscountBenefit,
-            self.FIXED: benefits.AbsoluteDiscountBenefit,
-            self.MULTIBUY: benefits.MultibuyDiscountBenefit,
-            self.FIXED_PRICE: benefits.FixedPriceBenefit,
-            self.SHIPPING_ABSOLUTE: benefits.ShippingAbsoluteDiscountBenefit,
-            self.SHIPPING_FIXED_PRICE: benefits.ShippingFixedPriceBenefit,
-            self.SHIPPING_PERCENTAGE: benefits.ShippingPercentageDiscountBenefit
+    @property
+    def proxy_map(self):
+        return {
+            self.PERCENTAGE: get_class(
+                'offer.benefits', 'PercentageDiscountBenefit'),
+            self.FIXED: get_class(
+                'offer.benefits', 'AbsoluteDiscountBenefit'),
+            self.MULTIBUY: get_class(
+                'offer.benefits', 'MultibuyDiscountBenefit'),
+            self.FIXED_PRICE: get_class(
+                'offer.benefits', 'FixedPriceBenefit'),
+            self.SHIPPING_ABSOLUTE: get_class(
+                'offer.benefits', 'ShippingAbsoluteDiscountBenefit'),
+            self.SHIPPING_FIXED_PRICE: get_class(
+                'offer.benefits', 'ShippingFixedPriceBenefit'),
+            self.SHIPPING_PERCENTAGE: get_class(
+                'offer.benefits', 'ShippingPercentageDiscountBenefit')
         }
-        # Short-circuit logic if current class is already a proxy class.
-        if self.__class__ in klassmap.values():
-            return self
-
-        field_dict = dict(self.__dict__)
-        for field in list(field_dict.keys()):
-            if field.startswith('_'):
-                del field_dict[field]
-
-        if self.proxy_class:
-            klass = utils.load_proxy(self.proxy_class)
-            # Short-circuit again.
-            if self.__class__ == klass:
-                return self
-            return klass(**field_dict)
-
-        if self.type in klassmap:
-            return klassmap[self.type](**field_dict)
-        raise RuntimeError("Unrecognised benefit type (%s)" % self.type)
-
-    def __str__(self):
-        return self.name
-
-    @property
-    def name(self):
-        """
-        A plaintext description of the benefit. Every proxy class has to
-        implement it.
-
-        This is used in the dropdowns within the offer dashboard.
-        """
-        return self.proxy().name
-
-    @property
-    def description(self):
-        """
-        A description of the benefit.
-        Defaults to the name. May contain HTML.
-        """
-        return self.name
 
     def apply(self, basket, condition, offer):
-        return results.ZERO_DISCOUNT
+        return ZERO_DISCOUNT
 
     def apply_deferred(self, basket, order, application):
         return None
@@ -636,11 +662,11 @@ class AbstractBenefit(models.Model):
                     not self.can_apply_benefit(line)):
                 continue
 
-            price = utils.unit_price(offer, line)
+            price = unit_price(offer, line)
             if not price:
                 # Avoid zero price products
                 continue
-            if line.quantity_without_discount == 0:
+            if line.quantity_without_offer_discount(offer) == 0:
                 continue
             line_tuples.append((price, line))
 
@@ -651,8 +677,7 @@ class AbstractBenefit(models.Model):
         return D('0.00')
 
 
-@python_2_unicode_compatible
-class AbstractCondition(models.Model):
+class AbstractCondition(BaseOfferMixin, models.Model):
     """
     A condition for an offer to be applied. You can either specify a custom
     proxy class, or need to specify a type, range and value.
@@ -685,56 +710,16 @@ class AbstractCondition(models.Model):
         verbose_name = _("Condition")
         verbose_name_plural = _("Conditions")
 
-    def proxy(self):
-        """
-        Return the proxy model
-        """
-        from oscar.apps.offer import conditions
-
-        klassmap = {
-            self.COUNT: conditions.CountCondition,
-            self.VALUE: conditions.ValueCondition,
-            self.COVERAGE: conditions.CoverageCondition
+    @property
+    def proxy_map(self):
+        return {
+            self.COUNT: get_class(
+                'offer.conditions', 'CountCondition'),
+            self.VALUE: get_class(
+                'offer.conditions', 'ValueCondition'),
+            self.COVERAGE: get_class(
+                'offer.conditions', 'CoverageCondition'),
         }
-        # Short-circuit logic if current class is already a proxy class.
-        if self.__class__ in klassmap.values():
-            return self
-
-        field_dict = dict(self.__dict__)
-        for field in list(field_dict.keys()):
-            if field.startswith('_'):
-                del field_dict[field]
-
-        if self.proxy_class:
-            klass = utils.load_proxy(self.proxy_class)
-            # Short-circuit again.
-            if self.__class__ == klass:
-                return self
-            return klass(**field_dict)
-        if self.type in klassmap:
-            return klassmap[self.type](**field_dict)
-        raise RuntimeError("Unrecognised condition type (%s)" % self.type)
-
-    def __str__(self):
-        return self.name
-
-    @property
-    def name(self):
-        """
-        A plaintext description of the condition. Every proxy class has to
-        implement it.
-
-        This is used in the dropdowns within the offer dashboard.
-        """
-        return self.proxy().name
-
-    @property
-    def description(self):
-        """
-        A description of the condition.
-        Defaults to the name. May contain HTML.
-        """
-        return self.name
 
     def consume_items(self, offer, basket, affected_lines):
         pass
@@ -777,7 +762,7 @@ class AbstractCondition(models.Model):
             if not self.can_apply_condition(line):
                 continue
 
-            price = utils.unit_price(offer, line)
+            price = unit_price(offer, line)
             if not price:
                 continue
             line_tuples.append((price, line))
@@ -852,7 +837,7 @@ class AbstractRange(models.Model):
     @cached_property
     def proxy(self):
         if self.proxy_class:
-            return utils.load_proxy(self.proxy_class)()
+            return load_proxy(self.proxy_class)()
 
     def add_product(self, product, display_order=None):
         """ Add product to the range

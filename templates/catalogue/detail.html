@@ -8,6 +8,7 @@
 {% load display_tags %}
 {% load i18n %}
 {% load purchase_info_tags %}
+{% load cache %}
  
 {% block title %}
     {{ product.title }} | {{ block.super }}
@@ -15,23 +16,19 @@
 
 {% block mobile %}
 {% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p> 
-
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
-
- Details{% endblock bread %} </a>
-
+        <div style=" padding-top:22px">
+            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
+                {{product.get_title|truncatewords:2}}{% endblock bread %}</a>
+            </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
-
 
 {% block description %}
     {{ product.description|default:""|striptags }}
 {% endblock %}
 
 {% block show_account %}
-<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+<div class="account"><a href="/" onclick="$('#cover-spin').show(0)"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
 {% block canvax %}
@@ -64,8 +61,7 @@
 {% endblock header %}
 
 {% block content %}
-  
-    <div class="row" >
+     <div class="row" >
         {% block product_gallery %}
         <div class="col-sm-6" >
             {% include "catalogue/partials/gallery.html" %}
@@ -80,7 +76,7 @@
             {% if user.is_staff %}
             <a class="pull-right hidden-xs-down" href="{% url 'dashboard:catalogue-product' pk=product.id %}"><small><i class="icon-edit"></i> {% trans "Edit this product" %}</small></a>
         {% endif %}
-        
+        {% cache 600 detal product.id %}
             
              <div class="hidden-md-down padding-top-0x "></div>
             <h5 class=" text-medium text-center"><b>{{ product.get_title }}</b></h5>
@@ -96,6 +92,7 @@
                     <p class=" text-center">{{ product.description|safe|truncatechars:200}}</p>
                     {% endif %} </p>
                 </div>
+            {% endcache %}
          <hr>
              <div class="d-flex flex-wrap justify-content-between">
                           <div class="entry-share mt-2 mb-2"><span>&nbsp;&nbsp;&nbsp; {% iffeature "reviews" %}
@@ -120,13 +117,12 @@
                                 <form id="add_to_basket_form" action="{% url 'basket:add' pk=product.pk  %}" method="post" class="add-to-basket">
                                     {% csrf_token %}
                                     {% include "partials/form_fields.html" with form=basket_form %}
-                                     <button class=" hidden-md-down btn btn-success btn-sm btn-block" data-toggle="tooltip" data-placement="top" title=" "  data-toast data-toast-position="bottomRight"data-toast-title=" " data-toast-type="info" data-toast-message="{% load i18n %}
+                                     <button class=" hidden-md-down btn btn-success btn-sm btn-block" onclick="$('#cover-spin').show(0)" data-loading-text="{% trans 'Loading...' %}" data-toggle="tooltip" data-placement="top" title=" "  data-toast data-toast-position="bottomRight"data-toast-title=" " data-toast-type="info" data-toast-message="{% load i18n %}
                                           {% blocktrans with title=product.get_title %}
                                          <strong>{{ title }}</strong> has been added to your basket.
-                                         {% endblocktrans %}
-                                     ">
+                                         {% endblocktrans %}">
                                      <b>{% trans "Add to basket" %}</b></button>
-                                     <button class="btn btn-success btn-sm btn-block hidden-md-up " data-toast data-toast-position="Top" data-toast-title=" " data-toast-type="success" data-toast-message="<strong>{{ product.get_title}}</strong> is being added to your basket">
+                                     <button class="btn btn-success btn-sm btn-block hidden-md-up " onclick="$('#cover-spin').show(0)" data-loading-text="{% trans 'Loading..' %}" data-toast data-toast-position="Top" data-toast-title=" " data-toast-type="success" data-toast-message="<strong>{{ product.get_title}}</strong> is being added to your basket">
                                      <b>Buy Me</b></button>
 
                                 </form>
@@ -138,13 +134,12 @@
                                     {% csrf_token %}
                                     <p class="text-center">{% trans "Get an email alert when it comes back in stock." %}</p>
                                     {% include "partials/form_fields.html" with form=alert_form %}
-                                    <button type="submit" style="border-radius:5px" class="btn btn-sm btn-outline-danger  btn-block"  data-toast data-toast-position="center" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{% static 'oscar/css/img/loadi.gif'%}'> Creating alert ... Please Wait">{% trans "Notify me" %}</button>
+                                    <button type="submit" style="border-radius:5px" class="btn btn-sm btn-outline-danger  btn-block" data-loading-text="{% trans 'Creating' %}">{% trans "Notify me" %}</button>
                                 
                                 </form>
                             
                         </div>
-                        {% endif %} 
-             </div>
+                        {% endif %}</div>
              <div class="d-flex flex-wrap justify-content-between">
                           <div class="entry-share mt-2 mb-2">
                 <div class="share-links">
@@ -157,6 +152,7 @@
        </div>
         {% endblock %}
     </div><!-- /row -->
+{% cache 600 buyer_pro%}
     <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/" {% include "toast.html" %}><img style="border-radius:0px" src="/static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
 
             <p></p>
@@ -166,25 +162,16 @@
                 <div class="card-header" role="tab">
                   <h6 class="text-sm"><a href="#collapseOne" data-toggle="collapse" data-parent="#accordion1"><b> {% trans "Product Description" %}</b></a></h6>
                 </div>
-                <div class="collapse show" id="collapseOne" role="tabpanel">
+                <div class="collapse" id="collapseOne" role="tabpanel">
                   <div class="card-body text-sm">
                         {% block product_description %}
                         {% if product.description %}
                             <p class="container">{{ product.description|safe }}</p>
                         {% endif %}
                         {% endblock %}
-                </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header" role="tab">
-                  <h6 class="text-sm"><a class="collapsed" href="#collapseTwo" data-toggle="collapse" data-parent="#accordion1"><b> Product Information</b></a></h6>
-                </div>
-                <div class="collapse" id="collapseTwo" role="tabpanel">
-                  <div class="card-body text-sm">
                         {% block product_info %}
                     
-                        <table class="table table-bordered text-xs">
+                        <table class="table text-xs">
                             
                             {% purchase_info_for_product request product as session %}
                             {% if session.price.exists %}
@@ -223,9 +210,12 @@
                         </table>
                                         </div>
                         {% endblock %}
+              
                 </div>
                 </div>
               </div>
+
+              {% endcache %}
 
               <div class="card">
                 <div class="card-header" role="tab">
@@ -281,8 +271,7 @@
  
     <div class="container">
         <p></p>
-       <!-- Carousel--> {% recently_viewed_products current_product=product %}
-       <p class=" padding-bottom-1x"></p>
+       <!-- Carousel--> 
 
             {% with recommended_products=product.sorted_recommended_products|slice:":6" %}
             {% if recommended_products %}
@@ -301,6 +290,11 @@
     </div>
     {% endif %}
     {% endwith %}
+   
+    <p class=" padding-bottom-1x"></p>
+    {% recently_viewed_products current_product=product %}
+       
+
 </div>
       </div>
 {% endblock content %}

@@ -47,13 +47,13 @@
                                     <input type="hidden" name="action" value="ship_to" />
                                     <input type="hidden" name="address_id" value="{{ address.id }}" />
                                     {% if address.is_default_for_shipping %}
-                                        <button  type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address" {% include "toast.html" %}><b>{% trans "Ship to default address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
+                                        <button  type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address" onclick="$('#cover-spin').show(0)" data-loading-text="{% trans 'Continuing...' %}"><b>{% trans "Ship to default address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
                                     {% else %}
-                                        <button style="margin-right:20px" type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address" {% include "toast.html" %}><b>{% trans "Ship to this address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
+                                        <button style="margin-right:20px" type="submit" style="border-radius:5px" class="btn btn-outline-primary btn-sm btn-block ship-address"  onclick="$('#cover-spin').show(0)" data-loading-text="{% trans 'Continuing...' %}"><b>{% trans "Ship to this address" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
                                     {% endif %}
 
                                     <div class="btn-group address-controls">
-                                        <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm" ><b class=" text-sm">{% trans "Edit address" %}</b></a>
+                                        <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-default btn-sm" ><b class=" text-sm text-info">{% trans "Edit address" %}</b></a>
                                         <button class="btn-secondary btn-sms dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button>
                                         <div class="dropdown-menu"><a class="dropdown-item text-xs" href="{% url 'checkout:user-address-delete' pk=address.id %}"><b><b>{% trans "Delete" %}</b></b></a>
                                         </div>
@@ -81,7 +81,7 @@
                 {% include "partials/form_fields.html" with form=form  %}
                 <div class="form-group">
                     <div class="">
-                        <button type="submit" class="btn btn-outline-primary btn-sm btn-block" {% include "toast.html" %} ><b>{% trans "Continue" %}&nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i> </b></button>
+                        <button type="submit" value="continue" class="btn btn-outline-primary btn-sm btn-block" data-loading-text="{% trans 'Continuing...' %}" ><b>{% trans "Continue" %}&nbsp;&nbsp;<i style="font-weight:bold" class="icon-arrow-right"></i> </b></button>
                     </div>
                 </div>
             </form>

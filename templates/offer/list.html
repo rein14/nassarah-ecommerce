@@ -5,20 +5,24 @@
 
 
 
+
 {% block mobile %}
 {% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
-    Offers
-{% endblock bread %}</a>
-
+        <div style=" padding-top:22.5px">
+            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
+                Offer Zone{% endblock bread %}</a>
+            </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
 
 {% block show_account %}
-<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+<div class="account"><a href="/"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
+
+{% block show_basket %}
+
+{% endblock show_basket %}
 
 {% block canvax %}
 <div class=" hidden-md-down">
@@ -59,17 +63,18 @@
        
             <div class="row">
                     <section class="container  padding-bottom-30x">
-                        <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;margin&quot;: 2, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
+                        <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;margin&quot;: 2, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
                               <!-- Product-->
                 {% for product in offer.products|slice:":12" %}
-                <div class="grid-item"><b class=" text-primary"> {{offer.benefit.value}} </b>{% render_product product %}</div>
+                <div class="grid-item">{% render_product product %}</div>
                 {% endfor %}
             </div>
         </section>
             </div>
-            <p class=" text-center">
-                <a class="btn btn-default text-primary" href="{% url 'offer:detail' slug=offer.slug %}">{% trans "Browse products in offer" %}</a>
-            </p>
+            <p></p>
+            <div class=" text-center">
+                <a  href="{% url 'offer:detail' slug=offer.slug %}"><p class=" text-primary text-black"> {% trans "Browse products in this offer"%} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="text-primary text-bold icon-arrow-right"></i></p></a>
+            </div>
 
         {% endif %}
         <hr/>

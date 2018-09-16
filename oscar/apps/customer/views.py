@@ -6,21 +6,19 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views import generic
 
 from oscar.apps.customer.utils import get_password_reset_url
-from oscar.core.compat import get_user_model, user_is_authenticated
+from oscar.core.compat import get_user_model
 from oscar.core.loading import (
     get_class, get_classes, get_model, get_profile_class)
 from oscar.core.utils import safe_referrer
 from oscar.views.generic import PostActionMixin
-from . import signals
-from django.views.decorators.cache import cache_page
-from django.utils.decorators import method_decorator
 
+from . import signals
 
 PageTitleMixin, RegisterUserMixin = get_classes(
     'customer.mixins', ['PageTitleMixin', 'RegisterUserMixin'])
@@ -69,7 +67,7 @@ class AccountRegistrationView(RegisterUserMixin, generic.FormView):
     redirect_field_name = 'next'
 
     def get(self, request, *args, **kwargs):
-        if user_is_authenticated(request.user):
+        if request.user.is_authenticated:
             return redirect(settings.LOGIN_REDIRECT_URL)
         return super(AccountRegistrationView, self).get(
             request, *args, **kwargs)
@@ -109,7 +107,7 @@ class AccountAuthView(RegisterUserMixin, generic.TemplateView):
     redirect_field_name = 'next'
 
     def get(self, request, *args, **kwargs):
-        if user_is_authenticated(request.user):
+        if request.user.is_authenticated:
             return redirect(settings.LOGIN_REDIRECT_URL)
         return super(AccountAuthView, self).get(
             request, *args, **kwargs)
@@ -606,7 +604,7 @@ class AnonymousOrderDetailView(generic.DetailView):
         # Check URL hash matches that for order to prevent spoof attacks
         order = get_object_or_404(self.model, user=None,
                                   number=self.kwargs['order_number'])
-        if self.kwargs['hash'] != order.verification_hash():
+        if not order.check_verification_hash(self.kwargs['hash']):
             raise http.Http404()
         return order
 
@@ -614,7 +612,7 @@ class AnonymousOrderDetailView(generic.DetailView):
 # ------------
 # Address book
 # ------------
-@method_decorator(cache_page(60 * 65), name='dispatch')
+
 class AddressListView(PageTitleMixin, generic.ListView):
     """Customer address book"""
     context_object_name = "addresses"

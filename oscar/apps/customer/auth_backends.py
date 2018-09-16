@@ -1,4 +1,3 @@
-import django
 from django.contrib.auth.backends import ModelBackend
 from django.core.exceptions import ImproperlyConfigured
 
@@ -41,7 +40,7 @@ class EmailBackend(ModelBackend):
         # We make a case-insensitive match when looking for emails.
         matching_users = User.objects.filter(email__iexact=clean_email)
         authenticated_users = [
-            user for user in matching_users if user.check_password(password)]
+            user for user in matching_users if (user.check_password(password) and self.user_can_authenticate(user))]
         if len(authenticated_users) == 1:
             # Happy path
             return authenticated_users[0]
@@ -54,11 +53,5 @@ class EmailBackend(ModelBackend):
                 "password")
         return None
 
-    # The signature of the authenticate method changed in Django 1.11 to include
-    # a mandatory `request` argument.
-    if django.VERSION < (1, 11):
-        def authenticate(self, email=None, password=None, *args, **kwargs):
-            return self._authenticate(None, email, password, *args, **kwargs)
-    else:
-        def authenticate(self, *args, **kwargs):
-            return self._authenticate(*args, **kwargs)
+    def authenticate(self, *args, **kwargs):
+        return self._authenticate(*args, **kwargs)

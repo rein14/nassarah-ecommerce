@@ -4,21 +4,22 @@
 {% load static%}
 {% load cache %}
 
-{% block mobile %}
+ {% block mobile %}
 {% block sitelogo %}
-<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;">&nbsp;&nbsp;&nbsp;{% block bread %}
-  {% trans 'Account' %}
-{% endblock bread %} </a>
 
+<div style=" padding-top:22.5px">
+    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a>&nbsp;&nbsp;&nbsp;<a style="font-size:18px;color:#606975;"> {% block bread %}
+        {% trans 'Account' %}{% endblock bread %}</a>
+    </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
-{% block title %}
+ {% block title %}
     {{ page_title }} | {% trans 'Account' %} | {{ block.super }}
 {% endblock %}
 
+ 
 {% block show_account %}
-<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+<div class="account"><a href="/" onclick="$('#cover-spin').show(0)"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
 {% block body_class %}account-profile{% endblock %}
@@ -73,7 +74,7 @@ Profile Options
 {% endblock user %}
     
 {% block column_left %}
-<button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="icon-head"></i></button>
+<button class="sidebar-toggle position-right" style="top: 50%;height:55px;border-top-left-radius: 24px" data-toggle="modal" data-target="#modalDefault"><i style=" font-weight:bold;color:#0c75c1" class="material-icons filter_list"></i></button>
 
 
 <span class="hidden-md-down"> 

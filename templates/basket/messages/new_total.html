@@ -17,9 +17,11 @@
     </p>
 
     {% if include_buttons %}
-    <p class="text-center text-sm">
-         <a  href="{% url 'checkout:index' %}" class="btn btn-outline-primary btn-sms"  style="color:white;border-radius:5px"  {% include "toast.html" %}>{% trans "Checkout Now" %}</a>
+     <p class="text-center text-sm">
+         <a href="{% url 'basket:summary' %}" onclick="$('#cover-spin').show(0)" class="btn btn-outline-primary btn-sms"  style="color:white;border-radius:5px;font-size:11px">{% trans "View basket" %}</a>
+
+         <a href="{% url 'checkout:index' %}" onclick="$('#cover-spin').show(0)" class="btn btn-outline-primary btn-sms"  style="color:white;border-radius:5px; font-size:11px" >{% trans "Checkout" %}</a>
     </p>
-{% endif %}
+ {% endif %}
 
 {% endif %}

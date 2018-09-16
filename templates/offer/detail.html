@@ -1,23 +1,20 @@
-{% extends "layout.html" %}
-
-
+{% extends "offer/list.html" %}
+ 
 {% load i18n %}
 {% load product_tags %}
 
-{% block mobile %}
-{% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x" style=" height:0px"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+{% block bread %}
         {{ offer.name }} ( {{paginator.count}} )
-{% endblock bread %}</a>
-
- {% endblock sitelogo %}
-{% endblock mobile %}
+{% endblock bread %}
 
 {% block show_account %}
-<div class="account"><a href="/" {% include "toast.html" %}></a><i style="font-weight:bold; font-size:20px" class="pe-7s-home"></i></div>
+<div class="account"><a href="/"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
+
+{% block show_basket %}
+
+{% endblock show_basket %}
 
 {% block canvax %}
 <div class=" hidden-md-down">

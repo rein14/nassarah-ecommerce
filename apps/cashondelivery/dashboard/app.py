@@ -1,4 +1,3 @@
-import django
 from django.conf.urls import url
 from django.contrib.admin.views.decorators import staff_member_required
 
@@ -21,12 +20,6 @@ class CashOnDeliveryDashboardApplication(Application):
             url(r'^transactions/(?P<pk>\d+)/$', self.detail_view.as_view(),
                 name='cashondelivery-transaction-detail'),
         ]
-
-        if django.VERSION[:2] < (1, 8):
-            from django.conf.urls import patterns
-
-            urlpatterns = patterns('', *urlpatterns)
-
         return self.post_process_urls(urlpatterns)
 
 

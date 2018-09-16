@@ -7,11 +7,12 @@ PagePromotion = get_class('promotions.models', 'PagePromotion')
 AutomaticProductList = get_class('promotions.models', 'AutomaticProductList')
 HandPickedProductList = get_class('promotions.models', 'HandPickedProductList')
 MultiImage = get_class('promotions.models', 'MultiImage')
+MultiProImage = get_class(' promotions.models', 'MultiProImage')
 
 
 def get_promotion_classes():
     return (RawHTML, Image, SingleProduct, AutomaticProductList,
-            HandPickedProductList, MultiImage)
+            HandPickedProductList, MultiImage, MultiProImage)
 
 
 PROMOTION_CLASSES = get_promotion_classes()

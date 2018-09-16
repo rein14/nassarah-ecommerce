@@ -16,34 +16,47 @@
 
 {% block mobile %}
 {% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>
-
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp; {% trans "Who are you?" %}</a>
-
-
+<div style=" padding-top:22px">
+    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:17px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+        {% trans 'Checkout Mode' %}{% endblock bread %}</a>
+    </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
 
+
+
 {% block canvax %}
-
 {% block breadcrumbs %}
+  
 
+<div class="page-title hidden-md-down">
+        <div class="container">
+          <div class="column">
+            <ul class="breadcrumbs">
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+             <li>Checkout</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 {% endblock %}
 {% endblock canvax %}
 
 
 
 {% block content %}
+<div class="row">
 <div class="col-xl-9 col-lg-8">
 
 <p></p>
 
-<h4 class="hidden-md-down text-center">{% trans "Who are you?" %}</h4>
+<h4 class="hidden-md-down text-center">{% trans "Tell us how you want to checkout" %}</h4>
 <p></p>
-    <form action="." method="post" class="form-stacked well" style="font-weight:bold">
+    <form action="." method="post" class="form form-horizontal" style="font-weight:bold">
         {% csrf_token %}
         {{ form.non_field_errors }}
+        <div class="col-sm-9">
 
         {% include "partials/form_field.html" with field=form.username %}
 
@@ -79,17 +92,31 @@
                 </div>
             </div>
         </div>
-
-        <div class="form-group" >
-            <div class="row">
-                <div class="col-sm-3">
-                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary btn-sm"  {% include "toast.html" %}><b>{% trans "Continue" %} <i class="icon-arrow-right"></i></b></button>
-                </div>
+ 
+        <div class="form-group hidden-lg-up" >
+            <div class=" col-md-8">
+                    <div class="row">
+                                <button name="registration_submit" type="submit" value="Register" class="btn btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Loading...' %}"><b>{% trans 'Continue' %}&nbsp;<i class=" icon-arrow-right"></i></b></button>
+                    </div>
             </div>
         </div>
+        <div class="form-group hidden-sm-down" >
+                
+                        <div class="row">
+                                    <button name="registration_submit" type="submit" value="Register" class="btn btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Loading...' %}"><b>{% trans 'Continue' %}&nbsp;<i class=" icon-arrow-right"></i></b></button>
+                 </div>
+            </div>
+        
+        </div>
+
+        
     </form>
 </div>
-     
+<p></p>
+{% include "checkout/sidebar.html" %}
+
+</div>
+
 {% endblock content %}
 
 {% block onbodyload %}

@@ -11,11 +11,10 @@
 
 {% block mobile %}
 {% block sitelogo %}
-<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp; {% block bread %}
-    {% trans 'Preview' %}
-{% endblock  %}</a>
-
+    <div style=" padding-top:22.5px">
+        &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
+            {% trans 'Preview' %}<span class=" text-info"> 3</span> Of <span class=" text-info"> 3</span>  <em class=" text-xx">(scroll down)</em>{% endblock bread %}</a>
+        </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
 
@@ -93,41 +92,10 @@
                         {% endblock shipping_address %}
         {# You will almost certainly want to override this block to provide a payment summary #}
     <hr class="hidden-md-down">
-        {% block payment_method %}
-                     <div class="col-sm-6">
-                            <div class="well well-info" style="padding-left: 20px; padding-right: 20px;padding-top: 10px">
 
-                            <a class="text-primary" href="{% url 'checkout:shipping-address' %}" style="float:right" {% include "toast.html" %}>
-                                    {% trans "Change" %}
-                                </a>
-                            <h6>Shipping to:</h6>
-                            <ul class="list-unstyled">
-                                    <address>
-                                            {% for field in shipping_address.active_address_fields %}
-                                                {{ field }}<br/>
-                                            {% endfor %}
-                                        </address>
-                                        <li><span class="text-muted">Phone:</span>{{ shipping_address.phone_number }}</li>
 
-                                {% if guest_email %}
-
-                              <li><span class="text-muted">Email:</span>{{ guest_email }}</li>
-                              {% endif %}
-                            </ul>
-                          </div>
-                          
-                     </div>
-                        </div>   
-            <div >
-            </div>
-            </div>
-    </div>
-          </div>
-          </div>
-        {% endblock payment_method %}
-<hr class=" padding-bottom-2x">
-        {% block order_contents %}
-        <div class="sub-header container">
+    {% block order_contents %}
+        <div class=" col-sm-6">       <div class="sub-header container">
                 {% block order_contents_actions %}
                     <a class="text-primary" href="{% url 'basket:summary' %}" style="float:right">
                         {% trans "Edit order contents" %}
@@ -135,15 +103,13 @@
                 {% endblock %}
                 <h6 class=""><b>{% trans "Order contents" %}</b></h6>
             </div>
-        <div class="shopping-cart container">
-                <table class="table table-responsive text-xs">
+        <div class="shopping-cart container ">
+                <table class="table table-bordered text-xs">
                   <thead>
                     <tr>
                       <th class="text-xs">{% trans "Item" %}</th>
-                      <th></th>
-                      <th class="text-center text-xs">{% trans "Total" %}</th>
-                      <th></th>
-                    </tr>
+                       <th class="text-center text-xs">{% trans "Total" %}</th>
+                     </tr>
                   </thead>
                   {% for line in basket.all_lines %}
                 {% purchase_info_for_line request line as session %}
@@ -164,8 +130,7 @@
                                     </div>
                                   </td>
     
-                     <td></td>
-                      <td class="text-center text-xs">{% if not show_tax_separately and line.is_tax_known %}
+                       <td class="text-center text-xs ">{% if not show_tax_separately and line.is_tax_known %}
                            <b> {{ line.line_price_incl_tax|currency:basket.currency }}</b>
                         {% else %}
                            <b>{{ line.line_price_excl_tax|currency:basket.currency }}</b>
@@ -177,13 +142,33 @@
                   {% endfor %}
                 </table>
               </div>
-              <div class="shopping-cart-footer">
-    
-                <div class="row hidden-md-down">
-                        <div class="col-sm-6 ">&nbsp;</div>
-                        </div>
-            
+     
+                         </div>
+ 
         {% endblock order_contents %}
+        {% block payment_method %}
+                     <div class="col-sm-6">
+                            <div class="well container" style="padding-left: 20px; padding-right: 20px;padding-top: 10px">
+
+                            
+                                     <a class=" text-primary"  href="{% url 'checkout:payment-method' %}" style="float:right">
+                                        {% trans "Change" %}
+                                    </a>
+                                    <h6>{% trans "Payment Method" %}</h6>
+                              
+                              
+                                </div>
+                          </div>
+                          
+                
+        {% endblock payment_method %}
+
+    </div>
+
+</div>
+</div>
+<hr class=" padding-bottom-2x">
+        
     {% block shipping_method %}
     {% endblock shipping_method %}
 

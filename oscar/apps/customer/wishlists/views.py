@@ -2,9 +2,9 @@
 from django.contrib import messages
 from django.core.exceptions import (
     MultipleObjectsReturned, ObjectDoesNotExist, PermissionDenied)
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import (
     CreateView, DeleteView, FormView, ListView, UpdateView, View)
@@ -233,7 +233,7 @@ class WishListAddProduct(View):
 
     def add_product(self):
         self.wishlist.add(self.product)
-        msg = _("'%s' has been added to your wish list.") % self.product.get_title()
+        msg = _("'%s' was added to your wish list.") % self.product.get_title()
         messages.success(self.request, msg)
         return redirect_to_referrer(
             self.request, self.product.get_absolute_url())
@@ -282,7 +282,7 @@ class WishListRemoveProduct(LineMixin, PageTitleMixin, DeleteView):
         return ctx
 
     def get_success_url(self):
-        msg = _("'%(title)s' has been removed from your '%(name)s' wish list") % {
+        msg = _("'%(title)s' was removed from your '%(name)s' wish list") % {
             'title': self.line.get_title(),
             'name': self.wishlist.name}
         messages.success(self.request, msg)

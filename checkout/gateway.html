@@ -39,7 +39,7 @@
 
 <p></p>
 
-<h4 class="hidden-md-down text-center">{% trans "Who are you?" %}</h4>
+<h4 class="hidden-md-down text-center">{% trans "Tell us whfo are" %}</h4>
 <p></p>
     <form action="." method="post" class="form-stacked well" style="font-weight:bold">
         {% csrf_token %}
@@ -80,11 +80,21 @@
             </div>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group hidden-lg-down" >
             <div class="row">
                 <div class="col-sm-3">
-                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary btn-sm"  {% include "toast.html" %}><b>{% trans "Continue" %} <i class="icon-arrow-right"></i></b></button>
-                </div>
+                        <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
+                    </div>
+            </div>
+        </div>
+        <div class="form-group " >
+            <div class="row">
+                <div class="col-sm-3 hidden-lg-down">
+                        <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
+                    </div>
+                    <div class="col-sm-3">
+                        <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
+                    </div>
             </div>
         </div>
     </form>

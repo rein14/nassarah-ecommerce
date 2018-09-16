@@ -21,7 +21,7 @@
                 {% if offer_discounts %}
                 {% for discount in offer_discounts %}
                 <tr>
-                    <td class="total text-xs"><span>{% trans "Discount" %} -</span> {{ discount.name }}
+                    <td class="total text-xs"><span class=" bg-success text-white">{% trans "Discount" %} </span> - {{ discount.name }}
                         {% if discount.description %}
                         <br/><small>{{ discount.description }}</small>
                         {% endif %}
@@ -81,8 +81,8 @@
           
           <tr>
             {% if not shipping_method.is_discounted %}
-            <td class="text-xs hidden-md-down">{{ shipping_method.name }}</td>
-            <td class="text-xs hidden-md-down">
+            <td class="text-xs">{{ shipping_method.name }}</td>
+            <td class="text-xs">
                 {% if not show_tax_separately and shipping_charge.is_tax_known %}
                 {{ shipping_charge.incl_tax|currency:basket.currency }}
             {% else %}
@@ -161,9 +161,9 @@
           <tr>
             <td></td>
             {% if order_total.is_tax_known %}
-            <td class="text-lg text-xs text-primary"> {{ order_total.incl_tax|currency:basket.currency }}</td>
+            <td class="text-lg text-sd"> {{ order_total.incl_tax|currency:basket.currency }}</td>
             {% else %}
-            <td class="text-lg text-xs text-primary"> {{ order_total.incl_tax|currency:basket.currency }}</td>
+            <td class="text-lg text-sd"> {{ order_total.incl_tax|currency:basket.currency }}</td>
             {% endif %}
         </tr>
           
@@ -172,11 +172,18 @@
       </section>
         
       <!-- Promo Banner-->
-      <section class="promo-box hidden-lg-down" style="background-image: url('/static/oscar/img/banners/02.jpg');"><span class="overlay-dark" style="opacity: .4;"></span>
+      <section class="promo-box hidden-sm-down" style="background-image: url('/static/oscar/img/banners/02.jpg');"><span class="overlay-dark" style="opacity: .4;"></span>
         <div class="promo-box-content text-center padding-top-2x padding-bottom-2x">
           <h4 class="text-light text-thin text-shadow">New Collection of</h4>
           <h3 class="text-bold text-light text-shadow">Electronics</h3><a class="btn btn-outline-white btn-sm" href="shop-grid-ls.html">Shop Now</a>
       </section>
+      <p></p>
+      <section class="promo-box hidden-sm-down" style="background-image: url('/static/oscar/img/banners/02.jpg');"><span class="overlay-dark" style="opacity: .4;"></span>
+        <div class="promo-box-content text-center padding-top-2x padding-bottom-2x">
+          <h4 class="text-light text-thin text-shadow">New Collection of</h4>
+          <h3 class="text-bold text-light text-shadow">Electronics</h3><a class="btn btn-outline-white btn-sm" href="shop-grid-ls.html">Shop Now</a>
+      </section>
+      
     </div>
 
     </aside>

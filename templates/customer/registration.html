@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "customer/login_registration.html" %}
 
 {% load i18n %}
 
@@ -6,26 +6,22 @@
     {% trans 'Register' %} | {{ block.super }}
 {% endblock %}
 
- 
-{% block mobile %}
-{% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+{% block bread %}
     {% trans 'Sign up' %}
-{% endblock bread %}</a>
-
- {% endblock sitelogo %}
-{% endblock mobile %}
-
-
-{% block show_account %}
-
-{% endblock show_account %}
+{% endblock bread %}
 
 {% block headertext %}
     {% trans "Register" %}
 {% endblock %}
 {% block canvax %}
+
+
+{% block show_basket %}
+
+{% endblock show_basket %}
+{% block show_search %}
+
+{% endblock show_search %}
  <div class=" hidden-md-down">
 
  {% block breadcrumb %}
@@ -34,7 +30,7 @@
          <div class="container">
            <div class="column text-medium">
              
-All Products
+Register
            </div>
          </div>
  </div>
@@ -48,14 +44,15 @@ All Products
 {% block content %}
     <div class="row">
         <div class="col-sm-6 register_form">
-            <form id="register_form" action="." method="post" class="form-stacked">
+            <form onsubmit="$('#cover-spin').show(0)" id="register_form" action="." method="post" class="form-stacked">
+                    <h6 class='text-center hidden-md-down'><b style="color:#606975"> <i class=" pe-7s-add-user text-bold"></i> {% trans ' Register' %}</b></h6>
+<p class=" hidden-down-up"></p>
                 {% csrf_token %}
                 {% include "partials/form_fields.html"  %}
-                <button name="registration_submit" type="submit" value="Register" class="btn btn-primary btn-lg" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
-                {% if cancel_url %}
-                    {% trans "or" %} <a href="{{ cancel_url }}">{% trans "cancel" %}</a>.
-                {% endif %}
+                <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
             </form>
         </div>
     </div>
+    <span class="margin-bottom-1x text-sd text-center">Have an account?&nbsp;&nbsp; <a  href="{% url 'customer:register' %}"><u class=" text-primary"><i class=" pe-7s-add-user text-bold"></i>&nbsp; Sign In</u></a></span>
+<p> &nbsp;</p>
 {% endblock content %}

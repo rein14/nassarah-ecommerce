@@ -11,17 +11,20 @@
 {% load cache%}
 
 
-<html lang="en">
-  <head>
+<html lang="{{ LANGUAGE_CODE|default:"en-gb" }}" class="no-js">
+   <head>
       {% progressive_web_app_meta %}
 
     <meta charset="utf-8">
-    <title>Nasarah
+    <title>Nasarah - Number Stop Shop
     </title>
     <!-- SEO Meta Tags-->
-    <meta name="description" content="Nasarah - Your number one ecommerce in GH">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="created" content="{% now "jS M Y h:i" %}" />
+    <meta name="description" content="{% block description %}{% endblock %}" />
+    <meta name="robots" content="NOARCHIVE,NOCACHE" />
     <meta name="keywords" content="shop, e-commerce, modern, flat style, responsive, online store, business, mobile, blog, bootstrap 4, html5, css3, jquery, js, gallery, slider, touch, creative, clean">
-    <meta name="author" content="Nasarah">
+    <meta name="author" content="Nasara">
     <!-- Mobile Specific Meta Tag-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Favicon and Apple Icons-->
@@ -47,24 +50,45 @@
       <link rel="stylesheet" type="text/css" href="{% static "oscar/css/css/vendor.min.css" %}" />
 
       <link rel="stylesheet" href="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css" %}" />
-      <link href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,600' rel='stylesheet'>
-
       <link rel="stylesheet" type="text/css" href="{% static "oscar/css/datetimepicker.css" %}" />
+
+      <link href='https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,600' rel='stylesheet'>
+ 
+<style>
+  .ac-results{
+    position: absolute;
+    z-index: 99;
+    top:100%;
+    border-bottom:1px solid rgba(1, 22, 46, 0.856);
+    left:0;
+    right:0;
+    padding-left:20px
+   }
+   .ac-results .result-wrapper{
+     padding-bottom: 27px;
+     
+   }
+   .ac-results .result-wrapper .ac-result{
+    color: #065174
+  }
+
+
+
+    </style>
   
           <!-- Main Template Styles-->
       <!-- Modernizr-->
     {% endblock styles%}
-
-    <script src="{% static "oscar/js/js/modernizr.min.js"%}"></script>
-         
+    {% block tracking %}
+    {# Default to using Google analytics #}
+    {% include "partials/google_analytics.html" %}
+{% endblock %}
   </head>
 
   <!-- Body-->
 
   <body >
-     
- 
-
+   
         <div class="modal fade" id="modalDefault" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -77,7 +101,7 @@
                 <div class="modal-body">
                  {% block user %}
                  <ul>
-                   <li>To remove product from your cart, set product <b style="color:#0c75c1">Quantity</b> to <b style="color:#0c75c1">0.</b></li>
+                   <li>To remove product from your cart, tap on <b style="color:red">X</b></b></li>
                  <li><b style="color:#0c75c1">Sign up</b> or <b style="color:#0c75c1">login</b> for a better checkout. Take total control over checkout.</li>
                  <li>Pay <b style="color:#0c75c1">cash on delivery</b> or <b style="color:#0c75c1">mobile money.</b> Your choice.</li>
                  <li>Get the correct value for your money</li>
@@ -94,97 +118,89 @@
     {% block layout %}
     
     <!-- Off-Canvas Category Menu-->
-    {% cache 600 category_list_desk%}
-    {% category_tree as tree_categories %}
-    {% if tree_categories %}
-    <div class="offcanvas-container" id="shop-categories">
-        <div class="offcanvas-header">
-          <h3 class="offcanvas-title">Shop Categories</h3>
-        </div>
+    
+    <div class="offcanvas-container" id="mobile-menu">
         <nav class="offcanvas-menu">
           <ul class="menu">
+            <li>{% if user.is_authenticated %}
+      
+                <a class="account-link" href="{% url 'customer:summary' %}">
+                  <div class="user-ava"><img src="{% static "oscar/img/account/default_profile.png" %}" alt="Profile Name">
+                  </div>
+                  <div class="user-info">
+                   <h6 class="user-name"> {% trans "Welcome" %}  </h6><span class="text-sm text-white "><em>{{ user.get_full_name|default:request.user.email }}</em></span>
+                  </div></a>
+                  {% else %}
+                  <a class="account-link" href="{% url 'customer:summary' %}">
+                    <div class="user-ava"><img src="{% static "oscar/img/account/default_profile.png" %}" alt="Profile Name">
+                    </div>
+                    <div class="user-info">
+                     <h6 class="user-name"> {% trans "Welcome" %}<em> Customer</em>  </h6><span class="text-white "><em>Log In</em></span>
+                    </div></a>
+  
+                  
+                 {% endif %}</li>
+                 <li onclick="$('#cover-spin').show(0)" class="has-children"><span><a href="/mob-categories"><i class="icon-layers "></i>&nbsp; Categories</a><span class="sub-menu-toggle"></span></span>
+                  <ul class="offcanvas-submenu">
+
   {% include "category_list.html" %}
-          </ul>
-        </nav>
-      </div>
-      {% endif %}
-
-    {% endcache%}
-    <!-- Off-Canvas Mobile Menu different templates-->
-    <div class="offcanvas-container" id="mobile-menu">
-      
-      <nav class="offcanvas-menu">
-        
-        <ul class="menu">
-            {% if user.is_authenticated %}
-      
-            <a class="account-link" href="{% url 'customer:summary' %}">
-              <div class="user-ava"><img src="{% static "oscar/img/account/default_profile.png" %}" alt="Profile Name">
-              </div>
-              <div class="user-info">
-               <h6 class="user-name"> {% trans "Welcome" %}  </h6><span class="text-sm text-white "><em>{{ user.get_full_name|default:request.user.email }}</em></span>
-              </div></a>
-              {% else %}
-              <a class="account-link" href="{% url 'customer:summary' %}">
-                <div class="user-ava"><img src="{% static "oscar/img/account/default_profile.png" %}" alt="Profile Name">
-                </div>
-                <div class="user-info">
-                 <h6 class="user-name"> {% trans "Welcome" %}  </h6><span class="text-sm text-white "><em>Customer</em></span>
-                </div></a>
-                    <li class="has-children active"><span><a class="list-group-item text-white"href="{% url 'customer:login' %}"><i class="icon-unlock"></i> {% trans "Login or register" %}</a></span>
-               </li>
-              
-             {% endif %}
-      
-          {% cache 600 list %}
-          <li class="has-children"><span><a href="#">Categories</a><span class="sub-menu-toggle"></span></span>
+  </ul>
+  </li>
+  <li onclick="$('#cover-spin').show(0)" class="has-children"><span><a href="{% url 'customer:profile-view' %}"><span><i class="icon-head "></i>&nbsp; Account</span></a><span class="sub-menu-toggle"></span></span>
             <ul class="offcanvas-submenu">
-              {% include "category_list.html" %}
-            </ul>
+                <li><a onclick="$('#cover-spin').show(0)" href="{% url 'customer:change-password' %}">Change Password</a></li>
+                 <li><a onclick="$('#cover-spin').show(0)" href="{% url 'customer:notifications-inbox' %}">Notifications</a></li>
+                <li><a onclick="$('#cover-spin').show(0)" href="{% url 'customer:address-list' %}">Contact / Shipping Address</a></li>
+             </ul>
           </li>
-
-          <li class="has-children"><span><a href="{% url 'customer:profile-view' %}"><span>Account</span></a><span class="sub-menu-toggle"></span></span>
-            <ul class="offcanvas-submenu">
-                <li><a href="{% url 'customer:change-password' %}">Change Password</a></li>
-                <li><a href="{% url 'customer:order-list' %}">Orders List</a></li>
-                <li><a href="{% url 'customer:wishlists-list' %}">Wishlist</a></li>
-                <li><a href="{% url 'customer:notifications-inbox' %}">Notifications</a></li>
-                <li><a href="{% url 'customer:address-list' %}">Contact / Shipping Address</a></li>
-                <li><a href="{% url 'customer:email-list' %}">My Mails</a></li>
-            </ul>
-          </li>
-          
-         
-          <li class=" has-children"><span><a href="/faqs"><span>Help/About</span></a><span class="sub-menu-toggle"></span></span>
+          <li class=" has-children"><span><a href="/faqs"><span><i class="icon-help"></i>&nbsp; Help/About</span></a><span class="sub-menu-toggle"></span></span>
             <ul class="offcanvas-submenu">
                 <li><a href="/faqs">Faqs</a></li>
                 <li><a href="/about">About</a></li>
+                <li><a href="/about">Terms & conditions</a></li>
+                <li><a href="/about">Privacy Policy</a></li>
             </ul>
           </li>
-          <li class=" has-children"><span><a href="/faqs"><span> Our Stores</span></a><span class="sub-menu-toggle"></span></span>
+          <li class=" has-children"><span><a href="/faqs"><span><i class="material-icons local_convenience_store "></i>&nbsp; Our Stores</span></a><span class="sub-menu-toggle"></span></span>
             <ul class="offcanvas-submenu">
                 <li><a href="/faqs">Second Hand Store</a></li>
             </ul>
           </li>
-          <li> <a class="list-group-item" class="list-group-item with-badge" href="{% url 'customer:order-list' %}"  {% include "toast.html" %}><i class="icon-bag"></i><b>My {% trans "Orders" %}</b><span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
+          <li> <a onclick="$('#cover-spin').show(0)" class="with-badge" href="/offers/bingi-offers"><i class="icon-bag"></i>&nbsp;  Deals of the day</a></li>
+          <li> <a onclick="$('#cover-spin').show(0)" class="with-badge" href="/offers"><i class="icon-bag"></i>&nbsp;  The Offer Zone</a></li>
 
-          <li><a class="list-group-item" href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i><b> My Wishlists</b></a></li>
+          <li> <a onclick="$('#cover-spin').show(0)" class=" with-badge" href="{% url 'customer:order-list' %}"   ><i class="icon-bag"></i>&nbsp;  My {% trans "Orders" %}<span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
 
-          <li><a class="list-group-item" href="tel:0242383165"><i class="material-icons call"></i> {% trans " Call Nasarah" %}</a></li>
-          <li> <a class="list-group-item" class="list-group-item" href="{% url 'customer:email-list' %}"  {% include "toast.html" %}><i class="icon-mail"></i><b>My {% trans "Mails" %}</b></a></li>
+          <li><a onclick="$('#cover-spin').show(0)" href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i>&nbsp;  My Wishlists</a></li>
+
+          <li> <a onclick="$('#cover-spin').show(0)" href="{% url 'customer:email-list' %}"  ><i class="icon-mail"></i>&nbsp;  My {%trans "Mails" %}</a></li>
  
-          <li><a class="list-group-item" href="{% url 'customer:change-password' %}"><i class="icon-lock"></i> Privacy Policy</a></li>
+          <li><a href="tel:0242383165"><i class="material-icons call"></i>&nbsp;  {% trans " Call Nasarah" %}</a></li>
 
-          <li><a class="list-group-item" href="{% url 'customer:change-password' %}">Terms & Conditions</a></li>
-          {% endcache %}
+          
           {% if user.is_authenticated%}
-          <li><a href="{% url 'customer:logout' %}"><i class="icon-unlock "></i> {% trans " Logout" %}</a></li>
+          <li><a onclick="$('#cover-spin').show(0)" href="{% url 'customer:logout' %}"><i class="icon-unlock "></i>&nbsp;  {% trans " Logout" %}</a></li>
       {% endif%}
+          </ul>
+        </nav>
+      </div>
+     
+      {% cache 600 topbar%}
+    <!-- Off-Canvas Mobile Menu different templates-->
+    <div class="offcanvas-container" id="shop-categories">
+        <div class="offcanvas-header">
+            <h3 class="offcanvas-title text-white">Shop Categories</h3>
+          </div>
+      <nav class="offcanvas-menu">
+        
+        <ul class="menu">
+      
+          {% include "category_list.html" %}
         </ul>
       </nav>
     </div>
     <!-- Topbar-->
-    {% cache 600 topbar%}
+  
     <div class="topbar">
       <div class="topbar-column hidden-md-down"><a href="mailto:support@unishop.com"><i class="icon-mail"></i>&nbsp; support@noname.com</a><a class="hidden-md-down" href="tel:0242383165"><i class="fa fa-phone"></i>&nbsp; 233 24238 3165</a><a class="social-button sb-facebook shape-none sb-dark" href="#" target="_blank"><i class="socicon-facebook"></i></a><a class="social-button sb-twitter shape-none sb-dark" href="#" target="_blank"><i class="socicon-twitter"></i></a><a class="social-button sb-instagram shape-none sb-dark" href="#" target="_blank"><i class="socicon-instagram"></i></a><a class="social-button sb-pinterest shape-none sb-dark" href="#" target="_blank"><i class="socicon-pinterest"></i></a>
       </div>
@@ -200,7 +216,6 @@
       <form class="site-search" action="{% url 'search:search' %}"  method="get">
         {{ search_form.q }}
         <div class="search-tools"><span class="clear-search"><b> Clear</b></span><span class="close-search"><i class="icon-cross"></i></span></div>
-        
       </form>
       <div class="site-branding">
           <div class="inner">
@@ -208,15 +223,19 @@
   
                   {% block mobile %}
                   {% block sitelogo %}
-                  <!-- Off-Canvas Toggle (#mobile-menu)--><a class="offcanvas-toggle menu-toggle" href="#mobile-menu" data-toggle="offcanvas"></a>
+                  <!-- Off-Canvas Toggle (#mobile-menu)-->
+                  <a class="offcanvas-toggle menu-toggle" href="#mobile-menu" data-toggle="offcanvas"></a>
                 
-                  <!-- Site Logo--><a class="site-logo" href={{ homepage_url }} {% include "toast.html" %}><img src="{% static "oscar/img/logo/logo.png"%}" alt="Unishop"></a>
+                  <!-- Site Logo-->
+                  <a class="site-logo" href={{ homepage_url }} onclick="$('#cover-spin').show(0)"><img src="{% static "oscar/img/logo/logo.png"%}" alt="Unishop"></a>
                  {% endblock sitelogo %}
                   {% endblock mobile %}
                   </div>
         
-                  <div class="hidden-md-down">
+                  <div class="hidden-sm-down">
                   {% block desktop %}
+                  <a class="offcanvas-toggle menu-toggle" href="#mobile-menu" data-toggle="offcanvas"></a>
+
                             <!-- Off-Canvas Toggle (#shop-categories)-->
                             <a class="offcanvas-toggle cats-toggle" href="#shop-categories" data-toggle="offcanvas"></a>
                   <!-- Site Logo-->
@@ -298,50 +317,28 @@
           <li><a href="#"><span>Help / FAQ</span></a>
             <ul class="sub-menu">
                 <li><a href="/faqs">Help / FAQ</a></li>
-                <li><a href="contacts.html">Contacts</a></li>
-                
+                <li><a href="contacts.html">Contacts</a></li>                
             </ul>
           </li>
           <li class="has-megamenu"><a href="components/accordion.html"><span>Categories</span></a>
-            
             <ul class="mega-menu">
-                {% for tree_category, info in tree_categories %}
-
-              <li><span class="sub-menu-title"><a href="{{ tree_category.get_absolute_url }}">
-                  {% if tree_category.pk == category.pk %}
-                      <h6>{{ tree_category.name|safe }}</h6>
-                      <p></p>
-                  {% else %}
-                     <h6>{{ tree_category.name|safe }}</h6> 
-                      <p></p>
-                  {% endif %}
-              </a></span>
-              
-              {% if info.has_children %} <ul class="sub-menu"></li>{% endif %}
-                {% for n in info.num_to_close %}
-                    </ul></li>
-                {% endfor %}
-              {% endfor %}
-
             </ul>
           </li>
         </ul>
       </nav>
       {% endcache%}
-      
       <!-- Toolbar-->
       <div class="toolbar">
         <div class="inner">
           <div class="tools">
 {% block show_search %}
 <div class="search"><i style="font-weight:bold" class="icon-search"></i></div>
-
 {% endblock show_search %}
 
             <!--account-->
             {% block show_account %}
             
-            <div class="account"><a href="/accounts" {% include "toast.html" %}></a><i style="font-weight:bold" class="icon-head"></i>
+            <div class="account"><a href="/accounts" onclick="$('#cover-spin').show(0)" ></a><i style="font-weight:bold" class="icon-head"></i>
               <ul class="toolbar-dropdown">
                   {% if user.is_authenticated %}
                 <li class="sub-menu-user">
@@ -393,7 +390,7 @@
 
             {% block show_basket %}
             
-            <div class="cart"><a href="{% url 'basket:summary' %}" {% include "toast.html" %}></a><i style="font-weight:bold" class="icon-bag"></i><span class="count" style="color:red "><strong> {{request.basket.all_lines.count}}</strong></span><span class="subtotal">
+            <div class="cart"><a onclick="$('#cover-spin').show(0)" href="{% url 'basket:summary' %}"  ></a><i style="font-weight:bold" class="icon-bag"></i><span class="count text-info text-bold" ><strong> {{request.basket.all_lines.count}}</strong></span><span class="subtotal">
              
                 {% if not request.basket.is_empty %}
                     {% if request.basket.is_tax_known %}
@@ -405,66 +402,57 @@
                     {% endif %}
                 {% endif %}
             </span>
-            <div class="toolbar-dropdown">
-                <div class="toolbar-dropdown">
-                    
-                    
-                    <div class="toolbar-dropdown-group">
-                      <div class="column"><a class="btn btn-sm btn-block btn-secondary" href="cart.html">View Cart</a></div>
-                      <div class="column"><a class="btn btn-sm btn-block btn-success" href="checkout-address.html">Checkout</a></div>
-                    </div>
-                  </div>
+            <div class="toolbar-dropdown ">
+               
                 {% if request.basket.num_lines %}
                 {% for line in request.basket.all_lines %}
-              <div class="dropdown-product-item"><span class="dropdown-product-remove"><i class="icon-cross"></i></span>
+              <div class="dropdown-product-item">
                  {% with image=line.product.primary_image %}
                   {% thumbnail image.original "50x50" upscale=False as thumb %}
                   <a class="dropdown-product-thumb" href="{{ line.product.get_absolute_url }}"><img class="thumbnail" src="{{ thumb.url }}" alt=""></a>
                   {% endthumbnail %}
                    </a>{% endwith %}</a>
-                <div class="dropdown-product-info"><a class="dropdown-product-title" href="{{ line.product.get_absolute_url }}">{{ line.product.get_title }}</a><span class="dropdown-product-details">{{ line.quantity }} * {{ line.unit_price_excl_tax|currency:request.basket.currency }}</span></div>
+                <div class="dropdown-product-info text-xs"><a class="dropdown-product-title" href="{{ line.product.get_absolute_url }}">{{ line.product.get_title }}</a><span class="dropdown-product-details ">{{ line.quantity }} * {{ line.unit_price_excl_tax|currency:request.basket.currency }}</span></div>
               </div>
               {% endfor %}
 
-                <div class="toolbar-dropdown-group">
+                <div class="toolbar-dropdown-group text-xs">
                     {% trans "Basket" %}
                     {% if not request.basket.is_empty %}
                         {% if request.basket.is_tax_known %}
                             {% blocktrans with total=request.basket.total_incl_tax|currency:request.basket.currency %}
                  
-                  <div class="column text-right"><span class="text-lg text-medium">{{ total }}&nbsp;</span></div>
+                  <div class="column text-right"><span class="text-sm">{{ total }}&nbsp;</span></div>
                   {% endblocktrans %}
                   {% else %}
                       {% blocktrans with total=request.basket.total_incl_tax|currency:request.basket.currency %}
-                         <div class="column text-right"><span class="text-lg text-medium">{{ total }}&nbsp;</span></div>
+                         <div class="column text-right"><span class="text-sm">{{ total }}&nbsp;</span></div>
                       {% endblocktrans %}
 
                       {% endif %}
                   {% endif %}
                 </div>
-                <div class="toolbar-dropdown-group">
-                  <div class="column"><a class="btn btn-sm btn-block btn-outline-primary" href="{% url 'basket:summary' %}">View Cart</a></div>
-                  <div class="column"><a class="btn btn-sm btn-block btn-outline-success" href="{% url 'checkout:index' %}">Checkout</a></div>
+                <div class="toolbar-dropdown-group text-center">
+                  <div class="column"><a class="btn btn-sms btn-block btn-outline-primary" href="{% url 'basket:summary' %}">View Cart</a></div>
+                  <div class="column"><a class="btn btn-sms btn-block btn-outline-success" href="{% url 'checkout:index' %}">Checkout</a></div>
                 </div>
                 {% else %}
                   <li><p class=" text-sm text-center">{% trans "Your basket is empty." %}</p></li>
                 {% endif %}
-
-
               </div>
             </div>
             {% endblock show_basket %}            
-
           </div>
-        
-      
     </header>
+   
+    <div class="offcanvas-wrapper" style=" background:rgb(255, 255, 255)">
+{% block before_canvas %}
 
+<div class=" preloader"></div>
+<div id="cover-spin"></div>
 
 {% block canvax %}
-
-
-<div class="offcanvas-wrapper" style=" background:rgba(253, 253, 253, 0.336)">
+<div >
   <!-- Page Content-->
   <!-- Main Slider-->
   <!--Start of Tawk.to Script-->
@@ -480,28 +468,16 @@
   })();
   </script>
   <!--End of Tawk.to Script-->
-  <div class="hidden-sm-down">
-
-  {% cache 600 banner_down%}
-
  
+  {% cache 600 banner_down%} 
   {% for promotion in promotions_banner %}
             {% render_promotion promotion %}
            {% endfor %}
-  {%endcache%}
-</div>
 
-  <div class="hidden-md-up">
+  
+  <p class=" hidden-md-down"></p>
 
-{%cache 600 mobile_banner %}
-                      {% for promotion in promotions_picture %}
-                                {% render_promotion promotion %} 
-                               {% endfor %}
-                              {% endcache%}
-                            </div>
-
-                              <p></p>
-                              {% cache 6000 top_cat%}
+                              
                     <section class="container hidden-sm-down padding-top-0x">                     
                         <div class="row">
                            
@@ -614,16 +590,14 @@
                                 </div>
                               </div>
                           </div>
-                          
                        </div></section>
                        <div class=" text-center text-danger text-bold hidden-md-down"></i> SEE TOP FOR MORE CATEGORIES</div>
-                       {% endcache %}
-              {%cache 600 mobile_promo %}
+                       
                        <div class="container mb-2">
                         <div class="page_inner">
                             <div class="row">
                   
-                                <div class="col-xl-12 col-lg-8">
+                                <div class="col-xl-12 col-lg-12">
                       <div class="page_inner">
                           
                       <div id="promotions ">
@@ -631,57 +605,56 @@
                         {% for promotion in promotions_categories %}
                         {% render_promotion promotion %}
                     {% endfor %}
-                  </div>
-                    <p></p>
-                    <div class="alert alert-image-bg alert-dismissible fade show text-center padding-bottom-0x padding-top-0x hidden-md-up" style="background-image: url('../static/oscar/img/components/245.jpg');">
-                      <div class="h3 text-medium text-white padding-top-1x padding-bottom-1x">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+                  </div> 
+                   <p></p>
+                  <div class=" hidden-md-up">
+ 
+                      <div class="sub-header">
+                          <h6 class=" text-black "><b>Discover More</b></h6>
                       </div>
-                    </div>
-                    <p></p>
-                    <div class="gallery-item hidden-md-up"><a href="/secondhand/" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/components/aqw.jpg" alt="Image"></a><span class="caption">Kids</span></div>
-                    <p></p>
-                           <p> <p></p></p>             
-                    <div>
-                      <p></p>
+    {% for promotion in promotions_offers %}
+    {% render_promotion promotion %}
+{% endfor %}
+<p></p>
+{% for promotion in promotions_undercats %}
+    {% render_promotion promotion %}
+{% endfor %}</div>
+                        
+                      <div>
+                      
                       <div class=" hidden-md-up">
-
+                          <p></p>
                               {% for promotion in promotions_another %}
                               {% render_promotion promotion %}
-
                           {% endfor %}
                           </div>
                               </div>
 <hr>
-                              <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/" {% include "toast.html" %}><img style="border-radius:0px" src="static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
+                              <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/"  ><img style="border-radius:0px" src="static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
                             <hr class=" hidden-md-up"> 
                               <p class="padding-bottom-1x hidden-md-up"></p>
-                               {% endcache %}
+                              
                                <div class=" hidden-md-up">
-                           {% cache 600 page_promotion %}
-                          {% for promotion in promotions_page %}
-                              {% render_promotion promotion %}
-                          {% endfor %}
-                          {% endcache %}
+                     
                                </div>
-                          {% cache 300 recent_views %}
-                             <p class=" padding-bottom-1x"></p>
-                          {% recently_viewed_products current_product=product %}
-                          {% endcache%}
+                               {% endcache %}
+
+                              <p class=" padding-bottom-1x"></p>
+                           {% recently_viewed_products current_product=product %}
+ 
+                           {% cache 600 arrivals %}
 
                           <p class=" hidden-md-up"></p>
                           <div class=" hidden-md-up">
 
-                           {% cache 600 arrivals %}
                           {% for promotion in promotions_arrivals %}
                               {% render_promotion promotion %}
                           {% endfor %}
-
-                            {% endcache %}
  </div>
-                  
                       </div>
                       </div> 
-                         {% cache 600 about %}
+                         
                           <div class="text-md text-center hidden-md-down" style="border:2px solid black">
                         <hr>
                         <p></p>
@@ -710,27 +683,32 @@
 {% endblock checkout_nav %}
 </div>
 {% block  contain%}
+
+{% block show_partial %}
 {% include "partials/alert_messages.html" %}
+
+{% endblock show_partial %}
 
 <div class="container mb-2">
 
 {% block content_wrapper %}
+ 
+<div id="content_inner">{% block content %}{% endblock %}</div>
 
-{% block content %}
-
-{% endblock content %}
 
 {% endblock content_wrapper %}
 </div>
+
 {% endblock  %}
 
       <!-- Top Categories-->      
 {% endblock %}
 <!--Start of Tawk.to Script-->
 
-
 </div>
 {% cache 600 footer%}
+{% block showfooter %}
+  
  <footer class="site-footer hidden-md-down">
   <div class="container">
     <div class="row">
@@ -738,12 +716,12 @@
         <!-- Contact Info-->
         <section class="widget widget-light-skin">
           <h3 class="widget-title">Get In Touch With Us</h3>
-          <p class="text-white">Phone: 00 33 169 7720</p>
+          <p class="text-white">Phone: 233 242383165</p>
           <ul class="list-unstyled text-sm text-white">
             <li><span class="opacity-50">Monday-Friday:</span>9.00 am - 8.00 pm</li>
             <li><span class="opacity-50">Saturday:</span>10.00 am - 6.00 pm</li>
           </ul>
-          <p><a class="navi-link-light" href="#">support@unishop.com</a></p><a class="social-button shape-circle sb-facebook sb-light-skin" href="#"><i class="socicon-facebook"></i></a><a class="social-button shape-circle sb-twitter sb-light-skin" href="#"><i class="socicon-twitter"></i></a><a class="social-button shape-circle sb-instagram sb-light-skin" href="#"><i class="socicon-instagram"></i></a><a class="social-button shape-circle sb-google-plus sb-light-skin" href="#"><i class="socicon-googleplus"></i></a>
+          <p><a class="navi-link-light" href="#">support@noname.com</a></p><a class="social-button shape-circle sb-facebook sb-light-skin" href="#"><i class="socicon-facebook"></i></a><a class="social-button shape-circle sb-twitter sb-light-skin" href="#"><i class="socicon-twitter"></i></a><a class="social-button shape-circle sb-instagram sb-light-skin" href="#"><i class="socicon-instagram"></i></a><a class="social-button shape-circle sb-google-plus sb-light-skin" href="#"><i class="socicon-googleplus"></i></a>
         </section>
       </div>
       <div class="col-lg-3 col-md-6">
@@ -805,55 +783,171 @@
       </div>
     </div>
     <!-- Copyright-->
-    <p class="footer-copyright">© All rights reserved.<a href="http://techfendghana.com/" target="_blank"> &nbsp;by techfendghana</a></p>
+    <p class="footer-copyright">© All rights reserved. by<a href="http://techfendghana.com/" class=" text-white" target="_blank"> &nbsp;orixxon</a></p>
   </div>
 </footer>
+{% endblock showfooter %}
 {% endcache %}
+  
 </div>
 
 </div>
 
 <a class="scroll-to-top-btn" href="#"><i class="icon-arrow-up"></i></a> 
     <!-- JavaScript (jQuery) libraries, plugins and custom scripts-->
-    {% cache 1000 javascript %}
-{% block cdn_scripts %}
+ {% block cdn_scripts %}
     <!-- jQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="{% static "oscar/js/jquery/jquery-1.9.1.min.js" %}"><\/script>')</script>
-{% endblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{% static "oscar/js/jquery/jquery.min.js" %}"><\/script>')</script>
+           
+  <script type="text/javascript">
+    // In a perfect world, this would be its own library file that got included
+    // on the page and only the ``$(document).ready(...)`` below would be present.
+    // But this is an example.
+    var Autocomplete = function(options) {
+      this.form_selector = options.form_selector
+      this.url = options.url || '/autocomplete/'
+      this.delay = parseInt(options.delay || 50)
+      this.minimum_length = parseInt(options.minimum_length || 1)
+      this.form_elem = null
+      this.query_box = null
+    }
+
+    Autocomplete.prototype.setup = function() {
+      var self = this
+
+      this.form_elem = $(this.form_selector)
+      this.query_box = this.form_elem.find('input[name=q]')
+
+      // Watch the input box.
+      this.query_box.on('keyup', function() {
+        var query = self.query_box.val()
+
+        if(query.length < self.minimum_length) {
+          return false
+        }
+
+        self.fetch(query)
+      })
+
+      // On selecting a result, populate the search field.
+      this.form_elem.on('click', '.ac-result', function(ev) {
+        self.query_box.val($(this).text())
+        $('.ac-results').remove()
+        return false
+      })
+    }
+
+    Autocomplete.prototype.fetch = function(query) {
+      var self = this
+
+      $.ajax({
+        url: this.url
+      , data: {
+          'q': query
+        }
+      , success: function(data) {
+          self.show_results(data)
+        }
+      })
+    }
+
+    Autocomplete.prototype.show_results = function(data) {
+      // Remove any existing results.
+      $('.ac-results').remove()
+
+      var results = data.results || []
+      var results_wrapper = $('<div class="ac-results bg-white"></div>')
+      var base_elem = $('<div class="result-wrapper text-primary"><a href="/autocomplete/?q=elem" class="ac-result"> </a></div>')
+
+      if(results.length > 0) {
+        for(var res_offset in results) {
+          var elem = base_elem.clone()
+          // Don't use .html(...) here, as you open yourself to XSS.
+          // Really, you should use some form of templating.
+          elem.find('.ac-result').text(results[res_offset])
+          results_wrapper.append(elem)
+        }
+      }
+      else {
+        var elem = base_elem.clone()
+        elem.text("No results found.")
+        results_wrapper.append(elem)
+      }
+
+      this.query_box.after(results_wrapper)
+    }
+
+    $(document).ready(function() {
+      window.autocomplete = new Autocomplete({
+        form_selector: '.site-search'
+      })
+      window.autocomplete.setup()
+    })
+  </script>
+  {% endblock %}
 
 
 {# Local scripts #}
 {% block scripts %}
-
-  <script src="{% static "oscar/js/oscar/ui.js"%}"></script>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<script>
+    "use strict";
+    // ==================== Preloader
+    function preloader_load() {
+        if($('.preloader').length){
+            $('.preloader').delay(50).fadeOut(500);
+        }
+    }
+    $(window).on('load', function() {
+        // add your functions
+        preloader_load(); 
+        
+    });
+    
+</script>
   <script src="{% static "oscar/js/js/vendor.min.js"%}"></script>
+  <script src="{% static "oscar/js/jquery/jquery-ui-1.10.3.min.js" %}" type="text/javascript" charset="utf-8"></script>
+  
   <script src="{% static "oscar/js/js/scripts.min.js"%}"></script>
+
+  <script src="{% static "oscar/js/js/ui.js" %}" type="text/javascript" charset="utf-8"></script>
+  
+
+  <script src="{% static "oscar/js/js/modernizr.min.js "%}"></script>
+  <script type="text/javascript" src="{% static "oscar/js/bootstrap3/bootstrap.min.js" %}"></script>
+  <!-- Oscar -->
   <!-- Oscar -->
    <script src="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js" %}" type="text/javascript" charset="utf-8"></script>
   <script src="{% static "oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}" type="text/javascript" charset="utf-8"></script>
-
+  
   {% endblock %}
 
 {% block extrascripts %}
   {% include "partials/extrascripts.html" %}
   {{ block.super }}
 {% endblock %}
-<div class="site-backdrop"></div>
+
+
 
 <script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
-{% endcache %}
-
-{# Block for body onload functions #}
-<script type="text/javascript">
   $(function() {
-      {% block onbodyload %}{% endblock %}
+      {% block onbodyload %}
+      oscar.init();
+       
+      {% endblock %}
+    
   });
 </script>
+
+     
+{% endblock  %}
+</div>
+<div class="site-backdrop"></div>
 
 </body>
 

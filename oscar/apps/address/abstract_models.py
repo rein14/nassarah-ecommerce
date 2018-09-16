@@ -239,10 +239,10 @@ class AbstractAddress(models.Model):
     # it's easier to just hide the unnecessary ones than add extra ones.
     line4 = models.CharField(_("City"),choices=CITY_CHOICES, max_length=255,
      blank=True)
-    line1 = models.CharField(_("First address option"), max_length=255)
-    line2 = models.CharField(
-        _("Second address option"), max_length=255, blank=True, 
-        help_text=_("In case we dont catch up with you at your   first address"))
+    line1 = models.CharField(_("Your Address"), max_length=255,help_text=_("Preferrably your street address, e.g.( Abeka, Mukose Street)"))
+    #line2 = models.CharField(
+    #    _("Second address option"), max_length=255, blank=True, 
+     #   help_text=_("In case we dont catch up with you at your   first address"))
    
     
     #state = models.CharField(_("State/County"), max_length=255, blank=True)
@@ -273,7 +273,7 @@ class AbstractAddress(models.Model):
 
     def clean(self):
         # Strip all whitespace
-        for field in ['first_name', 'last_name', 'line1', 'line2',
+        for field in ['first_name', 'last_name', 'line1',
                       'line4']:
             if self.__dict__[field]:
                 self.__dict__[field] = self.__dict__[field].strip()
@@ -311,7 +311,7 @@ class AbstractAddress(models.Model):
     def _update_search_text(self):
         search_fields = filter(
             bool, [self.first_name, self.last_name,
-                   self.line1, self.line2, self.line4,
+                   self.line1, self.line4,
                    self.country.name])
         self.search_text = ' '.join(search_fields)
 
@@ -385,7 +385,7 @@ class AbstractAddress(models.Model):
         Return the non-empty components of the address, but merging the
         title, first_name and last_name into a single line.
         """
-        fields = [self.line1, self.line2,
+        fields = [self.line1    ,
                   self.line4]
         if include_salutation:
             fields = [self.salutation] + fields

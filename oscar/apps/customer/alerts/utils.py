@@ -7,13 +7,13 @@ from django.db.models import Max
 from django.template import TemplateDoesNotExist, loader
 
 from oscar.apps.customer.notifications import services
-from oscar.apps.customer.utils import Dispatcher
 from oscar.core.loading import get_class, get_model
 from oscar.utils.deprecation import RemovedInOscar20Warning
 
 CommunicationEventType = get_model('customer', 'CommunicationEventType')
 ProductAlert = get_model('customer', 'ProductAlert')
 Product = get_model('catalogue', 'Product')
+Dispatcher = get_class('customer.utils', 'Dispatcher')
 Selector = get_class('partner.strategy', 'Selector')
 
 logger = logging.getLogger('oscar.alerts')
@@ -148,8 +148,13 @@ def send_product_alerts(product):   # noqa C901 too complex
         if alert.user:
             # Send a site notification
             num_notifications += 1
+            subj_tpl = loader.get_template('customer/alerts/message_subject.html')
             message_tpl = loader.get_template('customer/alerts/message.html')
-            services.notify_user(alert.user, message_tpl.render(ctx))
+            services.notify_user(
+                alert.user,
+                subj_tpl.render(ctx).strip(),
+                body=message_tpl.render(ctx).strip()
+            )
 
         # Build message and add to list
         if use_deprecated_templates:

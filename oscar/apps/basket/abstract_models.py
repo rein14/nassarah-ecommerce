@@ -9,15 +9,16 @@ from django.utils.encoding import python_2_unicode_compatible, smart_text
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from oscar.apps.basket.managers import OpenBasketManager, SavedBasketManager
-from oscar.apps.offer import results
 from oscar.core.compat import AUTH_USER_MODEL
-from oscar.core.loading import get_class
+from oscar.core.loading import get_class, get_classes
 from oscar.core.utils import get_default_currency
 from oscar.models.fields.slugfield import SlugField
 from oscar.templatetags.currency_filters import currency
 
+OfferApplications = get_class('offer.results', 'OfferApplications')
 Unavailable = get_class('partner.availability', 'Unavailable')
+LineOfferConsumer = get_class('basket.utils', 'LineOfferConsumer')
+OpenBasketManager, SavedBasketManager = get_classes('basket.managers', ['OpenBasketManager', 'SavedBasketManager'])
 
 
 @python_2_unicode_compatible
@@ -82,7 +83,7 @@ class AbstractBasket(models.Model):
         # so we want to avoid reloading them as this would drop the discount
         # information.
         self._lines = None
-        self.offer_applications = results.OfferApplications()
+        self.offer_applications = OfferApplications()
 
     def __str__(self):
         return _(
@@ -134,21 +135,30 @@ class AbstractBasket(models.Model):
                 .order_by(self._meta.pk.name))
         return self._lines
 
+    def max_allowed_quantity(self):
+        """
+        Returns maximum product quantity, that can be added to the basket
+        with the respect to basket quantity threshold.
+        """
+        basket_threshold = settings.OSCAR_MAX_BASKET_QUANTITY_THRESHOLD
+        if basket_threshold:
+            total_basket_quantity = self.num_items
+            max_allowed = basket_threshold - total_basket_quantity
+            return max_allowed, basket_threshold
+        return None, None
+
     def is_quantity_allowed(self, qty):
         """
         Test whether the passed quantity of items can be added to the basket
         """
         # We enforce a max threshold to prevent a DOS attack via the offers
         # system.
-        basket_threshold = settings.OSCAR_MAX_BASKET_QUANTITY_THRESHOLD
-        if basket_threshold:
-            total_basket_quantity = self.num_items
-            max_allowed = basket_threshold - total_basket_quantity
-            if qty > max_allowed:
-                return False, _(
-                    "Due to technical limitations we are not able "
-                    "to ship more than %(threshold)d items in one order.") \
-                    % {'threshold': basket_threshold}
+        max_allowed, basket_threshold = self.max_allowed_quantity()
+        if max_allowed is not None and qty > max_allowed:
+            return False, _(
+                "Due to technical limitations we are not able "
+                "to ship more than %(threshold)d items in one order.") \
+                % {'threshold': basket_threshold}
         return True, None
 
     # ============
@@ -164,12 +174,17 @@ class AbstractBasket(models.Model):
         self.lines.all().delete()
         self._lines = None
 
+    def get_stock_info(self, product, options):
+        """
+        Hook for implementing strategies that depend on product options
+        """
+        # The built-in strategies don't use options, so initially disregard
+        # them.
+        return self.strategy.fetch_for_product(product)
+
     def add_product(self, product, quantity=1, options=None):
         """
         Add a product to the basket
-
-        'stock_info' is the price and availability data returned from
-        a partner strategy class.
 
         The 'options' list should contains dicts with keys 'option' and 'value'
         which link the relevant product.Option model and string value
@@ -187,7 +202,12 @@ class AbstractBasket(models.Model):
 
         # Ensure that all lines are the same currency
         price_currency = self.currency
-        stock_info = self.strategy.fetch_for_product(product)
+        stock_info = self.get_stock_info(product, options)
+
+        if not stock_info.price.exists:
+            raise ValueError(
+                "Strategy hasn't found a price for product %s" % product)
+
         if price_currency and stock_info.price.currency != price_currency:
             raise ValueError((
                 "Basket lines must all have the same currency. Proposed "
@@ -246,7 +266,7 @@ class AbstractBasket(models.Model):
         """
         Remove any discounts so they get recalculated
         """
-        self.offer_applications = results.OfferApplications()
+        self.offer_applications = OfferApplications()
         self._lines = None
 
     def merge_line(self, line, add_quantities=True):
@@ -364,7 +384,7 @@ class AbstractBasket(models.Model):
                 pass
             except TypeError:
                 # Handle Unavailable products with no known price
-                info = self.strategy.fetch_for_product(line.product)
+                info = self.get_stock_info(line.product, line.attributes.all())
                 if info.availability.is_available_to_buy:
                     raise
                 pass
@@ -634,7 +654,7 @@ class AbstractLine(models.Model):
         # Instance variables used to persist discount information
         self._discount_excl_tax = D('0.00')
         self._discount_incl_tax = D('0.00')
-        self._affected_quantity = 0
+        self.consumer = LineOfferConsumer(self)
 
     class Meta:
         abstract = True
@@ -669,9 +689,10 @@ class AbstractLine(models.Model):
         """
         self._discount_excl_tax = D('0.00')
         self._discount_incl_tax = D('0.00')
-        self._affected_quantity = 0
+        self.consumer = LineOfferConsumer(self)
 
-    def discount(self, discount_value, affected_quantity, incl_tax=True):
+    def discount(self, discount_value, affected_quantity, incl_tax=True,
+                 offer=None):
         """
         Apply a discount to this line
         """
@@ -687,19 +708,15 @@ class AbstractLine(models.Model):
                     "Attempting to discount the tax-exclusive price of a line "
                     "when tax-inclusive discounts are already applied")
             self._discount_excl_tax += discount_value
-        self._affected_quantity += int(affected_quantity)
+        self.consume(affected_quantity, offer=offer)
 
-    def consume(self, quantity):
+    def consume(self, quantity, offer=None):
         """
         Mark all or part of the line as 'consumed'
 
         Consumed items are no longer available to be used in offers.
         """
-        if quantity > self.quantity - self._affected_quantity:
-            inc = self.quantity - self._affected_quantity
-        else:
-            inc = quantity
-        self._affected_quantity += int(inc)
+        self.consumer.consume(quantity, offer=offer)
 
     def get_price_breakdown(self):
         """
@@ -719,12 +736,12 @@ class AbstractLine(models.Model):
             # Need to split the discount among the affected quantity
             # of products.
             item_incl_tax_discount = (
-                self.discount_value / int(self._affected_quantity))
+                self.discount_value / int(self.consumer.consumed()))
             item_excl_tax_discount = item_incl_tax_discount * self._tax_ratio
             item_excl_tax_discount = item_excl_tax_discount.quantize(D('0.01'))
             prices.append((self.unit_price_incl_tax - item_incl_tax_discount,
                            self.unit_price_excl_tax - item_excl_tax_discount,
-                           self._affected_quantity))
+                           self.consumer.consumed()))
             if self.quantity_without_discount:
                 prices.append((self.unit_price_incl_tax,
                                self.unit_price_excl_tax,
@@ -741,25 +758,42 @@ class AbstractLine(models.Model):
             return 0
         return self.unit_price_excl_tax / self.unit_price_incl_tax
 
+    # ===============
+    # Offer Discounts
+    # ===============
+
+    def has_offer_discount(self, offer):
+        return self.consumer.consumed(offer) > 0
+
+    def quantity_with_offer_discount(self, offer):
+        return self.consumer.consumed(offer)
+
+    def quantity_without_offer_discount(self, offer):
+        return self.consumer.available(offer)
+
+    def is_available_for_offer_discount(self, offer):
+        return self.consumer.available(offer) > 0
+
     # ==========
     # Properties
     # ==========
 
     @property
     def has_discount(self):
-        return self.quantity > self.quantity_without_discount
+        return bool(self.consumer.consumed())
 
     @property
     def quantity_with_discount(self):
-        return self._affected_quantity
+        return self.consumer.consumed()
 
     @property
     def quantity_without_discount(self):
-        return int(self.quantity - self._affected_quantity)
+        return self.consumer.available()
 
     @property
     def is_available_for_discount(self):
-        return self.quantity_without_discount > 0
+        # deprecated
+        return self.consumer.available() > 0
 
     @property
     def discount_value(self):

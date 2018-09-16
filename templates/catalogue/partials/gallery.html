@@ -4,6 +4,7 @@
 
 {% with all_images=product.images.all %}
     {# use length rather then count as the images get queried anyways #}
+
     <div class="hidden-sm-down text-center" style="border: 1px solid #e1e7ec;">
  
     {% if all_images|length > 1 %}
@@ -49,7 +50,7 @@
         {% if all_images|length > 1 %}
             <div class="product-carousel owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;loop&quot;: true, &quot;margin&quot;: 20, &quot;autoplay&quot;: false, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;576&quot;:{&quot;items&quot;:1}">
                 {% for image in all_images %}
-                <div class="{% if forloop.first %}active{% endif %}">
+                <div class="{% if forloop.first %}active{% endif %} text-center">
                     {% thumbnail image.original "400x250" upscale=False as thumb %}
                     <img src="{{ thumb.url }}" alt="{{ product.get_title }}" />
                     {% endthumbnail %}

@@ -1,0 +1,78 @@
+{% extends "checkout/checkout.html" %}
+{% load i18n %}
+ 
+{% load i18n %}
+{% load currency_filters %}
+{% load shipping_tags %}
+
+{% block checkout_title %}{{ form.payment_method.label }}{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'checkout/nav.html' with step=3 %}
+{% endblock %}
+
+{% block bread %}
+{% trans "Payment Method" %} <span class=" text-primary">2</span> Of <span class=" text-info"> 3</span></a>
+{% endblock bread %}
+
+{% block canvax %}
+{% block breadcrumbs %}
+  
+
+<div class="page-title hidden-md-down">
+        <div class="container">
+          <div class="column">
+            <ul class="breadcrumbs">
+            <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
+              <li class="separator">&nbsp;</li>
+             <li>Checkout </li>
+             <li class="separator">&nbsp;</li>
+             <li>Shipping Address </li>
+             <li class="separator">&nbsp;</li>
+             <li>Payment Method </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+{% endblock canvax %}
+{% block content %}
+<div class="row padding-bottom-10x">
+<div class="col-xl-9 col-lg-8 ">
+
+     {% if error %}
+        <div class="alert alert-error">
+            {{ error }}
+        </div>
+    {% endif %}
+<p></p>
+    <form action="" method="post" onsubmit="$('#cover-spin').show(0)" >
+        {% csrf_token %}
+      
+        <div class="custom-control custom-radio text-lg">
+            <label for="id_payment_method_0">
+                <input id="id_payment_method_0" name="payment_method" type="radio" value="cod" required="">&nbsp;{% trans " Cash On Delivery" %} <p> </p>
+            </label>
+        </div>
+        <div class="custom-control custom-radio text-lg">
+            <label for="id_payment_method_1">
+                <input id="id_payment_method_1" name="payment_method" type="radio" value="mobilemoney" required="">&nbsp;{% trans " Mobile Money" %}<p> </p>
+            </label>
+        </div>
+        <div class="custom-control custom-radio text-lg">
+                <label for="id_payment_method_2">
+                    <input id="id_payment_method_2" name="payment_method" type="radio" value="bank" required="">&nbsp;{% trans " Bank Payment" %}
+                </label>
+            </div>
+        <div class=" col-sm-8"> 
+                   <button type="submit" onsubmit="$('#cover-spin').show(0)" class="btn btn-sm btn-block btn-outline-primary" data-loading-text="Loading..."><b>{% trans "Continue to confirmation" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
+        </div>
+
+    </form>
+
+   </div>
+   
+{% include "checkout/sidebar.html" %}
+ 
+  </div>
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "layout_2_col.html" %}
+{% extends "catalogue/browse.html" %}
 
 {% load basket_tags %}
 {% load promotion_tags %}
@@ -14,64 +14,17 @@
 {% endblock %}
 
 
-{% block mobile %}
-{% block sitelogo %}
-<p></p>
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% blocktrans with q=query %}
-        {{ q }} 
-    {% endblocktrans %} ( {{paginator.count}} )</a>
-
- {% endblock sitelogo %}
-{% endblock mobile %}
-
-{% block show_account %}
-
-{% endblock show_account %}
-{% block shopfilter %}
-
-{% category_tree as tree_categories %}
-{% if tree_categories %}
-    <h4>{% trans "Show results for" %}</h4>
-    <div class="col-xl-3 col-lg-4 order-lg-1">
-            <section class="widget widget-categories">
-
-            <ul class="text-medium">
-            {% for tree_category, info in tree_categories %}
-                <li>
-                    <a href="{{ tree_category.get_absolute_url }}">
-                        {% if tree_category.pk == category.pk %}
-                            <strong>{{ tree_category.name }}</strong>
-                        {% else %}
-                            {{ tree_category.name }}
-                        {% endif %}
-                    </a>
-
-                    {% if info.has_children %}<ul>{% else %}</li>{% endif %}
-                    {% for n in info.num_to_close %}
-                        </ul></li>
-                    {% endfor %}
-            {% endfor %}
-        </ul>
-        </section>
-    </div>
-{% endif %}
-{% if has_facets %}
-    <h4>{% trans "Refine by" %}</h4>
-    <div class="side_categories">
-        {% for field, data in facet_data.items %}
-            {% if data.results %}
-                {% include 'search/partials/facet.html' with name=data.name items=data.results %}
-            {% endif %}
-        {% endfor %}
-    </div>
-{% endif %}
- {% endblock shopfilter %}
-
-
+{% block bread %}
+{% blocktrans with q=query %}
+{{ q }} 
+{% endblocktrans %} ( {{paginator.count}} )
+{% endblock bread %}
 
  {% block canvax %}
  {% block breadcrumbs %}
-   
+   {% block show_basket %}
+     
+   {% endblock show_basket %}
 
  <div class="page-title hidden-md-down">
          <div class="container">
@@ -85,59 +38,8 @@
          </div>
        </div>
 {% endblock %}
- {% endblock canvax %}
+ {% endblock canvax %}  
  
-
-{% block column_2 %}
-{% block toggle %}
-<button class="sidebar-toggle position-right" data-toggle="modal" data-target="#modalShopFilters"><i style=" font-weight:20px" class="material-icons filter_list"></i></button>
-
-{% endblock toggle %}
-    {% category_tree as tree_categories %}
-    {% if tree_categories %}
-   
-<p class=""></p>
-        <h4 class="widget-title">{% trans "Category List" %}</h4>
-        <div class="col-xl-6 col-lg-8 order-lg-1">
-                <aside class="sidebar sidebar-offcanvas">
-        <section class="widget widget-categories">
-                <ul class="text-lg">
-                {% for tree_category, info in tree_categories %}
-                    <li >
-                        <a href="{{ tree_category.get_absolute_url }}">
-                            {% if tree_category.pk == category.pk %}
-                                <strong>{{ tree_category.name|safe }}</strong>
-                            {% else %}
-                                {{ tree_category.name|safe }}
-                            {% endif %}
-                        </a>
-
-                        {% if info.has_children %}<ul>{% else %}</li>{% endif %}
-                        {% for n in info.num_to_close %}
-                            </ul></li>
-                        {% endfor %}
-                {% endfor %}
-            </ul>
-        </section>
-
-    </aside>
-    </div>
-    {% endif %}
-    {% if has_facets %}
-    <section class="widget">
-        <h4 class="widget-title">{% trans "Refine by" %}</h4>
-        <div class="side_categories">
-            {% for field, data in facet_data.items %}
-                {% if data.results %}
-                    {% include 'search/partials/facet.html' with name=data.name items=data.results %}
-                {% endif %}
-            {% endfor %}
-        </div>
-    </section>
-    
-    {% endif %}
-
-{% endblock %}
 
 <div class="col-xl-9 col-lg-8 order-lg-2">
 {% block content %}
