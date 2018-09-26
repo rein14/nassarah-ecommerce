@@ -16,8 +16,8 @@
 
 {% block mobile %}
 {% block sitelogo %}
-        <div style=" padding-top:22px">
-            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
+        <div style=" padding-top:22px" onclick="goBack()">
+            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
                 {{product.get_title|truncatewords:2}}{% endblock bread %}</a>
             </div>
  {% endblock sitelogo %}
@@ -31,6 +31,9 @@
 <div class="account"><a href="/" onclick="$('#cover-spin').show(0)"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
 
 {% endblock show_account %}
+{% block spin %}
+  
+{% endblock spin %}
 {% block canvax %}
 {% block breadcrumbs %}
    
@@ -107,7 +110,6 @@
                 {% block product_basket_form %}
                 {% include "catalogue/partials/add_to_basket_form.html" %}
             {% endblock %}
-
               </div>  
               <div class="shopping-cart-footer padding-bottom-0x">
                     {% purchase_info_for_product request product as session %}

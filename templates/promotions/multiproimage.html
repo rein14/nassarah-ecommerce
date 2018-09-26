@@ -1,11 +1,13 @@
 {% if promotion.images %}
-<div class=" owl-carousel dots-inside" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;: 10, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;630&quot;:{&quot;items&quot;:2},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:2}} }">       
+<div class=" owl-carousel dots-inside" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;loop&quot;: false, &quot;margin&quot;:10, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;630&quot;:{&quot;items&quot;:2},&quot;991&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:2}} }">       
      {% for promotion_image in promotion.images.all %}
         <div class="item {% if forloop.first %}active{% endif %}">
             {% if promotion_image.link_url %}
-                <a onclick="$('#cover-spin').show(0)" href="{{ promotion_image.link_url }}"><img src="{{ promotion_image.image.url }}" title="{{ promotion_image.name }}" /></a>
-            {% else %}
-                <img src="{{ promotion_image.image.url }}" title="{{ promotion_image.name }}" />
+                 <div class="gallery-item text-center text-xx"><a href="{{ promotion_image.link_url }}" onclick="$('#cover-spin').show(0)"><img style="border-radius:2px " src="{{ promotion_image.image.url }}" alt="Image" title="{{ promotion_image.name }}"></a></div>
+                {% else %}
+                <div class="gallery-item"><img style=" border-radius:5px" src="{{ promotion_image.image.url }}" title="{{ promotion_image.name }}" />
+                </div>
+
             {% endif %}
         </div>
     {% endfor %}

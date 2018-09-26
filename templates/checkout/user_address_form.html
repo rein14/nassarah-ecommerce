@@ -23,12 +23,12 @@
 
 {% block shipping_address %}
     <div class="container">
-        <form id="update_user_address" action="." method="post" class="form form-horizontal">
+        <form onsubmit="$('#cover-spin').show(0)" id="update_user_address" action="." method="post" class="form form-horizontal">
             {% csrf_token %}
             {% include "partials/form_fields.html" with form=form style='horizontal' %}
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-8">
-                    <button type="submit" class="btn btn-sms btn-primary" data-toast data-toast-position="bottomCenter" data-toast data-toast-position="bottomCenter" data-toast data-toast-position="bottomCenter" data-toast-title=" " data-toast-type="info" data-toast-message="<img src='{%static 'oscar/css/img/loadi.gif'%}'>{% trans 'Saving...' %}"><b>{% trans "Save" %}</b></button>
+                    <button type="submit" class="btn btn-sms btn-primary" ><b>{% trans "Save" %}</b></button>
                     {% trans "or" %} <a href="{% url 'checkout:shipping-address' %}"><b>{% trans "cancel" %}</b></a>.
                 </div>
             </div>

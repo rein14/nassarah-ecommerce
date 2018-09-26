@@ -16,8 +16,8 @@
 
 {% block mobile %}
 {% block sitelogo %}
-<div style=" padding-top:22px">
-    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:17px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
+<div style=" padding-top:22px" onclick="goBack()">
+    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white"></a><a style="font-size:17px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
         {% trans 'Checkout Mode' %}{% endblock bread %}</a>
     </div>
  {% endblock sitelogo %}
@@ -53,7 +53,7 @@
 
 <h4 class="hidden-md-down text-center">{% trans "Tell us how you want to checkout" %}</h4>
 <p></p>
-    <form action="." method="post" class="form form-horizontal" style="font-weight:bold">
+    <form onsubmit="$('#cover-spin').show(0)" action="." method="post"  class="form form-horizontal" style="font-weight:bold">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="col-sm-9">

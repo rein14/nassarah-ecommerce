@@ -8,9 +8,9 @@
 {% block mobile %}
 {% block sitelogo %}
 
-<div style=" padding-top:22px">
-    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a>&nbsp;&nbsp;&nbsp;<a style="font-size:17px;color:#606975;padding-top:200px"> {% block bread %}
-        {% trans 'Login/Register' %}{% endblock bread %}</a>
+<div style=" padding-top:22px" onclick="goBack()">
+    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" ></a>&nbsp;&nbsp;&nbsp;<a style="font-size:17px;color:#606975;padding-top:200px"> {% block bread %}
+        {% trans 'Login' %}{% endblock bread %}</a>
     </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
@@ -70,7 +70,7 @@
             
         </div>
         <div class="col-sm-6 register_form ">
-                <span class="margin-bottom-1x text-sd text-center">Not a member?&nbsp;&nbsp; <a  href="{% url 'customer:register' %}"><u class=" text-primary"><i class=" pe-7s-add-user text-bold"></i>&nbsp; Sign Up Now</u></a></span>
+                <span class="margin-bottom-1x text-sd text-center">Not a member?&nbsp;&nbsp; <a onclick="$('#cover-spin').show(0)" href="{% url 'customer:register' %}"><u class=" text-primary"><i class=" pe-7s-add-user text-bold"></i>&nbsp; Sign Up Now</u></a></span>
                 <p class=" hidden-sm-down">Not a customer? Registration takes less than a minute. Get full control over your orders</p>
             <form onsubmit="$('#cover-spin').show(0)" class="hidden-sm-down" id="register_form" action="{{ request.get_full_path }}" method="post" class="well" style="background-image: url('/static/oscar/css/img/bg.png');">
                 

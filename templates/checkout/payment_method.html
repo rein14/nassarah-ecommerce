@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load currency_filters %}
 {% load shipping_tags %}
+{% load static %}
 
 {% block checkout_title %}{{ form.payment_method.label }}{% endblock %}
 
@@ -50,20 +51,53 @@
         {% csrf_token %}
       
         <div class="custom-control custom-radio text-lg">
-            <label for="id_payment_method_0">
-                <input id="id_payment_method_0" name="payment_method" type="radio" value="cod" required="">&nbsp;{% trans " Cash On Delivery" %} <p> </p>
+            <label onclick="$('#cod').show(0)" for="id_payment_method_0">
+                <input id="id_payment_method_0" name="payment_method" type="radio" value="cod" required="">&nbsp;{% trans " Cash On Delivery" %} 
             </label>
+            <div id="cod" style="display:none; padding-left:22px">
+                <small> 
+                    Pay cash upon delivery
+                </small>
+            </div><p></p>
+        </div>
+        
+        <div class="custom-control custom-radio text-lg">
+            <label onclick="$('#momo').show(0)" for="id_payment_method_1">
+                <input id="id_payment_method_1" name="payment_method" type="radio" value="mobilemoney" required="">&nbsp;{% trans " Mobile Money" %}
+            </label>
+            <div id="momo" style="display:none;padding-left:22px">
+                    <small> 
+                      <img src="{% static "oscar/img/components/mtn.png" %}" alt="">&nbsp; <b>Mobile Money</b> 
+                        <p><ol>
+                            <li>Dial *170#</li>
+                            <li>Goto pay bill</li>
+                            <li>Then to General payments</li>
+                            <li>type NASA</li>
+                            <li>then your order number</li> 
+                        </ol></p>
+                        <img src="{% static "oscar/img/components/mtn.png" %}" alt="">&nbsp; <b>Cash</b>
+                        <p><ol>
+                            <li>Dial *170#</li>
+                            <li>Goto pay bill</li>
+                            <li>Then to General payments</li>
+                            <li>type NASA</li>
+                            <li>then your order number</li> 
+                        </ol></p>
+                    </small>
+                    
+                 </div><p> </p>
         </div>
         <div class="custom-control custom-radio text-lg">
-            <label for="id_payment_method_1">
-                <input id="id_payment_method_1" name="payment_method" type="radio" value="mobilemoney" required="">&nbsp;{% trans " Mobile Money" %}<p> </p>
-            </label>
-        </div>
-        <div class="custom-control custom-radio text-lg">
-                <label for="id_payment_method_2">
+                <label onclick="$('#bank').show(0)" for="id_payment_method_2">
                     <input id="id_payment_method_2" name="payment_method" type="radio" value="bank" required="">&nbsp;{% trans " Bank Payment" %}
                 </label>
+                <div id="bank" style=" display:none;padding-left:22px">
+                        <small> 
+                            Pay via the bank
+                        </small>
+                    </div>
             </div>
+            
         <div class=" col-sm-8"> 
                    <button type="submit" onsubmit="$('#cover-spin').show(0)" class="btn btn-sm btn-block btn-outline-primary" data-loading-text="Loading..."><b>{% trans "Continue to confirmation" %} &nbsp; <i style="font-weight:bold" class="icon-arrow-right"></i></b></button>
         </div>

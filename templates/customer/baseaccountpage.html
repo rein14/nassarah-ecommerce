@@ -7,8 +7,8 @@
  {% block mobile %}
 {% block sitelogo %}
 
-<div style=" padding-top:22.5px">
-    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a>&nbsp;&nbsp;&nbsp;<a style="font-size:18px;color:#606975;"> {% block bread %}
+<div style=" padding-top:22.5px" onclick="goBack()">
+    &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white"></a>&nbsp;&nbsp;&nbsp;<a style="font-size:17px;color:#606975;"> {% block bread %}
         {% trans 'Account' %}{% endblock bread %}</a>
     </div>
  {% endblock sitelogo %}

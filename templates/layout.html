@@ -65,20 +65,18 @@
     padding-left:20px
    }
    .ac-results .result-wrapper{
-     padding-bottom: 27px;
+     padding-bottom: 29px;
      
    }
    .ac-results .result-wrapper .ac-result{
     color: #065174
-  }
-
-
-
+   } 
     </style>
   
           <!-- Main Template Styles-->
       <!-- Modernizr-->
     {% endblock styles%}
+    
     {% block tracking %}
     {# Default to using Google analytics #}
     {% include "partials/google_analytics.html" %}
@@ -88,7 +86,8 @@
   <!-- Body-->
 
   <body >
-   
+    <div id="full-spin"></div>
+
         <div class="modal fade" id="modalDefault" role="dialog">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -166,20 +165,20 @@
                 <li><a href="/faqs">Second Hand Store</a></li>
             </ul>
           </li>
-          <li> <a onclick="$('#cover-spin').show(0)" class="with-badge" href="/offers/bingi-offers"><i class="icon-bag"></i>&nbsp;  Deals of the day</a></li>
-          <li> <a onclick="$('#cover-spin').show(0)" class="with-badge" href="/offers"><i class="icon-bag"></i>&nbsp;  The Offer Zone</a></li>
+          <li> <a onclick="$('#full-spin').show(0)" class="with-badge" href="/offers/bingi-offers"><i class="icon-bag"></i>&nbsp;  Deals of the day</a></li>
+          <li> <a onclick="$('#full-spin').show(0)" class="with-badge" href="/offers"><i class="icon-bag"></i>&nbsp;  The Offer Zone</a></li>
 
-          <li> <a onclick="$('#cover-spin').show(0)" class=" with-badge" href="{% url 'customer:order-list' %}"   ><i class="icon-bag"></i>&nbsp;  My {% trans "Orders" %}<span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
+          <li> <a onclick="$('#full-spin').show(0)" class=" with-badge" href="{% url 'customer:order-list' %}"   ><i class="icon-bag"></i>&nbsp;  My {% trans "Orders" %}<span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
 
-          <li><a onclick="$('#cover-spin').show(0)" href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i>&nbsp;  My Wishlists</a></li>
+          <li><a onclick="$('#full-spin').show(0)" href="{% url 'customer:wishlists-list' %}"><i class="icon-heart "></i>&nbsp;  My Wishlists</a></li>
 
-          <li> <a onclick="$('#cover-spin').show(0)" href="{% url 'customer:email-list' %}"  ><i class="icon-mail"></i>&nbsp;  My {%trans "Mails" %}</a></li>
+          <li> <a onclick="$('#full-spin').show(0)" href="{% url 'customer:email-list' %}"  ><i class="icon-mail"></i>&nbsp;  My {%trans "Mails" %}</a></li>
  
           <li><a href="tel:0242383165"><i class="material-icons call"></i>&nbsp;  {% trans " Call Nasarah" %}</a></li>
 
           
           {% if user.is_authenticated%}
-          <li><a onclick="$('#cover-spin').show(0)" href="{% url 'customer:logout' %}"><i class="icon-unlock "></i>&nbsp;  {% trans " Logout" %}</a></li>
+          <li><a onclick="$('#full-spin').show(0)" href="{% url 'customer:logout' %}"><i class="icon-unlock "></i>&nbsp;  {% trans " Logout" %}</a></li>
       {% endif%}
           </ul>
         </nav>
@@ -213,10 +212,12 @@
     <!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page.-->
     <header class="navbar navbar-sticky">
       <!-- Search-->
-      <form class="site-search" action="{% url 'search:search' %}"  method="get">
+      <form autocomplete="off" onsubmit="$('#full-spin').show(0)" class="site-search" action="{% url 'search:search' %}"  method="get">
+        {% csrf_token %}
         {{ search_form.q }}
-        <div class="search-tools"><span class="clear-search"><b> Clear</b></span><span class="close-search"><i class="icon-cross"></i></span></div>
+        <div class="search-tools"><span class="clear-search"><b> Clear</b></span><span class="close-search"><i class="icon-cross text-lg"></i></span></div>
       </form>
+
       <div class="site-branding">
           <div class="inner">
               <div class="hidden-md-up">
@@ -350,13 +351,13 @@
                 </li>
                 <li>
                     {% if num_unread_notifications > 0 %}
-                        {# If user has new notifications - we change account link to go to inbox #}
+                       {# If user has new notifications - we change account link to go to inbox #}
                         <a href="{% url 'customer:notifications-inbox' %}">
                           
                             {% trans "Account" %}
                             <span class="label label-important">{{ num_unread_notifications }}</span>
                         </a>
-                    {% else %}
+                 ca   {% else %}
                         <a href="{% url 'customer:summary' %}"></i><i style:"font-weight:bold" class="icon-head"></i> {% trans "Account" %}</a>
                     {% endif %}
                 </li>
@@ -448,7 +449,10 @@
     <div class="offcanvas-wrapper" style=" background:rgb(255, 255, 255)">
 {% block before_canvas %}
 
+{% block spin %}
 <div class=" preloader"></div>
+
+{% endblock spin %}
 <div id="cover-spin"></div>
 
 {% block canvax %}
@@ -544,9 +548,9 @@
                                     </div>
                               <div class="card-img-tiles">
                              <div class="inner text-center">
-                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/x2.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/f.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
   
-                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/x7.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
+                                <div class="thumblist"><a href=""> <img src="/static/oscar/img/components/a.jpg" alt="Category">sdsfsd</a><a href=""> <img src="/static/oscar/img/components/l.jpg" alt="Category">sdsfsd</a></div>
                                      </div></div>
                               <div class="card-body text-center" style=" border: 2px solid rgb(7, 134, 2)">
                                  <p>Starting from $49.99</p>
@@ -607,20 +611,16 @@
                     {% endfor %}
  
                   </div> 
-                   <p></p>
-                  <div class=" hidden-md-up">
+                   <div class=" hidden-md-up">
  
                       <div class="sub-header">
-                          <h6 class=" text-black "><b>Discover More</b></h6>
+                          <h6 class=" text-black "><b>Discover More <em class="text-xx">(swipe left)</em></b></h6>
                       </div>
     {% for promotion in promotions_offers %}
     {% render_promotion promotion %}
 {% endfor %}
 <p></p>
-{% for promotion in promotions_undercats %}
-    {% render_promotion promotion %}
-{% endfor %}</div>
-                        
+</div>
                       <div>
                       
                       <div class=" hidden-md-up">
@@ -628,7 +628,15 @@
                               {% for promotion in promotions_another %}
                               {% render_promotion promotion %}
                           {% endfor %}
+                         
+                          <p></p>
+                          <div class="sub-header">
+                              <h6 class=" text-black "><b>Featured</b></h6>
                           </div>
+                          {% for promotion in promotions_undercats %}
+    {% render_promotion promotion %}
+{% endfor %} 
+<p></p></div>
                               </div>
 <hr>
                               <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/"  ><img style="border-radius:0px" src="static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
@@ -647,7 +655,13 @@
 
                           <p class=" hidden-md-up"></p>
                           <div class=" hidden-md-up">
-
+                              <div class="sub-header">
+                                  <h6 class=" text-black "><b>Featured Brand</b></h6>
+                              </div>
+                              {% for promotion in promotions_undercats %}
+        {% render_promotion promotion %}
+        {% endfor %} 
+<p></p>
                           {% for promotion in promotions_arrivals %}
                               {% render_promotion promotion %}
                           {% endfor %}
@@ -877,7 +891,6 @@
 
       this.query_box.after(results_wrapper)
     }
-
     $(document).ready(function() {
       window.autocomplete = new Autocomplete({
         form_selector: '.site-search'
@@ -886,7 +899,6 @@
     })
   </script>
   {% endblock %}
-
 
 {# Local scripts #}
 {% block scripts %}
@@ -907,24 +919,19 @@
         // add your functions
         preloader_load(); 
         
-    });
-    
+    }); 
 </script>
+
   <script src="{% static "oscar/js/js/vendor.min.js"%}"></script>
   <script src="{% static "oscar/js/jquery/jquery-ui-1.10.3.min.js" %}" type="text/javascript" charset="utf-8"></script>
-  
   <script src="{% static "oscar/js/js/scripts.min.js"%}"></script>
-
   <script src="{% static "oscar/js/js/ui.js" %}" type="text/javascript" charset="utf-8"></script>
-  
-
   <script src="{% static "oscar/js/js/modernizr.min.js "%}"></script>
+  <script src="{% static "oscar/js/js/jquery.waypoints.min.js "%}"></script>
+  <script src="{% static "oscar/js/js/infinite.min.js "%}"></script>
   <script type="text/javascript" src="{% static "oscar/js/bootstrap3/bootstrap.min.js" %}"></script>
-  <!-- Oscar -->
-  <!-- Oscar -->
-   <script src="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js" %}" type="text/javascript" charset="utf-8"></script>
-  <script src="{% static "oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}" type="text/javascript" charset="utf-8"></script>
-  
+  <script src="{% static "oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js" %}" type="text/javascript" charset="utf-8"></script>
+  <script src="{% static "oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js" %}" type="text/javascript" charset="utf-8"></script> 
   {% endblock %}
 
 {% block extrascripts %}
@@ -932,23 +939,21 @@
   {{ block.super }}
 {% endblock %}
 
-
+{% block more_scripts %}
+  
+{% endblock more_scripts %}
 
 <script>
   $(function() {
       {% block onbodyload %}
       oscar.init();
-       
       {% endblock %}
-    
   });
 </script>
-
-     
+    
 {% endblock  %}
 </div>
 <div class="site-backdrop"></div>
 
 </body>
-
 </html>

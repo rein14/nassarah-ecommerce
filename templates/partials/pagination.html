@@ -5,7 +5,7 @@
 <div class="entry-navigation">
 
             {% if page_obj.has_previous %}
-            <div class="column text-left"><a class="btn btn-outline-secondary btn-sm" href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" {% include "toast.html" %}><b> <i style="font-weight:bold" class="icon-arrow-left"></i>&nbsp;{% trans 'Prev'%} </b></a></div>
+            <div class="column text-left"><a class="btn btn-outline-secondary btn-sm" href="?{% get_parameters page %}page={{ page_obj.previous_page_number }}" onclick="$('#cover-spin').show(0)"><b> <i style="font-weight:bold" class="icon-arrow-left"></i>&nbsp;{% trans 'Prev'%} </b></a></div>
             {% endif %}
             <div class="column">
             {% blocktrans with page_num=page_obj.number total_pages=paginator.num_pages %}
@@ -13,7 +13,7 @@
             {% endblocktrans %}
             </div>
             {% if page_obj.has_next %}
-            <div class="column text-right text"><a class="btn btn-outline-secondary btn-sm" href="?{% get_parameters page %}page={{ page_obj.next_page_number }}" {% include "toast.html" %}><b>{% trans 'Next'%}&nbsp;<i style="font-weight:bold" class="icon-arrow-right"></i></b></a></div>
+            <div class="column text-right text"><a class="btn btn-outline-secondary btn-sm" href="?{% get_parameters page %}page={{ page_obj.next_page_number }}" onclick="$('#cover-spin').show(0)"><b>{% trans 'Next'%}&nbsp;<i style="font-weight:bold" class="icon-arrow-right"></i></b></a></div>
             {% endif %}
 
 </div>

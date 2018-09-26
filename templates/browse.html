@@ -144,12 +144,12 @@ not the best of hacks. change it in the future
             <div class="isotope-grid cols-4 padding-top-0x" >
                 <div class="gutter-sizer"></div>
                 <div class="grid-sizer"></div>
-                {% for product in products %}
-                
+                <div class="infinite-container">
+                    {% for product in products %}
                         <div class="grid-item">{% render_product product %}</div>
                    
                 {% endfor %}
-              
+            </div>
             </div>   
                      {% include "partials/pagination.html" %}
         

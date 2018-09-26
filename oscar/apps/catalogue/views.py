@@ -8,6 +8,8 @@ from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, TemplateView
 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from oscar.apps.catalogue.signals import product_viewed
 from oscar.core.loading import get_class, get_model
 
@@ -110,6 +112,7 @@ class ProductDetailView(DetailView):
             '%s/detail.html' % (self.template_folder)]
 
 
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class CatalogueView(TemplateView):
     """
     Browse all products in the catalogue

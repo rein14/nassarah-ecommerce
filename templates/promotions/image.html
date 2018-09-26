@@ -1,9 +1,11 @@
 {% if promotion.image %}
-
+<div class="gallery-item text-center hidden-md-up ">
     {% if promotion.link_url %}
-        <a href="{{ promotion.link_url }}"><img src="{{ promotion.image.url }}" title="{{ promotion.name }}" /></a>
+        <a href="{{ promotion.link_url }}"><img style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}" /></a>
     {% else %}
-        <img src="{{ promotion.image.url }}" title="{{ promotion.name }}"/>
+        <img style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}"/>
     {% endif %}
+</div>
+   
 {% endif %}
 

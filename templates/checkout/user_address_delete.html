@@ -22,7 +22,8 @@
 {% block checkout_title %}{% trans "Delete address?" %}{% endblock %}
 
 {% block shipping_address %}
-<div class="container container-fluid">   <form action="." method="post" id="delete_address_{{ object.id }}">
+<div class="container container-fluid"> 
+    <form onsubmit="$('#cover-spin').show(0)" action="." method="post" id="delete_address_{{ object.id }}">
         {% csrf_token %}
         <div class="">
             <address>

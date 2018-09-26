@@ -40,13 +40,13 @@ Address Book
                                           <b>  {% trans 'Delete' %}</b>
                                         </a>
                                     </li>
-                                    <hr>
+                                    <hr><p></p>
                                     {% if address.country.is_shipping_country and not address.is_default_for_shipping %}
                                         <li>
                                             <a class="text-xs" href="{% url 'customer:address-change-status' pk=address.id action='default_for_shipping' %}" {% include "toast.html" %}>
                                                 <b>{% trans 'Set as default shipping address' %}</b>
                                             </a>
-                                        </li>
+                                        </li><p></p>
                                     {% endif %}
                                     {% if not address.is_default_for_billing %}
                                         <li>
@@ -67,7 +67,7 @@ Address Book
         <p>{% trans 'There are no addresses in your address book.' %}</p>
     {% endif %}
     <p>
-        <a href="{% url 'customer:address-create' %}" class="btn btn-sm btn-outline-primary text-xs" {% include "toast.html" %}>{% trans 'Add a new address' %}</a>
+        <a href="{% url 'customer:address-create' %}" class="btn btn-sm btn-outline-primary btn-block text-xs" onclick="$('#cover-spin').show(0)">{% trans 'Add a new address' %}</a>
     </p>
 {% endblock tabcontent %}
 
