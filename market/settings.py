@@ -15,12 +15,7 @@ SECRET_KEY = 'sp$$@%5t*=jg78uo+2__f37!5#zethce&-&bv6-2cs5*#2&0-e'
 DEBUG = True
 ALLOWED_HOSTS = ["127.0.0.1", "192.168.43.156", "nasarah.herokuapp.com"]
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
+
 
 
 # Application definition
@@ -104,13 +99,13 @@ MIDDLEWARE = [
 
 ]
 
-'''
+
 HAYSTACK_CONNECTIONS = {
     'default': {
        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
-'''
+
 
 
 AUTHENTICATION_BACKENDS = (
@@ -119,7 +114,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+'''
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
@@ -127,7 +122,7 @@ HAYSTACK_CONNECTIONS = {
         'INCLUDE_SPELLING': True,
     },
 }
-
+'''
 HAYSTACK_DJANGO_CT_FIELD = 'django_ct'
 
 ROOT_URLCONF = 'market.urls'
@@ -669,7 +664,8 @@ DATABASES = {
           default='sqlite:////{0}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))
       )
   }
-  
+'''
 SESSION_SERIALIZER ='django.contrib.sessions.serializers.PickleSerializer'
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
+'''
