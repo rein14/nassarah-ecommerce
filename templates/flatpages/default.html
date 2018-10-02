@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% load i18n %}
+{% load cache %}
 
 {% block title %}
     {{ flatpage.title}} | {{ block.super }}
@@ -8,13 +9,12 @@
 
 {% block mobile %}
 {% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp;&nbsp;{% block bread %}
-    {{ flatpage.title|safe }}{% endblock bread %}</a>
-
+        <div style=" padding-top:22px" onclick="goBack()">
+            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
+                {{ flatpage.title|safe }}{% endblock bread %}</a>
+            </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
-
   {% block sidebar %}
   
   {% endblock sidebar %}
@@ -56,6 +56,9 @@
 {% endif %}
 
 <div class=" cols-md-12">
-    <article>{{ flatpage.content|safe }}</article>
+
+  {% cache 600 flatpage_content%}
+    <article>{{ flatpage.content }}</article>
+    {% endcache %}
   </div>
 {% endblock %}

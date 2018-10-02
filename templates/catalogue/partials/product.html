@@ -12,6 +12,11 @@
                
             </div>
             {% block product_image %}
+            {% comment %}
+            <a class="bg-primary text-white text-center" style=" font-size:10px">&nbsp; 30% Off &nbsp; </a>
+
+            {% endcomment %}
+
             <a class="product-thumb" href="{{ product.get_absolute_url }}" onclick="$('#cover-spin').show(0)">
                {% with image=product.primary_image %}
                   {% thumbnail image.original "155x155" upscale=False as thumb %}
@@ -20,7 +25,8 @@
                   
                 {% endwith %}
                 
-              </a>
+              </a>              
+
               {% endblock %}
 
               {% block product_title %}

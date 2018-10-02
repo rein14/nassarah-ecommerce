@@ -1,9 +1,9 @@
 {% if promotion.image %}
 <div class="gallery-item text-center hidden-md-up ">
     {% if promotion.link_url %}
-        <a href="{{ promotion.link_url }}"><img style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}" /></a>
+        <a onclick="$('#cover-spin').show(0)" href="{{ promotion.link_url }}"><img style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}" /></a>
     {% else %}
-        <img style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}"/>
+        <img onclick="$('#cover-spin').show(0)" style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}"/>
     {% endif %}
 </div>
    

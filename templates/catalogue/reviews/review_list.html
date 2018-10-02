@@ -9,14 +9,9 @@
 {% endblock %}
   
 
-{% block mobile %}
-{% block sitelogo %}
-<p class="padding-bottom-1x"></p>
-<p class="padding-bottom-1x"></p>
-&nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a><a style="font-size:16px;color:#606975;"> &nbsp;&nbsp; {{ product.title|truncatewords:2 }} Reviews</a>
-
- {% endblock sitelogo %}
-{% endblock mobile %}
+{% block bread %}
+{{ product.title|truncatewords:2 }} Reviews
+{% endblock bread %}
  
 {% block show_search %}
 
@@ -49,7 +44,7 @@
             {% include 'partials/pagination.html' %}
 
         {% else %}
-            <p>{% trans "This product does not have any reviews yet." %}</p>
+            <p class=" padding-top-1x text-center">{% trans "Sorry this product does not have any reviews yet." %}</p>
         {% endif %}
 
  {% endblock %}

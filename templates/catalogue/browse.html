@@ -69,14 +69,12 @@ not the best of hacks. change it in the future
 {% block user %}
 {% block show_cat %}
  {% category_tree as tree_categories %}
-
 {% if tree_categories %}
              <section class="widget widget-categories container">
 
                     <h3 class="widget-title"><i class=" material-icons sort "></i>&nbsp;&nbsp;Shop Categories</h3>
                     {% include "catalogue/catalogue_categories.html" %}
-
-        </section>
+              </section>
  {% endif %}
   {% endblock show_cat %}
 
@@ -125,7 +123,7 @@ not the best of hacks. change it in the future
                         {% endblocktrans %}
                         </span>
                         
-                    <span style=" float:right"><b >{% include "partials/form_field.html" with field=form.sort_by %}</b>
+                    <span style=" float:right"><b onclick="$('#cover-spin').show(0)">{% include "partials/form_field.html" with field=form.sort_by  %}</b>
                 </div>
                 </div>
                 <div class="column hidden-md-down">
@@ -148,11 +146,11 @@ not the best of hacks. change it in the future
 
                 {% for product in products %}
                 
-                        <div class="grid-item infinite-item">{% render_product product %}</div>
+                        <div class="grid-item ">{% render_product product %}</div>
                    
                 {% endfor %}
-             
             </div>   
+            
             {% include "partials/pagination.html" %}
                 
                      {% else %}

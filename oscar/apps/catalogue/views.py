@@ -112,7 +112,7 @@ class ProductDetailView(DetailView):
             '%s/detail.html' % (self.template_folder)]
 
 
-@method_decorator(cache_page(60 * 5), name="dispatch")
+# @method_decorator(cache_page(60 * 5), name="dispatch")
 class CatalogueView(TemplateView):
     """
     Browse all products in the catalogue

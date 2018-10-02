@@ -6167,11 +6167,11 @@ video {
 }
 
 .isotope-grid:not(.filter-grid) {
-    min-height: 280px;
+    min-height: 780px;
     background-position: center;
     background-image: url('../img/loader.gif');
     background-repeat: no-repeat;
-    background-size: 384px
+    background-size: 204px
 }
 
 .isotope-grid:not(.filter-grid)>.grid-item {
@@ -8351,7 +8351,7 @@ video {
         padding-top: 5px;
         border: 1px solid #feffff;
         padding-bottom: 5px;
-        background-image: url('../img/s.gif');
+        background-image: url('../img/loader.gif');
         background-position: center;
         background-repeat: no-repeat;
         background-size: auto;

@@ -3,7 +3,7 @@
 
 {% block product_review %}
     <div id="addreview" class="review_add">
-        <form id="add_review_form" method="post" action="./#addreview">
+        <form onsubmit="$('#cover-spin').show(0)" id="add_review_form" method="post" action="./#addreview">
             <fieldset>
                 <b class="text-sm text-center">{% trans "Leave a product review" %}</b>
                 {% csrf_token %}

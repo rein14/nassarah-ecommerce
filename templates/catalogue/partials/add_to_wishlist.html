@@ -15,8 +15,8 @@
                 <ul class="dropdown-menu pull-right">
                     {% for wishlist in wishlists %}
                         {% if wishlist not in product_wishlists %}
-                            <li>
-                                    <a style="font-size:12px" href="{% url 'customer:wishlists-add-product' key=wishlist.key product_pk=product.pk %}">
+                            <li class=" padding-bottom-1x">
+                                    <a onclick="$('#cover-spin').show(0)" style="font-size:12px" href="{% url 'customer:wishlists-add-product' key=wishlist.key product_pk=product.pk %}">
                                         {% blocktrans with name=wishlist.name %}
                                            <b> Add to '{{ name }}' wish list</b>
                                         {% endblocktrans %}
@@ -29,10 +29,10 @@
                 <li>
                     {% for wishlist in product_wishlists %}
                     <hr>
-                    <form action="{% url 'customer:wishlists-remove-product' key=wishlist.key product_pk=product.id %}" method="post">
+                    <form onsubmit="$('#cover-spin').show(0)" action="{% url 'customer:wishlists-remove-product' key=wishlist.key product_pk=product.id %}" method="post">
                         {% csrf_token %}
                         {% blocktrans with name=wishlist.name url=wishlist.get_absolute_url %}
-                        <button type="submit" style="font-size:12px;color:red;padding-left:20px;background:white; border:whitesmoke"><b> Remove</b></i></button>
+                        <button type="submit" style="font-size:12px;color:red;padding-left:20px;background:white; border:whitesmoke"><b> Remove Product</b></i></button>
                         {% endblocktrans %}
         
                     </form>
@@ -42,7 +42,7 @@
 
         {% else %}
             {# 1 or no existing wishlists - show a simple button #}
-            <form id="add_to_wishlist_form" action="{% url 'customer:wishlists-add-product' product_pk=product.pk %}" method="post" class="btn-wishlist">
+            <form onsubmit="$('#cover-spin').show(0)" id="add_to_wishlist_form" action="{% url 'customer:wishlists-add-product' product_pk=product.pk %}" method="post" class="btn-wishlist">
                 {% csrf_token %}
                 <button style="font-size:20px;font-weight:bolder;color:#0c75c1;background:white; border:whitesmoke" type="submit" class="icon-heart icon-2x" ></button>
             </form>
