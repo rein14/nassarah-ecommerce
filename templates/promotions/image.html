@@ -3,7 +3,7 @@
     {% if promotion.link_url %}
         <a onclick="$('#cover-spin').show(0)" href="{{ promotion.link_url }}"><img style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}" /></a>
     {% else %}
-        <img onclick="$('#cover-spin').show(0)" style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}"/>
+        <img style=" border-radius:5px" src="{{ promotion.image.url }}" title="{{ promotion.name }}"/>
     {% endif %}
 </div>
    

@@ -9,7 +9,7 @@
     {% if session.price.excl_tax == 0 %}
         <div class="product-price">{% trans "Free" %}</div>
     {% elif session.price.is_tax_known %}
-    <div class="product-price "> <strike class=" text-xx text-bold text-muted"> {{ session.price.percent|currency:session.price.currency }} </strike> <b class=" text-xs text-bold text-primary">{{ session.price.excl_tax|currency:session.price.currency }}</b></div>
+    <div class="product-price "> <b class=" text-xs text-bold text-primary">{{ session.price.excl_tax|currency:session.price.currency }}</b></div>
         
         {% else %}
         <div class="product-price text-xs text-bold text-primary" ><b>{{ session.price.excl_tax|currency:session.price.currency }}</b></div>
@@ -27,7 +27,7 @@
         <i class="icon-star"></i>
         <i class="icon-star"></i>
 </p>
-    {% endblock %}
+{% endblock %}
 
 <div class="pull right">
 

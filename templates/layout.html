@@ -165,7 +165,7 @@
                 <li><a href="/faqs">Second Hand Store</a></li>
             </ul>
           </li>
-          <li> <a onclick="$('#full-spin').show(0)" class="with-badge" href="/offers/bingi-offers"><i class="icon-bag"></i>&nbsp;  Deals of the day</a></li>
+          <li> <a onclick="$('#full-spin').show(0)" class="with-badge" href="/catalogue"><i class="icon-bag"></i>&nbsp;  Deals of the day</a></li>
           <li> <a onclick="$('#full-spin').show(0)" class="with-badge" href="/offers"><i class="icon-bag"></i>&nbsp;  The Offer Zone</a></li>
 
           <li> <a onclick="$('#full-spin').show(0)" class=" with-badge" href="{% url 'customer:order-list' %}"   ><i class="icon-bag"></i>&nbsp;  My {% trans "Orders" %}<span class="badge badge-primary badge-pill">{{orders.count}}</span></a></li>
@@ -605,22 +605,23 @@
                       <div class="page_inner">
                           
                       <div id="promotions ">
-                        <div class=" hidden-md-up">
-                        {% for promotion in promotions_categories %}
+                         {% for promotion in promotions_categories %}
                         {% render_promotion promotion %}
                     {% endfor %}
  
                   </div> 
+
                    <div class=" hidden-md-up">
  
                       <div class="sub-header">
                           <h6 class=" text-black "><b>Discover More <em class="text-xx">(swipe left)</em></b></h6>
                       </div>
-    {% for promotion in promotions_offers %}
-    {% render_promotion promotion %}
-{% endfor %}
-<p></p>
-</div>
+                          {% for promotion in promotions_offers %}
+                          {% render_promotion promotion %}
+                      {% endfor %}
+                      <p></p>
+                      </div>
+                      
                       <div>
                       
                       <div class=" hidden-md-up">
@@ -634,18 +635,19 @@
                               <h6 class=" text-black "><b>Featured</b></h6>
                           </div>
                           {% for promotion in promotions_undercats %}
-    {% render_promotion promotion %}
-{% endfor %} 
-<p></p></div>
+                              {% render_promotion promotion %}
+                          {% endfor %} 
+                          <p></p>
+                      </div>
                               </div>
-<hr>
-                              <div class="gallery-item text-center hidden-md-up"><a href="/offers/bingi-offers/"  ><img style="border-radius:0px" src="static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span></div>
-                            <hr class=" hidden-md-up"> 
-                              <p class="padding-bottom-1x hidden-md-up"></p>
                               
-                               <div class=" hidden-md-up">
-                     
-                               </div>
+<hr>
+                              <div class="gallery-item text-center hidden-md-up">
+                                <a href="/offers/bingi-offers/"  ><img style="border-radius:0px" src="static/oscar/img/components/buyerpro.jpg" alt="Image"></a><span class="caption">Kids</span>
+                              </div>
+                            <hr > 
+                              <p class="padding-bottom-1x hidden-md-up"></p>
+                            
                                {% endcache %}
 
                               <p class=" padding-bottom-1x"></p>
@@ -695,6 +697,7 @@
 {% block checkout_nav %}
 
 {% endblock checkout_nav %}
+
 </div>
 {% block  contain%}
 
@@ -741,7 +744,7 @@
       <div class="col-lg-3 col-md-6">
         <!-- Mobile App Buttons-->
         <section class="widget widget-light-skin">
-          <h3 class="widget-title">Our Mobile App</h3><a class="market-button apple-button mb-light-skin" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">App Store</span></a><a class="market-button google-button mb-light-skin" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">Google Play</span></a><a class="market-button windows-button mb-light-skin" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">Windows Store</span></a>
+          <h3 class="widget-title">Our Mobile App</h3><a class="market-button google-button mb-light-skin" href="#"><span class="mb-subtitle">Download on the</span><span class="mb-title">Google Play</span></a>
         </section>
       </div>
       <div class="col-lg-3 col-md-6">
@@ -767,7 +770,7 @@
             <li><a href="#">Refunds & Replacements</a></li>
             <li><a href="#">Taxes</a></li>
             <li><a href="#">Delivery Info</a></li>
-            <li><a href="#">Affiliate Program</a></li>
+            <li><a href="#">Affiliates</a></li>
           </ul>
         </section>
       </div>
@@ -776,10 +779,9 @@
     <div class="row">
       <div class="col-md-7 padding-bottom-1x">
         <!-- Payment Methods-->
-        <div class="margin-bottom-1x" style="max-width: 615px;"><img src="{% static "oscar/img/methods.png" %}" alt="Payment Methods">
-        </div> 
+     
       </div>
-      <div class="col-md-5 padding-bottom-1x">
+      <div class="col-md-12 padding-bottom-1x">
         <div class="margin-top-1x hidden-md-up"></div>
         <!--Subscription-->
         <form class="subscribe-form" action="//rokaux.us12.list-manage.com/subscribe/post?u=c7103e2c981361a6639545bd5&amp;amp;id=1194bb7544" method="post" target="_blank" novalidate>

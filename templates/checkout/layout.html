@@ -23,7 +23,7 @@
             {% include 'partials/alert_messages.html' %}
             <!-- The main nav on checkout pages contain links to modal flatpages -->
             {% block modal %}
-                {% load flatpages %}
+                {% load flatpages %} 
                 {% get_flatpages '/order/' as flatpages %}
                 {% for page in flatpages %}
                 <div id="{{ page.title|slugify }}" class="modal hide fade">

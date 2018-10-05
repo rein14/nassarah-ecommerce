@@ -8,8 +8,8 @@
 
 {% block mobile %}
 {% block sitelogo %}
-        <div style=" padding-top:22.5px">
-            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" onclick="goBack()"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
+        <div style=" padding-top:22.5px"  onclick="goBack()">
+            &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
                 Offer Zone{% endblock bread %}</a>
             </div>
  {% endblock sitelogo %}
@@ -55,15 +55,15 @@
         <p>{% trans "There are no site offers at the moment." %}</p>
     {% else %}
         {% for offer in offers %}
-        <h2 class=" text-lg text-center">{{ offer.name }}</h2>
+        <h2 class=" text-lg"><a onclick="$('#cover-spin').show(0)" href="{% url 'offer:detail' slug=offer.slug %}">{{ offer.name }} <em class=" text-xx">(swipe left)</em></a></h2>
         {% if offer.description %}
-            <p class=" text-sm text-center">{{ offer.description|safe }}</p>
+            <p class=" text-xs text-center">{{ offer.description|safe }}</p>
         {% endif %}
         {% if offer.has_products %}
        
             <div class="row">
                     <section class="container  padding-bottom-30x">
-                        <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: true, &quot;margin&quot;: 2, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
+                        <div class="owl-carousel" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;:false, &quot;margin&quot;: 2, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:3},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
                               <!-- Product-->
                 {% for product in offer.products|slice:":12" %}
                 <div class="grid-item">{% render_product product %}</div>
@@ -73,7 +73,7 @@
             </div>
             <p></p>
             <div class=" text-center">
-                <a  href="{% url 'offer:detail' slug=offer.slug %}"><p class=" text-primary text-black"> {% trans "Browse products in this offer"%} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="text-primary text-bold icon-arrow-right"></i></p></a>
+                <a onclick="$('#cover-spin').show(0)" href="{% url 'offer:detail' slug=offer.slug %}"><p class=" text-primary text-xs text-black"> {% trans "More"%} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="text-primary text-bold icon-arrow-right"></i></p></a>
             </div>
 
         {% endif %}

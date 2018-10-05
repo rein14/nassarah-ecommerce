@@ -1,4 +1,5 @@
 from oscar.core import prices
+from decimal import Decimal as D
 
 
 class Base(object):
@@ -25,7 +26,7 @@ class Base(object):
         return self.excl_tax
 
     #: Price tax
-    tax = None
+    tax = D('0.20') * 100
 
     #: Retail price
     retail = None

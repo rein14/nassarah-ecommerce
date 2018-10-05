@@ -2,7 +2,8 @@
  
 {% load i18n %}
 {% load product_tags %}
-
+{% load category_tags %}
+{% load promotion_tags %}
 {% block bread %}
         {{ offer.name }} ( {{paginator.count}} )
 {% endblock bread %}
@@ -34,6 +35,35 @@
 </div>
 {% endblock canvax %}
 
+
+{% block user %}
+{% block show_cat %}
+ {% category_tree as tree_categories %}
+{% if tree_categories %}
+             <section class="widget widget-categories container">
+
+                    <h3 class="widget-title"><i class=" material-icons sort "></i>&nbsp;&nbsp;Shop Categories</h3>
+                    {% include "catalogue/catalogue_categories.html" %}
+              </section>
+ {% endif %}
+  {% endblock show_cat %}
+
+{% if has_facets %}
+<p class="padding-bottom-1x "></p>
+<section class="container"><h3 class="widget-title"><i class=" material-icons sort_by_alpha "></i>&nbsp;&nbsp;{% trans "Refine by" %}</h3>
+    <div class="widget-categories">
+        {% for field, data in facet_data.items %}
+            {% if data.results %}
+                {% include 'search/partials/facet.html' with name=data.name items=data.results %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+{% endif %}
+ {% endblock user %}
+
+
 {% block content %}
  
     {% if not offer.is_available %}
@@ -41,16 +71,10 @@
     {% endif %}
 
     {% if upsell_message %}
-    <div class="alert alert-image-bg fade show text-center" style="background-image: url('/static/oscar/img/components/rsa.jpg');"> 
-        <div class="text-medium text-white padding-top-1x padding-bottom-1x"><div class="row">
-                <div class="col-sm-12">   
-            {% if offer.description %}
-            <h5 class="text-white"><p class="text-center text-medium bg-inverse">{{ offer.description }}</p>
-                {% endif %}
-                     </div>
-                </div>
-            </div>
-      </div>
+    {% for promotion in promotions_another %}
+                              {% render_promotion promotion %}
+                          {% endfor %}
+  
     
     {% endif %}
 
@@ -62,8 +86,10 @@
                 <div class="gutter-sizer"></div>
                 <div class="grid-sizer"></div>                    
                 {% for product in products %}
-                <div class="grid-item"><div class="product-badge text-danger">{{offer.description|truncatewords:1}}</div>
-                    {% render_product product %}
+                <div class="grid-item">
+                <a class="bg-primary text-white text-center" style=" font-size:10px">&nbsp; {{offer.description|truncatewords:1 }} Off &nbsp; </a>
+    
+                {% render_product product %}
                     </div>
                     {% endfor %}
             </div>

@@ -41,9 +41,8 @@
                 <img src="{% static 'oscar/img/ui/dashboard/logo.png' %} " alt="">
             </div>
             <div class="collapse navbar-collapse nav-accounts">
-                <ul class="nav navbar-nav navbar-right"> 
-                    <li><b> <span id='clockbox'></span></b></li> 
-                    <li><span><b> <i class="icon-male" style="font-size:14px"></i> {% trans " Welcome" %} <em>{{ user.get_full_name|default:request.user.email }}</em></span></b></li>
+                <ul class=" nav navbar-nav navbar-right"> 
+                     <li><span><b> <i class="icon-male" style="font-size:14px"></i> {% trans " Welcome" %} <em>{{ user.get_full_name|default:request.user.email }}</em></span></b></li>
                     <li><a href="{{ homepage_url }}"><b> <i class="fa fa-home"></i> {% trans "Return to site" %}</b></a></li>
                     <li><a href="{% url 'customer:summary' %}"><b> <i class="fa fa-user"></i> {% trans "Account" %}</b></a></li>
                     <li><a href="{% url 'dashboard:logout' %}"><b> <i class="icon-signout"></i> {% trans "Log out" %}</b></a></li>
@@ -154,25 +153,7 @@
     {# We don't use a fallback for tinyMCE as it dynamically loads several other files #}
     <script src="//cdn.tinymce.com/4/tinymce.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="//cdn.tinymce.com/4/jquery.tinymce.min.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript">
-        var tday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
-        var tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
-        
-        function GetClock(){
-        var d=new Date();
-        var nday=d.getDay(),nmonth=d.getMonth(),ndate=d.getDate();
-        var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds();
-        if(nmin<=9) nmin="0"+nmin
-        if(nsec<=9) nsec="0"+nsec;
-        
-        document.getElementById('clockbox').innerHTML="<strong>Date:</strong> "+tday[nday]+", "+tmonth[nmonth]+" "+ndate+" "+nhour+":"+nmin+":"+nsec+"";
-        }
-        
-        window.onload=function(){
-        GetClock();
-        setInterval(GetClock,1000);
-        }
-        </script>
+    
 {% endblock %}
 
 {% block onbodyload %}

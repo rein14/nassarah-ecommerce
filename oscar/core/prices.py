@@ -34,7 +34,7 @@ class Price(object):
         return self.incl_tax - self.excl_tax
 
     def _set_tax(self, value):
-        self.incl_tax = self.excl_tax + value
+        self.incl_tax = self.excl_tax * value
         self.is_tax_known = True
 
     tax = property(_get_tax, _set_tax)

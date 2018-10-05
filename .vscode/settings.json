@@ -1,10 +1,10 @@
 {
-    "python.pythonPath": "C:/Users/R3INH4DRT 14/Envs/oscar/scripts/python.exe",
+    "python.pythonPath": "C:/Users/R3INH4DRT 14/Envs/env/scripts/python.exe",
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": false,
     "python.formatting.provider": "autopep8",
-    "python.formatting.autopep8Path": "C:/Users/R3INH4DRT 14/Envs/oscar/scripts/autopep8",
-    "python.linting.flake8Path": "C:/Users/R3INH4DRT 14/Envs/oscar/scripts/flake8",
+    "python.formatting.autopep8Path": "C:/Users/R3INH4DRT 14/Envs/env/scripts/autopep8",
+    "python.linting.flake8Path": "C:/Users/R3INH4DRT 14/Envs/env/scripts/flake8",
     
     "editor.formatOnSave": true,
     "files.exclude": {
@@ -20,6 +20,7 @@
     "editor.fontSize": 14,
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 5,
+    "editor.tabSize": 3,
    
   
 }

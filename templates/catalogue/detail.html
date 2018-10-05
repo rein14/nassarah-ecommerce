@@ -132,11 +132,11 @@
                     {% else %}
                    
                         <div class="column">
-                                <form id="alert_form" method="post" action="{% url 'customer:alert-create' pk=product.id %}" class="add-to-basket">
+                                <form onsubmit="$('#cover-spin').show(0)" id="alert_form" method="post" action="{% url 'customer:alert-create' pk=product.id %}" class="add-to-basket">
                                     {% csrf_token %}
                                     <p class="text-center">{% trans "Get an email alert when it comes back in stock." %}</p>
                                     {% include "partials/form_fields.html" with form=alert_form %}
-                                    <button type="submit" style="border-radius:5px" class="btn btn-sm btn-outline-danger  btn-block" data-loading-text="{% trans 'Creating' %}">{% trans "Notify me" %}</button>
+                                    <button type="submit" style="border-radius:5px" class="btn btn-sm btn-danger  btn-block" >{% trans "Notify me" %}</button>
                                 
                                 </form>
                             

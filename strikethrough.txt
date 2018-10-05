@@ -1,1 +1,0 @@
-<s class=" text-danger">{{ session.price.excl_tax|currency:session.price.currency }}</s>

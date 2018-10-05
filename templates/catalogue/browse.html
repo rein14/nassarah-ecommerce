@@ -18,7 +18,7 @@
 {% block sitelogo %}
         <div style=" padding-top:22px" onclick="goBack()">
             &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
-                {% trans 'All Products' %} ( {{paginator.count}} ){% endblock bread %}</a>
+                {% trans 'Daily Deals' %} ( {{paginator.count}} ){% endblock bread %}</a>
             </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
@@ -114,7 +114,7 @@ not the best of hacks. change it in the future
                     <div class="shop-sorting">
                         <span style=" float:left;padding:24px 0;">
                                 {% blocktrans with page_num=page_obj.number total_pages=paginator.num_pages %}
-                                <strong>Page {{ page_num }} of {{ total_pages }}</strong>
+                                <strong>Page <span class=" text-primary"> {{ page_num }} </span> Of <span class=" text-info"> {{ total_pages }}</span></strong>
                                 {% endblocktrans %}
                         {% blocktrans count num_results=paginator.count %}
                            <b>( {{ num_results }} product )</b>
@@ -128,6 +128,9 @@ not the best of hacks. change it in the future
                 </div>
                 <div class="column hidden-md-down">
                 </div>
+                {% for promotion in promotions_another %}
+                              {% render_promotion promotion %}
+                          {% endfor %}
               </div>
                
             {% endif %}

@@ -1,4 +1,4 @@
-{% extends 'checkout/thank_you.html' %}
+{% extends "checkout/layout.html" %}
 {% load i18n %}
 {% load currency_filters %}
 
@@ -50,12 +50,13 @@
 		  <p>	
 			<u>You can now:</u>
 		  </p>
-		  <div class="padding-top-1x padding-bottom-1x"><a onclick="$('#cover-spin').show(0)"  class="btn btn-outline-success" href="{{ homepage_url }}">Go Back Shopping</a>
+		  <div class="padding-top-1x padding-bottom-1x">
+			  <a onclick="$('#cover-spin').show(0)"  class="btn btn-outline-success" href="{{ homepage_url }}">Go Back Shopping</a>
 			{% if not order.user %}
 
 			<a onclick="$('#cover-spin').show(0)" class="btn btn-outline-primary" href="{% url 'customer:anon-order' order_number=order.number hash=order.verification_hash %}" >{% trans "View order status" %}</a>
 			{% endif %}
-			<a onclick="$('#cover-spin').show(0)" class="btn btn-outline-primary" onclick="window.print()" href="#"><i class="icon-location"></i>&nbsp;Print Order Page</a></div>
+ 			<a onclick="window.print()" href="#" class="btn btn-outline-primary">{% trans "Print this page" %}</a>
 		</div>
 		
 	  </div>
@@ -63,7 +64,7 @@
     <p class="padding-top-2x"></p>
 
   
-
+  
 <p></p>
 {% endblock content %}
 

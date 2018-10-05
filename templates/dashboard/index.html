@@ -16,6 +16,9 @@
 {% endblock %}
 
 {% block dashboard_content %}
+{% if user.is_authenticated %}
+  {% if user.is_staff %}
+    
 <div class="market-updates">
         <div class="col-md-3 market-update-gd">
             <div class="market-update-block clr-block-1">
@@ -67,7 +70,9 @@
             </div>
        <div class="clearfix"> </div>
     </div>
+    {% endif %}
 
+    {% endif %}
 
 
 <div class="inner_content">
@@ -107,7 +112,8 @@
     </div>
 
     <hr>
-   
+   {% if user.is_staff %}
+     
 <div class="row">
     <div style="text-align:center">
         <h2><i class="fa fa-bars"></i>{% trans " All Time Stats" %}</h2>
@@ -235,5 +241,6 @@
         </table>
     </div>
 </div>
+{% endif %}
 
 {% endblock %}

@@ -51,19 +51,19 @@ Profile Options
 {% block user %}
 
             <nav class="container">
-                <a class="list-group-item" href="{% url 'customer:profile-view' %}"  {% include "toast.html" %}><i class="icon-head"></i><b>{% trans "Profile" %}</b></a>
-                <a class="list-group-item with-badge" href="{% url 'customer:order-list' %}"  {% include "toast.html" %}><i class="icon-bag"></i><b>{% trans "Order History" %}</b><span class="badge badge-primary badge-pill">{{orders.count}}</span></a>
-                <a class="list-group-item " href="{% url 'customer:address-list' %}"  {% include "toast.html" %}><i class="icon-map"></i><b>{% trans "Address Book" %}</b></a>
-                <a class="list-group-item with-badge" href="{% url 'customer:wishlists-list' %}"  {% include "toast.html" %}><i class="icon-heart"></i><b> Wishlist</b><span class="badge badge-primary badge-pill">{% for wishlist in wishlists %}
+                <a onclick="$('#full-spin').show(0)" class="list-group-item" href="{% url 'customer:profile-view' %}"  {% include "toast.html" %}><i class="icon-head"></i><b>{% trans "Profile" %}</b></a>
+                <a onclick="$('#full-spin').show(0)" class="list-group-item with-badge" href="{% url 'customer:order-list' %}"  {% include "toast.html" %}><i class="icon-bag"></i><b>{% trans "Order History" %}</b><span class="badge badge-primary badge-pill">{{orders.count}}</span></a>
+                <a onclick="$('#full-spin').show(0)" class="list-group-item " href="{% url 'customer:address-list' %}"  {% include "toast.html" %}><i class="icon-map"></i><b>{% trans "Address Book" %}</b></a>
+                <a onclick="$('#full-spin').show(0)"class="list-group-item with-badge" href="{% url 'customer:wishlists-list' %}"  {% include "toast.html" %}><i class="icon-heart"></i><b> Wishlist</b><span class="badge badge-primary badge-pill">{% for wishlist in wishlists %}
                     {{ wishlist.lines.count }}{% endfor%}</span></a>
-                <a class="list-group-item with-badge" href="{% url 'customer:notifications-inbox' %}"  {% include "toast.html" %}><i class=icon-archive></i><b>{% trans "Notifications" %}</b><span class="badge badge-primary badge-pill">{{notifications.count}}</span></a>
-                <a class="list-group-item with-badge" href="{% url 'customer:email-list' %}"  {% include "toast.html" %}><i class="icon-mail"></i><b>{% trans "My Mails" %}</b></a>
-                <a class="list-group-item with-badge" href="{% url 'customer:alerts-list' %}"  {% include "toast.html" %}><i class="icon-tag"></i><b>{% trans "Product Alerts" %}</b></span></a>
+                <a onclick="$('#full-spin').show(0)" class="list-group-item with-badge" href="{% url 'customer:notifications-inbox' %}"  {% include "toast.html" %}><i class=icon-archive></i><b>{% trans "Notifications" %}</b><span class="badge badge-primary badge-pill">{{notifications.count}}</span></a>
+                <a onclick="$('#full-spin').show(0)" class="list-group-item with-badge" href="{% url 'customer:email-list' %}"  {% include "toast.html" %}><i class="icon-mail"></i><b>{% trans "My Mails" %}</b></a>
+                <a onclick="$('#full-spin').show(0)" class="list-group-item with-badge" href="{% url 'customer:alerts-list' %}"  {% include "toast.html" %}><i class="icon-tag"></i><b>{% trans "Product Alerts" %}</b></span></a>
                 {% if user.is_staff or perms.partner.dashboard_access %}
-                <a class="list-group-item with-badge" href="{% url 'dashboard:index' %}"  {% include "toast.html" %}><i class="icon-bar-graph-2"></i> {% trans "Dashboard" %}</a>
+                <a onclick="$('#full-spin').show(0)" class="list-group-item with-badge" href="{% url 'dashboard:index' %}"  {% include "toast.html" %}><i class="icon-bar-graph-2"></i> {% trans "Dashboard" %}</a>
               {% endif %}
             {% comment "support" %}
-            <a class="list-group-item with-badge" href="{% url 'support:customer-ticket-list' %}"  {% include "toast.html" %}><i class="icon-speech-bubble"></i>{% trans "Support" %}</a>
+            <a onclick="$('#full-spin').show(0)" class="list-group-item with-badge" href="{% url 'support:customer-ticket-list' %}"  {% include "toast.html" %}><i class="icon-speech-bubble"></i>{% trans "Support" %}</a>
 
             {% endcomment %}
             
@@ -79,7 +79,7 @@ Profile Options
 
 <span class="hidden-md-down"> 
    
-    <pnav class="list-group ">
+    <nav class="list-group ">
         <a class="list-group-item" href="{% url 'customer:profile-view' %}"  {% include "toast.html" %}><i class="icon-head"></i><b>{% trans "Profile" %}</b></a>
         <a class="list-group-item with-badge" href="{% url 'customer:order-list' %}"data-toast data-toast-position="bottomCenter" {% include "toast.html" %} ><i class="icon-bag"></i>{% trans "Order History" %}<span class="badge badge-primary badge-pill">{{orders.count}}</span></a>
         <a class="list-group-item " href="{% url 'customer:address-list' %}" data-toast data-toast-position="bottomCenter" {% include "toast.html" %}><i class="icon-map"></i>{% trans "Address Book" %}</a>
@@ -87,9 +87,9 @@ Profile Options
         <a class="list-group-item with-badge" href="{% url 'customer:notifications-inbox' %}" data-toast data-toast-position="bottomCenter" {% include "toast.html" %}><i class=icon-archive></i>{% trans "Notifications" %}<span class="badge badge-primary badge-pill">{{notifications.count}}</span></a>
         <a class="list-group-item with-badge" href="{% url 'customer:email-list' %}" data-toast data-toast-position="bottomCenter" {% include "toast.html" %}><i class="icon-mail"></i>{% trans "Email History" %}<span class="badge badge-primary badge-pill">{{emails.count}}</span></a>
         <a class="list-group-item with-badge" href="{% url 'customer:alerts-list' %}" {% include "toast.html" %}><i class="icon-tag"></i>{% trans "Product Alerts" %}<span class="badge badge-primary badge-pill">{{alerts.count}}</span></a>
-       
+
         {% if user.is_staff or perms.partner.dashboard_access %}
-                <a class="list-group-item with-badge" href="{% url 'dashboard:index' %}"><i class="icon-bar-graph-2"></i> {% trans "Dashboard" %}</a>
+                <a class="list-group-item with-badge" href="{% url 'dashboard:index' %}"><i class="icon-bar-graph-2"></i> {% trans "Dashhhboard" %}</a>
               {% endif %}
 
               {% comment "hidefornow" %}

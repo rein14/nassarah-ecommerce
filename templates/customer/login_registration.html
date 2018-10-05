@@ -10,7 +10,7 @@
 
 <div style=" padding-top:22px" onclick="goBack()">
     &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white" ></a>&nbsp;&nbsp;&nbsp;<a style="font-size:17px;color:#606975;padding-top:200px"> {% block bread %}
-        {% trans 'Login' %}{% endblock bread %}</a>
+        {% trans 'Sign In' %}{% endblock bread %}</a>
     </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
@@ -64,8 +64,8 @@
                 <p class=" hidden-md-up"></p>
                 {% csrf_token %}
                 {% include "partials/form_fields.html" with form=login_form %}
-                <p><a class=" text-primary" href="{% url 'password-reset' %}">{% trans "I've forgotten my password" %}</a></p>
-                <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-outline-primary btn-sm btn-block" data-loading-text="{% trans 'Logging In...' %}"><b>{% trans 'Log In' %}</b></button>
+                <p><a onclick="$('#cover-spin').show(0)" class=" text-primary" href="{% url 'password-reset' %}">{% trans "I've forgotten my password" %}</a></p>
+                <button name="login_submit" type="submit" value="Log In" class="btn btn-lg btn-outline-primary btn-sm btn-block" ><b>{% trans 'Sign In' %}</b></button>
             </form>
             
         </div>
