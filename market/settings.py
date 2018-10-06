@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'pwa',
     'debug_toolbar',
     #'apps.oscar_support',
-    #'stores'
+    #'stores'   
  
 ]
 

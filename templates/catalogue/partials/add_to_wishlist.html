@@ -54,6 +54,6 @@
     {% endwith %}
 {% else %}
 
-    <i class="container" data-toggle="tooltip" data-placement="top" title="{% trans 'Please login/registrater to add products to a wish list.' %} "><i style="font-size:20px;font-weight:bolder; color:rgba(67, 68, 68, 0.685)" class="icon-heart padding-top-1x"></i></i><br/>
+    <i class="container" data-toast data-toast-position="top"data-toast-title=" " data-toast-type="warning" data-toast-message="{% trans 'Please Sign In/Register to add products to a wish list.' %} "><i style="font-size:20px;font-weight:bolder; color:rgba(67, 68, 68, 0.685)" class="icon-heart padding-top-1x"></i></i><br/>
 {% endif %}
                 </span>

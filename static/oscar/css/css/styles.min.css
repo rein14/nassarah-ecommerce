@@ -4740,8 +4740,8 @@ a.list-group-item {
 
 .iziToast.iziToast-warning {
     border-color: rgba(255, 183, 79, 0.3);
-    background-color: #fff6e8;
-    color: #ffb140
+    background-color: #bd8730;
+    color: #ffffff
 }
 
 .iziToast.iziToast-warning>.iziToast-close {
@@ -4749,9 +4749,9 @@ a.list-group-item {
 }
 
 .iziToast.iziToast-danger {
-    border-color: rgba(255, 82, 82, 0.3);
-    background-color: #ffebeb;
-    color: #ff5252
+    border-color: rgba(209, 48, 48, 0.897);
+    background-color: #af3a3a;
+    color: #ffffff
 }
 
 .iziToast.iziToast-danger>.iziToast-close {

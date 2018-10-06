@@ -52,7 +52,7 @@
                         {% for form in formset %}
                             {% with line=form.instance product=form.instance.product %}
                             {% purchase_info_for_line request line as session %}
-                            <table class="table table-hover">
+                            <table class="table">
                           <tbody>
                             <tr>
                               <td>

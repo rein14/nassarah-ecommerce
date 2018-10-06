@@ -119,12 +119,12 @@
                                 <form id="add_to_basket_form" action="{% url 'basket:add' pk=product.pk  %}" method="post" class="add-to-basket">
                                     {% csrf_token %}
                                     {% include "partials/form_fields.html" with form=basket_form %}
-                                     <button class=" hidden-md-down btn btn-success btn-sm btn-block" onclick="$('#cover-spin').show(0)" data-loading-text="{% trans 'Loading...' %}" data-toggle="tooltip" data-placement="top" title=" "  data-toast data-toast-position="bottomRight"data-toast-title=" " data-toast-type="info" data-toast-message="{% load i18n %}
+                                     <button class=" hidden-md-down btn btn-success btn-sm btn-block" onclick="$('#cover-spin').show(0)" data-toggle="tooltip" data-placement="top" title=" "  data-toast data-toast-position="bottomRight"data-toast-title=" " data-toast-type="info" data-toast-message="{% load i18n %}
                                           {% blocktrans with title=product.get_title %}
                                          <strong>{{ title }}</strong> has been added to your basket.
                                          {% endblocktrans %}">
                                      <b>{% trans "Add to basket" %}</b></button>
-                                     <button class="btn btn-success btn-sm btn-block hidden-md-up " onclick="$('#cover-spin').show(0)" data-loading-text="{% trans 'Loading..' %}" data-toast data-toast-position="Top" data-toast-title=" " data-toast-type="success" data-toast-message="<strong>{{ product.get_title}}</strong> is being added to your basket">
+                                     <button class="btn btn-success btn-sm btn-block hidden-md-up " onclick="$('#cover-spin').show(0)"  data-toast data-toast-position="Top" data-toast-title=" " data-toast-type="success" data-toast-message="<strong>{{ product.get_title}}</strong> is being added to your basket">
                                      <b>Buy Me</b></button>
 
                                 </form>

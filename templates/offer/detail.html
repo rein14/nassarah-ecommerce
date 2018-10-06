@@ -4,14 +4,12 @@
 {% load product_tags %}
 {% load category_tags %}
 {% load promotion_tags %}
+
 {% block bread %}
-        {{ offer.name }} ( {{paginator.count}} )
+        {{ offer.name|truncatewords:2 }} ( {{paginator.count}} )
 {% endblock bread %}
 
-{% block show_account %}
-<div class="account"><a href="/"></a><i style="font-weight:bold; font-size:21px" class="pe-7s-home"></i></div>
-
-{% endblock show_account %}
+ 
 
 {% block show_basket %}
 
@@ -87,8 +85,7 @@
                 <div class="grid-sizer"></div>                    
                 {% for product in products %}
                 <div class="grid-item">
-                <a class="bg-primary text-white text-center" style=" font-size:10px">&nbsp; {{offer.description|truncatewords:1 }} Off &nbsp; </a>
-    
+     
                 {% render_product product %}
                     </div>
                     {% endfor %}

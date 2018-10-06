@@ -660,10 +660,10 @@
                               <div class="sub-header">
                                   <h6 class=" text-black "><b>Featured Brand</b></h6>
                               </div>
-                              {% for promotion in promotions_undercats %}
-        {% render_promotion promotion %}
-        {% endfor %} 
-<p></p>
+                              {% for promotion in promotions_left %}
+                              {% render_promotion promotion %}
+                              {% endfor %} 
+                      <p></p>
                           {% for promotion in promotions_arrivals %}
                               {% render_promotion promotion %}
                           {% endfor %}
