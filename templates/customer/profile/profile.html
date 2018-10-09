@@ -38,16 +38,16 @@
         </tbody>
     </table>
 <span class=" hidden-md-up ">
-        <a href="{% url 'customer:profile-update' %}" class="btn btn-sm btn-outline-primary btn-block" {% include "toast.html" %}>{% trans 'Edit profile' %}</a>
-        <a href="{% url 'customer:change-password' %}" class="btn btn-sm btn-outline-primary btn-block" {% include "toast.html" %}>{% trans 'Reset password' %}</a>
-        <a id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-sm btn-danger btn-block" {% include "toast.html" %}> {% trans 'Delete profile' %}</a>
+        <a onclick="$('#cover-spin').show(0)" href="{% url 'customer:profile-update' %}" class="btn btn-sm btn-outline-primary btn-block" {% include "toast.html" %}>{% trans 'Edit profile' %}</a>
+        <a onclick="$('#cover-spin').show(0)" href="{% url 'customer:change-password' %}" class="btn btn-sm btn-outline-primary btn-block" {% include "toast.html" %}>{% trans 'Reset password' %}</a>
+        <a onclick="$('#cover-spin').show(0)" id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-sm btn-danger btn-block" {% include "toast.html" %}> {% trans 'Delete profile' %}</a>
 </span>
 
 <span class=" text-center hidden-md-down">
-     <a href="{% url 'customer:profile-update' %}" class="btn btn-sm btn-primary">{% trans 'Edit profile' %}</a>
-    <a href="{% url 'customer:change-password' %}" class="btn btn-sm btn-primary">{% trans 'Reset password' %}</a>
+     <a onclick="$('#cover-spin').show(0)" href="{% url 'customer:profile-update' %}" class="btn btn-sm btn-primary">{% trans 'Edit profile' %}</a>
+    <a onclick="$('#cover-spin').show(0)" href="{% url 'customer:change-password' %}" class="btn btn-sm btn-primary">{% trans 'Reset password' %}</a>
 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-sm btn-danger">{% trans 'Delete profile' %}</a>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="$('#cover-spin').show(0)" id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-sm btn-danger">{% trans 'Delete profile' %}</a>
 
 </span>
    

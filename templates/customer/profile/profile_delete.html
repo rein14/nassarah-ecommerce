@@ -18,8 +18,8 @@ Confirm Delete
             {% endblocktrans %}
         </div>
         <div class="form-group">
-            <button class="btn btn-sm btn-danger" type="submit" {% include "toast.html" %}>{% trans "Delete" %}</button>
-            {% trans "or" %} <a href="{% url "customer:profile-view" %}">{% trans "cancel" %}</a>.
+            <button onclick="$('#cover-spin').show(0)" class="btn btn-sm btn-danger" type="submit" {% include "toast.html" %}>{% trans "Delete" %}</button>
+            {% trans "or" %} <a onclick="$('#cover-spin').show(0)" href="{% url "customer:profile-view" %}">{% trans "cancel" %}</a>.
         </div>
     </form>
 {% endblock tabcontent %}

@@ -55,9 +55,14 @@
                 <input id="id_payment_method_0" name="payment_method" type="radio" value="cod" required="">&nbsp;{% trans " Cash On Delivery" %} 
             </label>
             <div id="cod" style="display:none; padding-left:22px">
-                <small> 
-                    Pay cash upon delivery
-                </small>
+                    <small> 
+                             <b>Pay cash on delivery</b> 
+                              <p><ol>
+                                  <li>Finish the order process</li>
+                                  <li>Agent or delivery man will take cash upon arrival</li>
+                                 </ol></p>
+                             
+                          </small>
             </div><p></p>
         </div>
         
@@ -93,8 +98,15 @@
                 </label>
                 <div id="bank" style=" display:none;padding-left:22px">
                         <small> 
-                            Pay via the bank
-                        </small>
+                                <img src="{% static "oscar/img/components/mtn.png" %}" alt="">&nbsp; <b>Pay via bank</b> 
+                                  <p><ol>
+                                      <li>Finish the order process</li>
+                                      <li>Account Name:</li>
+                                      <li>Account Number:</li>
+                                      <li>Bank: Zenith Bank</li>
+                                   </ol></p>
+                                 
+                              </small>
                     </div>
             </div>
             

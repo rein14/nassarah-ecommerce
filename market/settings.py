@@ -53,7 +53,7 @@ INSTALLED_APPS = [
  
 ]
 
-#INTERNAL_IPS = ['127.0.0.1', '192.168.43.156']
+#   INTERNAL_IPS = ['127.0.0.1', '192.168.43.156']
 
 
 from oscar import get_core_apps
@@ -330,7 +330,8 @@ OSCAR_PROMOTION_POSITIONS = (('page', 'Page'),
                              ('offers', 'Offers'),
                              ('banner', 'Banner '),
                              ('left', 'Left-hand sidebar'),
-                             ('picture', 'pictures'))
+                             ('picture', 'pictures'),
+                             ('featured','featured_brand'))
 
 # Reviews
 OSCAR_ALLOW_ANON_REVIEWS = True
@@ -649,7 +650,7 @@ PAYPAL_API_SIGNATURE = '...'
 
 PWA_APP_NAME = 'Nasarah'
 PWA_APP_DESCRIPTION = "Do kickass things all day long without that pesky browser chrome"
-PWA_APP_THEME_COLOR = '#0da9ef'
+PWA_APP_THEME_COLOR = '#1861a5'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_START_URL = '/'
 PWA_APP_ICONS = [
@@ -658,7 +659,7 @@ PWA_APP_ICONS = [
         'sizes': '160x160'
     }
 ]
-#PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/oscar/js/serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/oscar/js/serviceworker.js')
 
 import dj_database_url
 import os

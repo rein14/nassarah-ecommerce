@@ -610,11 +610,12 @@
                     {% endfor %}
  
                   </div> 
-
-                   <div class=" hidden-md-up">
- 
+                    <div class=" hidden-md-up">
+                      {% for promotion in promotions_right %}
+                      {% render_promotion promotion %}
+                  {% endfor %}
                       <div class="sub-header">
-                          <h6 class=" text-black "><b>Discover More <em class="text-xx">(swipe left)</em></b></h6>
+                          <h6 class=" text-black "><b>Discover More </b></h6>
                       </div>
                           {% for promotion in promotions_offers %}
                           {% render_promotion promotion %}
@@ -658,9 +659,13 @@
                           <p class=" hidden-md-up"></p>
                           <div class=" hidden-md-up">
                               <div class="sub-header">
-                                  <h6 class=" text-black "><b>Featured Brand</b></h6>
+                                  <h6 class=" text-black "><b>Featured</b></h6>
                               </div>
                               {% for promotion in promotions_left %}
+                              {% render_promotion promotion %}
+                              {% endfor %} 
+                              <p></p>
+                              {% for promotion in promotions_featured %}
                               {% render_promotion promotion %}
                               {% endfor %} 
                       <p></p>
@@ -923,18 +928,15 @@
         
     }); 
 </script>
-
-  <script src="{% static 'oscar/js/js/vendor.min.js'%}"></script>
-  <script src="{% static 'oscar/js/js/jquery.waypoints.min.js' %}"></script>
-  <script src="{% static 'oscar/js/js/infinite.min.js '%}"></script>
-  <script src="{% static 'oscar/js/jquery/jquery-ui-1.10.3.min.js' %}" type="text/javascript" charset="utf-8"></script>
+   <script src="{% static 'oscar/js/js/vendor.min.js'%}"></script>
+ <script src="{% static 'oscar/js/jquery/jquery-ui-1.10.3.min.js' %}" type="text/javascript" charset="utf-8"></script>
   <script src="{% static 'oscar/js/js/scripts.min.js' %}"></script>
   <script src="{% static 'oscar/js/js/ui.js' %}" type="text/javascript" charset="utf-8"></script>
   <script src="{% static 'oscar/js/js/modernizr.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'oscar/js/bootstrap3/bootstrap.min.js' %}"></script>
   <script src="{% static 'oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js' %}" type="text/javascript" charset="utf-8"></script>
   <script src="{% static 'oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js' %}" type="text/javascript" charset="utf-8"></script> 
-  {% endblock %}
+   {% endblock %}
 
 {% block extrascripts %}
   {% include "partials/extrascripts.html" %}

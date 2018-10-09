@@ -36,21 +36,21 @@ Address Book
                                         <button class="btn-secondary btn-sms dropdown-toggle dropdown-toggle-split" type="button" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button>                                        
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="text-xs" href="{% url 'customer:address-delete' pk=address.id %}" {% include "toast.html" %}>
+                                        <a onclick="$('#cover-spin').show(0)" class="text-xs" href="{% url 'customer:address-delete' pk=address.id %}" {% include "toast.html" %}>
                                           <b>  {% trans 'Delete' %}</b>
                                         </a>
                                     </li>
                                     <hr><p></p>
                                     {% if address.country.is_shipping_country and not address.is_default_for_shipping %}
                                         <li>
-                                            <a class="text-xs" href="{% url 'customer:address-change-status' pk=address.id action='default_for_shipping' %}" {% include "toast.html" %}>
+                                            <a onclick="$('#cover-spin').show(0)" class="text-xs" href="{% url 'customer:address-change-status' pk=address.id action='default_for_shipping' %}" {% include "toast.html" %}>
                                                 <b>{% trans 'Set as default shipping address' %}</b>
                                             </a>
                                         </li><p></p>
                                     {% endif %}
                                     {% if not address.is_default_for_billing %}
                                         <li>
-                                            <a class="text-xs" href="{% url 'customer:address-change-status' pk=address.id action='default_for_billing' %}" {% include "toast.html" %}>
+                                            <a onclick="$('#cover-spin').show(0)" class="text-xs" href="{% url 'customer:address-change-status' pk=address.id action='default_for_billing' %}" {% include "toast.html" %}>
                                                <b>{% trans 'Set as default billing address' %}</b>
                                             </a>
                                         </li>

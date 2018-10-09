@@ -142,10 +142,10 @@
                    
                     <p class="text-center" id="voucher_form_link"><a href="#voucher" class="btn btn-outline-success btn-sms ">{% trans "I have a voucher code..." %}</a></p>
                     <div id="voucher_form_container" style="display:none">
-                        <form id="voucher_form" action="{% url 'basket:vouchers-add' %}" method="post">
+                        <form onsubmit="$('#cover-spin').show(0)" id="voucher_form" action="{% url 'basket:vouchers-add' %}" method="post">
                             {% csrf_token %}
                             {% include "partials/form_fields.html" with form=voucher_form %}
-                            <button type="submit" class="btn btn-success btn-sms" data-loading-text="{% trans 'Adding...' %}">{% trans "Add voucher" %}</button>
+                            <button type="submit" class="btn btn-success btn-sms" >{% trans "Add voucher" %}</button>
                             {% trans "or" %}&nbsp; <a href="#" id="voucher_form_cancel">{% trans "CANCEL" %}</a>
                         </form>
                     </div>

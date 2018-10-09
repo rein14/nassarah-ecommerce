@@ -36,7 +36,7 @@ Create Wishlist
 {% endblock %}
 
 {% block tabcontent %}
-    <form action="." method="post" data-behaviours="lock">
+    <form onsubmit="$('#cover-spin').show(0)" action="." method="post" data-behaviours="lock">
         {% csrf_token %}
         {% if not wishlist %}
             <p>{% trans "What should your new wish list be called?" %}</p>

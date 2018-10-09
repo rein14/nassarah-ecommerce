@@ -33,7 +33,7 @@ Wishlist Delete
       </div>
 {% endblock %}
  {% block tabcontent %}
-    <form action="." method="post">
+    <form onsubmit="$('#cover-spin').show(0)" action="." method="post">
         {% csrf_token %}
         <p>
             {% blocktrans with name=wishlist.name %}

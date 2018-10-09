@@ -9,7 +9,7 @@ var REQUIRED_FILES = [
 'static/oscar/css/datetimepicker.css',
 '/static/oscar/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js',
 '/static/oscar/js/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.all.js',
-'/static/oscar/js/oscar/ui.js',
+'/static/oscar/js/boostrap3/boostrap.min.js',
 '/static/oscar/js/jquery/jquery-1.9.1.min.js',
 '/static/oscar/img/components/a3.jpg',
 '/static/oscar/img/components/a2.jpg',
@@ -18,7 +18,10 @@ var REQUIRED_FILES = [
 '/static/oscar/img/logo/logo.png',
 '/static/oscar/js/js/vendor.min.js',
 '/static/oscar/js/js/scripts.min.js',
+'/static/oscar/js/jquery/jquery.min.js',
 '/static/oscar/js/js/card.min.js',
+'/static/oscar/js/js/ui.js',
+
 '/static/oscar/js/js/vendor.min.js',
 '/static/oscar/img/shop/products/05.jpg',
 '/static/oscar/img/top/s1.png',
@@ -35,8 +38,6 @@ var REQUIRED_FILES = [
 '/static/oscar/img/components/c6.png',
 '/static/oscar/img/gallery/06.jpg',
 '/static/oscar/img/gallery/05.jpg',
-'/static/oscar/css/img/loading.gif',
-'/static/oscar/css/img/loadin.gif',
 '/static/oscar/img/account/default_profile.png',
 '/static/oscar/css/fonts/feather-webfont.woff',
 '/static/oscar/css/fonts/socicon.woff'
