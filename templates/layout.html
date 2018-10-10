@@ -608,12 +608,12 @@
                          {% for promotion in promotions_categories %}
                         {% render_promotion promotion %}
                     {% endfor %}
- 
-                  </div> 
+                   </div> 
                     <div class=" hidden-md-up">
                       {% for promotion in promotions_right %}
                       {% render_promotion promotion %}
                   {% endfor %}
+                  <p></p>
                       <div class="sub-header">
                           <h6 class=" text-black "><b>Discover More </b></h6>
                       </div>
@@ -630,9 +630,8 @@
                               {% for promotion in promotions_another %}
                               {% render_promotion promotion %}
                           {% endfor %}
-                         
-                          <p></p>
-                          <div class="sub-header">
+                         <p></p>
+                           <div class="sub-header">
                               <h6 class=" text-black "><b>Featured</b></h6>
                           </div>
                           {% for promotion in promotions_undercats %}
