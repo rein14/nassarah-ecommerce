@@ -30,6 +30,7 @@ phonenumberslite==8.9.4
 Pillow==5.1.0
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
+python-memcached
 purl==1.4
 pycountry==17.9.23
 pysolr==3.7.0
@@ -41,4 +42,6 @@ six==1.11.0
 sorl-thumbnail==12.4.1
 sqlparse==0.2.4
 text-unidecode==1.2
-Unideco
+Unidecode==0.4.21
+urllib3==1.22
+whitenoise==3.3.1
