@@ -39,7 +39,7 @@ urlpatterns = [
     #url(r'', include(support.urls)),
     #url(r'^api/', include(support_api.urls)), # You can use instead Oscar api urls
 
-]   
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     from django.conf.urls.static import static
