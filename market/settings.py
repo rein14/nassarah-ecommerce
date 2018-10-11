@@ -1,7 +1,8 @@
 
 import os
 from decimal import Decimal as D
-from oscar.defaults import * 
+from oscar.defaults import *
+import dj_database_url
  
  
 # import oscar
