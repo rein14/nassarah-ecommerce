@@ -13,7 +13,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'sp$$@%5t*=jg78uo+2__f37!5#zethce&-&bv6-2cs5*#2&0-e'
 
 # SECURITY WARNING: don't run with debug turned on i.n production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
+
 ALLOWED_HOSTS = ["127.0.0.1", "192.168.43.156", "nasarah.herokuapp.com"]
 
 '''
@@ -259,8 +260,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = 'static'
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
