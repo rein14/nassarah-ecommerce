@@ -248,13 +248,14 @@ USE_L10N = True
 def location(x): return os.path.join(
     os.path.dirname(os.path.realpath(__file__)), x)
 
-AWS_ACCESS_KEY_ID = 'AKIAIXJ6TVKSOC6ABAPA'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'nasara'
+AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET')
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_S3_ENCRYPTION = True
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
-}
+} 
 AWS_LOCATION = 'static'
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -262,6 +263,7 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'market.storage_backends.MediaStorage'
 STATICFILES_FINDERS = (
