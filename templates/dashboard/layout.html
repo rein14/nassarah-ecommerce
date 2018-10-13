@@ -6,12 +6,9 @@
 {% load staticfiles %}
 
 {% block styles %}
-    {% if use_less %}
-        <link rel="stylesheet/less" type="text/css" href="{% static "oscar/less/dashboard.less" %}" />
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
-    {% endif %}
-{% endblock %}
+    
+ <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
+    
 
 {% block extrastyles %}
     {{ block.super }}
