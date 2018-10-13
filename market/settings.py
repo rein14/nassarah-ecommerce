@@ -114,13 +114,13 @@ MIDDLEWARE = [
 
 ]
 
-'''
+
 HAYSTACK_CONNECTIONS = {
     'default': {
        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
-'''
+
 
 
 AUTHENTICATION_BACKENDS = (
@@ -129,7 +129,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+'''
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
@@ -137,7 +137,7 @@ HAYSTACK_CONNECTIONS = {
         'INCLUDE_SPELLING': True,
     },
 }
-
+'''
 HAYSTACK_DJANGO_CT_FIELD = 'django_ct'
 
 ROOT_URLCONF = 'market.urls'
@@ -248,6 +248,8 @@ USE_L10N = True
 def location(x): return os.path.join(
     os.path.dirname(os.path.realpath(__file__)), x)
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
 AWS_ACCESS_KEY_ID = 'AKIAIXJ6TVKSOC6ABAPA'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'nasara'
@@ -258,10 +260,10 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = 'static'
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'market.storage_backends.MediaStorage'
 STATICFILES_FINDERS = (
