@@ -1723,7 +1723,7 @@ pre code {
     color: #495057;
     background-color: #fbfbfd;
     background-clip: padding-box;
-    border-bottom: 3px solid #969b9c;
+    border-bottom: 1px solid #0da9ef;
     border-radius: .25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
 }

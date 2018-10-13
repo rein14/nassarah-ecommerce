@@ -16,13 +16,15 @@
 <section class=" padding-top-0x" >
     {% if promotion.name %}
     <div class="sub-header hidden-md-up">
-        <h6 class="text-black"><b>{{ promotion.name }} <em class=" text-xx">(swipe left)</em></b></h6>
+        <h6 class="text-black"><a onclick="$('#cover-spin').show(0)" href="{{ promotion.link_url}}">
+            <b class="text-black">{{ promotion.name }} <em class=" text-xx">(swipe left)</em></b> </a>
+        </h6>
     </div>
     <div class="sub-header hidden-md-down">
             <h6 class=" text-black"><b>{{ promotion.name }}</b></h6>
         </div>
-    {% endif %}
-    <div class="owl-carousel " data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;margin&quot;: 0, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
+     {% endif %}
+    <div class="owl-carousel box-shadow" data-owl-carousel="{ &quot;nav&quot;: false, &quot;dots&quot;: false, &quot;margin&quot;: 0, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:2},&quot;576&quot;:{&quot;items&quot;:2},&quot;768&quot;:{&quot;items&quot;:3},&quot;991&quot;:{&quot;items&quot;:4},&quot;1200&quot;:{&quot;items&quot;:5}} }">
       
         {% for product in products %}
         <div class="grid-item">
@@ -57,13 +59,16 @@
      
         {% endfor %}
       </div>
-    <div class=" text-center bg">
-    {% if promotion.link_url %}
-<a  href="{{ promotion.link_url}}"><p class=" text-primary text-black"> See More &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="text-primary text-bold icon-arrow-right"></i></p>
-</a>
-{% endif %}
-
-</div>
+      {% comment %}
+      <div class=" text-center bg">
+        {% if promotion.link_url %}
+    <a onclick="$('#cover-spin').show(0)" href="{{ promotion.link_url}}"><p class=" text-white text-sm"><b class=" bg-primary">&nbsp; See More &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="text-white text-bold icon-arrow-right"></i>&nbsp;</b></p>
+    </a>
+    {% endif %}
+    
+    </div>
+      {% endcomment %}
+    
 
 </section>
 

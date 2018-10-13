@@ -4,40 +4,39 @@
 
 <div class="col-xl-3 col-lg-4 ">
     <aside class="sidebar container-fluid container">
-      <div class="padding-top-2x hidden-lg-up"></div>
-      <!-- Order Summary Widget-->
+       <!-- Order Summary Widget-->
       
 <section class="widget widget-order-summary">
-        <h3 class="widget-title text-sm text-center"><b> Order Summary</b></h3>
+        <h3 class="widget-title text-xs text-center"><b> Order Summary</b></h3>
         <table class="table">
             {% with offer_discounts=basket.offer_discounts voucher_discounts=basket.grouped_voucher_discounts %}
     
             {% block basket_total %}
             {% if offer_discounts or voucher_discounts %}
             <tr>
-                    <td class=" total text-xs">{% trans "Basket total (before discounts)" %}</td>
-                    <td class="total align-right text-xs text-primary">{{ basket.total_incl_tax_excl_discounts|currency }}</td>
+                    <td class=" total text-xx">{% trans "Basket total (before discounts)" %}</td>
+                    <td class="total align-right text-xx text-primary">{{ basket.total_incl_tax_excl_discounts|currency }}</td>
                 </tr>
                 {% if offer_discounts %}
                 {% for discount in offer_discounts %}
                 <tr>
-                    <td class="total text-xs"><span class=" bg-success text-white">{% trans "Discount" %} </span> - {{ discount.name }}
+                    <td class="total text-xx"><span class=" bg-success text-white">{% trans "Discount" %} </span> - {{ discount.name }}
                         {% if discount.description %}
                         <br/><small>{{ discount.description }}</small>
                         {% endif %}
                     </td>
-                    <td class="align-right total text-xs text-danger">-{{ discount.discount|currency }}</td>
+                    <td class="align-right total text-xx text-danger">-{{ discount.discount|currency }}</td>
                 </tr>
                 {% endfor %}
             {% endif %}
 
             {% if voucher_discounts %}
                 <tr>
-                    <th colspan="2"><h4 class="text-xs">{% trans "Vouchers" %}</h4></th>
+                    <th colspan="2"><h4 class="text-xx">{% trans "Vouchers" %}</h4></th>
                 </tr>
                 {% for discount in voucher_discounts %}
                 <tr>
-                    <td class=" total text-xs text-success">
+                    <td class=" total text-xx text-success">
                         {{ discount.voucher.name }} ({{ discount.voucher.code }})
                         {% if editable %}
                         <form action="{% url 'basket:vouchers-remove' discount.voucher.id %}" method="POST">
@@ -46,13 +45,13 @@
                         </form>
                         {% endif %}
                     </td>
-                    <td class="text-xs">-{{ discount.discount|currency }}</td>
+                    <td class="text-xx">-{{ discount.discount|currency }}</td>
                 </tr>
                 {% endfor %}
             {% endif %}
                 <tr>
-                    <td class="total text-xs">{% trans "Basket total (after discounts)" %}</td>
-                    <td class="total align-right text-xs text-primary">
+                    <td class="total text-xx">{% trans "Basket total (after discounts)" %}</td>
+                    <td class="total align-right text-xx text-primary">
                         {% if not show_tax_separately and basket.is_tax_known %}
                             {{ basket.total_incl_tax|currency:basket.currency }}
                         {% else %}
@@ -63,8 +62,8 @@
             {% else %}
                 {# No discounts to basket #}
                 <tr>
-                    <td class="text-xs">{% trans "Basket total" %}</td>
-                    <td class="text-xs text-primary">
+                    <td class="text-xx">{% trans "Basket total" %}</td>
+                    <td class="text-xx text-primary">
                         {% if not show_tax_separately and basket.is_tax_known %}
                             {{ basket.total_incl_tax|currency:basket.currency }}
                         {% else %}
@@ -81,8 +80,8 @@
           
           <tr>
             {% if not shipping_method.is_discounted %}
-            <td class="text-xs">{{ shipping_method.name }}</td>
-            <td class="text-xs">
+            <td class="text-xx">{{ shipping_method.name }}</td>
+            <td class="text-xx">
                 {% if not show_tax_separately and shipping_charge.is_tax_known %}
                 {{ shipping_charge.incl_tax|currency:basket.currency }}
             {% else %}
@@ -99,15 +98,15 @@
           
           <tr>
             <td>
-                 <td class="text-xs total">{% trans "Shipping method" %}</td>
+                 <td class="text-xx total">{% trans "Shipping method" %}</td>
     
-                <td class="text-xs">{{ shipping_method.name }}</td>
+                <td class="text-xx">{{ shipping_method.name }}</td>
     
             </td>
           </tr>
           <tr>
-              <td class="text-xs">{% trans "Shipping total (before discounts)" %}</td>
-              <td class="text-xs text-primary">
+              <td class="text-xx">{% trans "Shipping total (before discounts)" %}</td>
+              <td class="text-xx text-primary">
                   {% if not show_tax_separately and shipping_charge_excl_discount.is_tax_known %}
                       {{ shipping_charge_excl_discount.incl_tax|currency:basket.currency }}
                   {% else %}
@@ -116,14 +115,14 @@
               </td>
           </tr>
           <tr>
-              <td class="text-xs"><span class="label label-success">{% trans "Discount" %}</span> {{ shipping_method.discount_name }}</td>
-              <td class="text-xs">-{{ shipping_discount|currency:basket.currency }}</td>
+              <td class="text-xx"><span class="label label-success">{% trans "Discount" %}</span> {{ shipping_method.discount_name }}</td>
+              <td class="text-xx">-{{ shipping_discount|currency:basket.currency }}</td>
           </tr>
           <tr>
-              <td class="text-xs">
+              <td class="text-xx">
                   {% trans "Shipping total (after discounts)" %}
               </td>
-              <td class="text-xs text-primary">
+              <td class="text-xx text-primary">
                   {% if not show_tax_separately and shipping_charge.is_tax_known %}
                       {{ shipping_charge.incl_tax|currency:basket.currency }}
                   {% else %}
@@ -138,19 +137,19 @@
           {% if show_tax_separately %}
               
               <tr>
-                  <th class="text-xs">
+                  <th class="text-xx">
                       <h3>{% trans "Tax" %}</h3>
                   </th>
               </tr>
               <tr>
-                  <td class="text-xs">{% trans "Basket" %}</td>
-                  <td class="text-xs primary">
+                  <td class="text-xx">{% trans "Basket" %}</td>
+                  <td class="text-xx primary">
                       {{ basket.total_tax|currency:basket.currency }}
                   </td>
               </tr>
               <tr>
-                  <td class="text-xs">{% trans "Shipping" %}</td>
-                  <td class="text-xs">
+                  <td class="text-xx">{% trans "Shipping" %}</td>
+                  <td class="text-xx">
                       {{ shipping_charge.tax|currency:basket.currency }}
                   </td>
               </tr>

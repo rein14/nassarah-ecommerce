@@ -112,7 +112,7 @@ class ProductDetailView(DetailView):
             '%s/detail.html' % (self.template_folder)]
 
 
-# @method_decorator(cache_page(60 * 5), name="dispatch")
+@method_decorator(cache_page(60 * 5), name="dispatch")
 class CatalogueView(TemplateView):
     """
     Browse all products in the catalogue
@@ -140,7 +140,35 @@ class CatalogueView(TemplateView):
             self.context_object_name)
         ctx.update(search_context)
         return ctx
+        
+@method_decorator(cache_page(60 * 5), name="dispatch")
+class ListView(TemplateView):
+    """
+    Browse all products in the catalogue
+    """
+    context_object_name = "products"
+    template_name = 'catalogue/list.html'
 
+    def get(self, request, *args, **kwargs):
+        try:
+            self.search_handler = self.get_search_handler(
+                self.request.GET, request.get_full_path(), [])
+        except InvalidPage:
+            # Redirect to page one.
+            messages.error(request, _('The given page number was invalid.'))
+            return redirect('list')
+        return super(ListView, self).get(request, *args, **kwargs)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = {}
+        ctx['summary'] = _("All products")
+        search_context = self.search_handler.get_search_context_data(
+            self.context_object_name)
+        ctx.update(search_context)
+        return ctx
 
 class ProductCategoryView(TemplateView):
     """

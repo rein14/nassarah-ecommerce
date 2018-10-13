@@ -16,13 +16,21 @@ SECRET_KEY = 'sp$$@%5t*=jg78uo+2__f37!5#zethce&-&bv6-2cs5*#2&0-e'
 DEBUG = True
 ALLOWED_HOSTS = ["127.0.0.1", "192.168.43.156", "nasarah.herokuapp.com"]
 
+'''
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION': '127.0.0.1:11211',
     }
 }
+'''
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 
 # Application definition
 USE_TZ = True
@@ -253,6 +261,7 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+MEDIA_URL = '/media/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'market.storage_backends.MediaStorage'
 STATICFILES_FINDERS = (
@@ -648,16 +657,6 @@ OSCAR_ORDER_STATUS_CASCADE = {
 # on-the-fly less processor.
 OSCAR_USE_LESS = False
 
-ACCOUNTS_UNIT_NAME = 'Giftcard'
-ACCOUNTS_UNIT_NAME_PLURAL = 'Giftcards'
-ACCOUNTS_MIN_LOAD_VALUE = D('30.00')
-ACCOUNTS_MAX_ACCOUNT_VALUE = D('1000.00')
-
-# Taken from PayPal's documentation - these should always work in the sandbox
-PAYPAL_API_USERNAME = 'test_xxxx.gmail.com'
-PAYPAL_API_PASSWORD = '123456789'
-PAYPAL_API_SIGNATURE = '...'
-
 PWA_APP_NAME = 'Nasarah'
 PWA_APP_DESCRIPTION = "Do kickass things all day long without that pesky browser chrome"
 PWA_APP_THEME_COLOR = '#1861a5'
@@ -680,6 +679,6 @@ DATABASES = {
       )
   }
   
-SESSION_SERIALIZER ='django.contrib.sessions.serializers.PickleSerializer'
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+#SESSION_SERIALIZER ='django.contrib.sessions.serializers.PickleSerializer'
+#SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 

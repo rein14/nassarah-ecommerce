@@ -18,7 +18,7 @@
 {% block sitelogo %}
         <div style=" padding-top:22px" onclick="goBack()">
             &nbsp;&nbsp;&nbsp;&nbsp;<a class="icon-arrow-left " style="font-size:18px; font-weight:bold;color:#606975; background-color:white"></a> &nbsp;&nbsp;&nbsp;<a style="font-size:16px;color:#606975;padding-top:200px">{% block bread %}
-                {% trans 'Daily Deals' %} {% endblock bread %}</a>
+                {% trans 'New Arrivals' %}{% endblock bread %}</a>
             </div>
  {% endblock sitelogo %}
 {% endblock mobile %}
@@ -51,10 +51,7 @@ not the best of hacks. change it in the future
              <ul class="breadcrumbs">
              <a href="{{ homepage_url }}">{% trans "Home" %}</a>       
                <li class="separator">&nbsp;</li>
-              <li>
-                 {% block crumb %}
-                 All Products
-                 {% endblock crumb %}  </li>
+              <li>All Products </li>
              </ul>
            </div>
          </div>
@@ -100,50 +97,7 @@ not the best of hacks. change it in the future
 
 <div class="col-xl-9 col-lg-8 order-lg-2">
 {% block content %}
-{% block form %}
 
-<form  method="get">
-        {# Render other search params as hidden inputs #}
-        {% for value in selected_facets %}
-            <input type="hidden" name="selected_facets" value="{{ value }}" />
-        {% endfor %}
-        <input type="hidden" name="q" value="{{ search_form.q.value|default_if_none:"" }}"/>
-
-        {% if paginator.count %}
-            
-            {% if form %} 
-            <div class="shop-toolbar ">
-                <div class="column">
-                    <div class="shop-sorting">
-                        <span style=" float:left;padding:24px 0;">
-                                {% blocktrans with page_num=page_obj.number total_pages=paginator.num_pages %}
-                                <strong>Page <span class=" text-primary"> {{ page_num }} </span> Of <span class=" text-info"> {{ total_pages }}</span></strong>
-                                {% endblocktrans %}
-                        {% blocktrans count num_results=paginator.count %}
-                           <b>( {{ num_results }} product )</b>
-                        {% plural %}
-                           <b> ({{ num_results }} products) </b>
-                        {% endblocktrans %}
-                        </span>
-                        
-                    <span style=" float:right"><b onclick="$('#cover-spin').show(0)">{% include "partials/form_field.html" with field=form.sort_by  %}</b>
-                </div>
-                </div>
-                <div class="column hidden-md-down">
-                </div>
-                {% for promotion in promotions_another %}
-                              {% render_promotion promotion %}
-                          {% endfor %}
-              </div>
-               
-            {% endif %}
-        {% else %}
-            <p>
-                {% trans "<strong>0</strong> results." %}
-            </p>
-        {% endif %}
-    </form>
-    {% endblock form %}
      {% if products %}
  
             <div class="infinite-container isotope-grid cols-4 padding-top-0x" >

@@ -104,11 +104,11 @@
                 <h6 class=""><b>{% trans "Order contents" %}</b></h6>
             </div>
         <div class="shopping-cart container ">
-                <table class="table table-bordered text-xs">
+                <table class="table table-bordered text-xx">
                   <thead>
                     <tr>
-                      <th class="text-xs">{% trans "Item" %}</th>
-                       <th class="text-center text-xs">{% trans "Total" %}</th>
+                      <th class="text-xx">{% trans "Item" %}</th>
+                       <th class="text-center text-xx">{% trans "Total" %}</th>
                      </tr>
                   </thead>
                   {% for line in basket.all_lines %}
@@ -130,7 +130,7 @@
                                     </div>
                                   </td>
     
-                       <td class="text-center text-xs ">{% if not show_tax_separately and line.is_tax_known %}
+                       <td class="text-center text-xx ">{% if not show_tax_separately and line.is_tax_known %}
                            <b> {{ line.line_price_incl_tax|currency:basket.currency }}</b>
                         {% else %}
                            <b>{{ line.line_price_excl_tax|currency:basket.currency }}</b>

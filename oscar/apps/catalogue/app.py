@@ -8,6 +8,7 @@ class BaseCatalogueApplication(Application):
     name = 'catalogue'
     detail_view = get_class('catalogue.views', 'ProductDetailView')
     catalogue_view = get_class('catalogue.views', 'CatalogueView')
+    list_view = get_class('catalogue.views', 'ListView')
     category_view = get_class('catalogue.views', 'ProductCategoryView')
     range_view = get_class('offer.views', 'RangeDetailView')
 
@@ -15,6 +16,8 @@ class BaseCatalogueApplication(Application):
         urlpatterns = super(BaseCatalogueApplication, self).get_urls()
         urlpatterns += [
             url(r'^$', self.catalogue_view.as_view(), name='index'),
+            url(r'^list', self.list_view.as_view(), name='list'),
+
             url(r'^(?P<product_slug>[\w-]*)_(?P<pk>\d+)/$',
                 self.detail_view.as_view(), name='detail'),
             url(r'^category/(?P<category_slug>[\w-]+(/[\w-]+)*)_(?P<pk>\d+)/$',
@@ -22,7 +25,7 @@ class BaseCatalogueApplication(Application):
             # Fallback URL if a user chops of the last part of the URL
             url(r'^category/(?P<category_slug>[\w-]+(/[\w-]+)*)/$',
                 self.category_view.as_view()),
-            url(r'^ranges/(?P<slug>[\w-]+)/$',
+            url(r'ranges/(?P<slug>[\w-]+)/$',
                 self.range_view.as_view(), name='range')]
         return self.post_process_urls(urlpatterns)
 

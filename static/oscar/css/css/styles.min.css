@@ -722,8 +722,8 @@ figure figcaption {
 }
 
 .box-shadow {
-    box-shadow: 0 7px 22px -5px rgba(47, 56, 68, 0.2)
-}
+    box-shadow: 0 7px 22px -5px rgba(47, 56, 68, 0.2);;
+ }
 
 .img-thumbnail {
     padding: 5px !important;
@@ -845,7 +845,8 @@ figure figcaption {
 
 .text-black {
     font-size: 14px;
-    font-weight: 900 !important
+    font-weight: 900 !important;
+    color: #4e5053
 }
 
 .text-bold {
@@ -874,6 +875,9 @@ figure figcaption {
 
 .bg-success {
     background-color: #126e4c !important
+}
+.bg-blue {
+    background-color: rgb(12, 85, 153) !important
 }
 
 .bg-info {
@@ -1610,7 +1614,8 @@ p {
 }
 
 .text-vg {
-    font-size: 18px
+    font-size: 18px;
+    color: #4e5053;
 }
 
 .text-lg {
@@ -1807,7 +1812,7 @@ kbd {
     color: #495057;
     background-color: #fbfbfd;
     background-clip: padding-box;
-    border-bottom: 3px solid #969b9c;
+    border-bottom: 1px solid rgb(12, 85, 153);
     border-radius: .25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
 }

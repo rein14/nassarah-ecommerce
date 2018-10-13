@@ -32,7 +32,7 @@
                  {% endblock %}
                         <table class="table">
                         {% block basket_form_headers %}
-                          <thead class=" thead-default text-sm hidden-md-up" style=" margin:0 auto">
+                          <thead class="  text-sm hidden-md-up" style=" margin:0 auto">
                             <tr>
                               <th class="text-primary">{% trans "Items to buy" %}</th> 
                                <th class="text-right text-primary">{% trans "Qty" %}</th>
@@ -72,9 +72,6 @@
                                       </div>
                               </td>
                               <td class="text-center">
-                                  
-                        
-
                              
                                             <div class="count-input ">
                                                   <div class="input-group {% if form.errors %}error{% endif %}">
@@ -103,10 +100,10 @@
                               <td class="text-center text-xs">&mdash;</td>
                               {% else %}
                               {% if line.is_tax_known %}
-                              <td class="text-center text-xs"><b>{{ line.unit_price_incl_tax|currency:line.price_currency }}</b>
+                              <td class="text-center text-xs"><b>{{ line.unit_price_incl_tax}}</b>
                                 </td>
                                     {% else %}
-                                    <td class="text-center text-xs"><b>{{ line.unit_price_incl_tax|currency:line.price_currency }}</b></td>
+                                    <td class="text-center text-xs"><b>{{ line.unit_price_incl_tax }}</b></td>
                                     {% endif %}
                                 {% endif %}
         
@@ -114,9 +111,9 @@
                               <td class=" text-xs">&mdash;</td>
                               {% else %}
                               {% if line.is_tax_known %}
-                              <td class="text-center text-xs"><b>{{ line.line_price_incl_tax|currency:line.price_currency }}</b></td>
+                              <td class="text-center text-xs"><b>{{ line.line_price_incl_tax }}</b></td>
                                {% else %}
-                               <td class="text-center text-xs"><b>{{ line.line_price_excl_tax|currency:line.price_currency }}</b></td>
+                               <td class="text-center text-xs"><b>{{ line.line_price_excl_tax }}</b></td>
                                 {% endif %}
                             {% endif %}
                             <td class="text-center">

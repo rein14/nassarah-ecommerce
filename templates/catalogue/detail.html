@@ -64,7 +64,7 @@
 {% endblock header %}
 
 {% block content %}
-     <div class="row" >
+     <div class="row box" >
         {% block product_gallery %}
         <div class="col-sm-6" >
             {% include "catalogue/partials/gallery.html" %}
@@ -80,14 +80,14 @@
             <a class="pull-right hidden-xs-down" href="{% url 'dashboard:catalogue-product' pk=product.id %}"><small><i class="icon-edit"></i> {% trans "Edit this product" %}</small></a>
         {% endif %}
         {% cache 600 detal product.id %}
-            
-             <div class="hidden-md-down padding-top-0x "></div>
-            <h5 class=" text-medium text-center"><b>{{ product.get_title }}</b></h5>
+                    <div class="hidden-md-down padding-top-0x "></div>
+            <h5 class=" text-lg text-center"><b>{{ product.get_title }}</b></h5>
             
  
               {% block product_stock_record %}
                 {% include "catalogue/partials/stock_record_md.html" with verbose=1 %}
               {% endblock %}
+ 
 <div class="hidden-md-down">
             <p>{% if product.description %}
                     <div id="product_description" class="sub-header">
@@ -98,12 +98,12 @@
             {% endcache %}
          <hr>
              <div class="d-flex flex-wrap justify-content-between">
-                          <div class="entry-share mt-2 mb-2"><span>&nbsp;&nbsp;&nbsp; {% iffeature "reviews" %}
+                          <div class="entry-share mt-2 mb-2" onclick="$('#cover-spin').show(0)"><span>&nbsp;&nbsp;&nbsp; {% iffeature "reviews" %}
                                 {% include "catalogue/reviews/partials/review_stars.html" %}
                                {% endiffeature %}</span>
                 </div>
               <hr>
-              
+               
               <p></p>
               
               <div>
@@ -125,7 +125,7 @@
                                          {% endblocktrans %}">
                                      <b>{% trans "Add to basket" %}</b></button>
                                      <button class="btn btn-success btn-sm btn-block hidden-md-up " onclick="$('#cover-spin').show(0)"  data-toast data-toast-position="Top" data-toast-title=" " data-toast-type="success" data-toast-message="<strong>{{ product.get_title}}</strong> is being added to your basket">
-                                     <b><i class=" icon-basket"></i> Buy Me</b></button>
+                                     <b><i class=" icon-bag"></i> Buy Me</b></button>
 
                                 </form>
                         </div> 
@@ -240,7 +240,7 @@
                                     {% if product|is_review_permitted:user %}
                                         {% url 'catalogue:reviews-add' product_slug=product.slug product_pk=product.id as add_review_url %}
                                             {% blocktrans %}This product does not have any reviews yet -
-                                            <a href="{{ add_review_url }}#addreview" class="text-primary,"> be the first to write one</a>.
+                                            <a onclick="$('#cover-spin').show(0)" href="{{ add_review_url }}#addreview" class="text-primary"> be the first to write one here</a>.
                                         {% endblocktrans %}
                                     {% else %}
                                {% endif %}
