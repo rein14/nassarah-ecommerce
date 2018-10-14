@@ -6,9 +6,12 @@
 {% load staticfiles %}
 
 {% block styles %}
-    
- <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
-   {% endblock %}
+    {% if use_less %}
+        <link rel="stylesheet/less" type="text/css" href="{% static "oscar/less/dashboard.less" %}" />
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static "oscar/css/dashboard.css" %}" />
+    {% endif %}
+{% endblock %}
 
 {% block extrastyles %}
     {{ block.super }}
@@ -26,7 +29,7 @@
 
 {% block layout %}
     {% block navbar %}
-    <nav class="navbar navbar-static-top navbar-inverse navbar-accounts" data-color=" purple">
+    <nav class="navbar navbar-static-top navbar-inverse navbar-accounts">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-accounts">
