@@ -27,7 +27,7 @@ idna==2.6
 mock==2.0.0
 pbr==4.0.2
 phonenumberslite==8.9.4
-Pillow==5.1.0
+Pillow==8.1.1
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
 python-memcached
